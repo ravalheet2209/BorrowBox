@@ -1,0 +1,79 @@
+{% extends "base_dashboard.html" %}
+{% block page_title %}Users{% endblock %}
+
+{% block content %}
+
+<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-7">
+  <div>
+    <h2 class="font-display font-bold text-[1.1rem] text-[#0d0d12]">All Users</h2>
+    <p class="text-[0.78rem] text-gray-400 mt-0.5">{{ users|length }} registered member{{ users|length|pluralize }}.</p>
+  </div>
+  <!-- Search/filter placeholder -->
+  <div class="relative max-w-xs w-full sm:w-auto">
+    <span class="absolute left-3.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-[0.95rem] text-gray-400">search</span>
+    <input placeholder="Search users..." class="w-full bg-white border-[1.5px] border-slate-200 rounded-xl pl-9 pr-4 py-2 font-body text-[0.875rem] text-[#0d0d12] outline-none focus:border-primary transition-colors">
+  </div>
+</div>
+
+{% if users %}
+<div class="bg-white border border-[#ede9fe] rounded-[22px] shadow-[0_2px_12px_rgba(109,40,217,0.05)] overflow-hidden">
+
+  <!-- Desktop table header -->
+  <div class="hidden md:grid grid-cols-[2.5fr_2fr_1fr_120px] gap-4 px-6 py-3 bg-[#f8f5ff] border-b border-[#f0ebff]">
+    <span class="font-body font-semibold text-[0.72rem] uppercase tracking-[0.1em] text-gray-400">User</span>
+    <span class="font-body font-semibold text-[0.72rem] uppercase tracking-[0.1em] text-gray-400">Email</span>
+    <span class="font-body font-semibold text-[0.72rem] uppercase tracking-[0.1em] text-gray-400">Joined</span>
+    <span class="font-body font-semibold text-[0.72rem] uppercase tracking-[0.1em] text-gray-400 text-right">Action</span>
+  </div>
+
+  <div class="divide-y divide-[#f8f5ff]">
+    {% for user in users %}
+    <div class="user-row flex flex-col md:grid md:grid-cols-[2.5fr_2fr_1fr_120px] gap-3 md:gap-4 items-start md:items-center px-6 py-4 hover:bg-[#faf8ff] transition-colors">
+
+      <!-- Name/avatar -->
+      <div class="flex items-center gap-3 min-w-0">
+        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-primary to-indigo-500 flex items-center justify-center font-display font-extrabold text-[0.78rem] text-white shrink-0">
+          {{ user.username|first|upper }}
+        </div>
+        <div class="min-w-0">
+          <div class="font-display font-semibold text-[0.88rem] text-[#0d0d12] truncate">{{ user.username }}</div>
+          {% if user.is_superuser %}
+          <span class="text-[0.62rem] font-bold text-primary bg-surface2 px-1.5 py-0.5 rounded">Admin</span>
+          {% elif user.profile.seller_status == "approved" %}
+          <span class="text-[0.62rem] font-bold text-green-600 bg-green-50 px-1.5 py-0.5 rounded">Seller</span>
+          {% else %}
+          <span class="text-[0.62rem] text-gray-400">Member</span>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="text-[0.83rem] text-gray-500 truncate">{{ user.email }}</div>
+
+      <!-- Joined -->
+      <div class="text-[0.78rem] text-gray-400">{{ user.date_joined|date:"M d, Y" }}</div>
+
+      <!-- Action -->
+      <div class="md:text-right">
+        <a href="{% url 'adpanel:admin_user_detail' user.id %}" class="inline-flex items-center gap-1 text-[0.78rem] font-semibold text-primary no-underline hover:gap-2 transition-all group">
+          Details <span class="material-symbols-outlined text-[0.85rem] group-hover:translate-x-0.5 transition-transform">arrow_forward</span>
+        </a>
+      </div>
+
+    </div>
+    {% endfor %}
+  </div>
+
+</div>
+
+{% else %}
+<div class="bg-white border border-[#ede9fe] rounded-[22px] shadow-[0_2px_12px_rgba(109,40,217,0.05)] flex flex-col items-center justify-center py-20 text-center">
+  <div class="w-16 h-16 rounded-[20px] bg-surface2 border border-border-p flex items-center justify-center mb-4">
+    <span class="material-symbols-outlined text-[2rem] text-[#c4b5fd]">group</span>
+  </div>
+  <div class="font-display font-bold text-[0.95rem] text-[#0d0d12] mb-1.5">No users yet</div>
+  <p class="text-[0.82rem] text-gray-400">Users who sign up will appear here.</p>
+</div>
+{% endif %}
+
+{% endblock %}

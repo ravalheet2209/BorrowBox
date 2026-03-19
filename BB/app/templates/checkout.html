@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+{% block title %}Checkout{% endblock %}
+
+{% block content %}
+
+<section class="max-w-7xl mx-auto px-6 py-14">
+
+  <h1 class="text-3xl font-bold mb-10">Secure Checkout</h1>
+
+  <form method="POST">
+    {% csrf_token %}
+
+    <div class="grid lg:grid-cols-12 gap-10">
+
+      <!-- LEFT -->
+      <div class="lg:col-span-7 space-y-10">
+
+        <!-- USER DETAILS -->
+        <div class="bg-white dark:bg-surface-dark p-8 rounded-2xl shadow">
+          <h2 class="text-xl font-bold mb-6">Renter Details</h2>
+
+          <div class="grid md:grid-cols-2 gap-5">
+
+            <input name="full_name" placeholder="Full Name"
+                   class="px-4 py-3 border rounded-xl dark:bg-surface-dark"
+                   value="{{ request.user.username }}">
+
+            <input name="phone" placeholder="Phone"
+                   class="px-4 py-3 border rounded-xl dark:bg-surface-dark">
+
+            <input name="email" placeholder="Email"
+                   class="px-4 py-3 border rounded-xl dark:bg-surface-dark md:col-span-2"
+                   value="{{ request.user.email }}">
+
+            <input name="address" placeholder="Address"
+                   class="px-4 py-3 border rounded-xl dark:bg-surface-dark md:col-span-2">
+
+            <!-- dates hidden (coming from product page) -->
+            <input type="hidden" name="start_date" value="{{ start_date }}">
+            <input type="hidden" name="end_date" value="{{ end_date }}">
+
+          </div>
+        </div>
+
+
+        <!-- PAYMENT -->
+        <div class="bg-white dark:bg-surface-dark p-8 rounded-2xl shadow">
+          <h2 class="text-xl font-bold mb-6">Payment Method</h2>
+
+          <div class="space-y-4">
+
+            <label class="flex items-center gap-3">
+              <input type="radio" name="payment" value="upi" checked>
+              UPI / Razorpay
+            </label>
+
+            <label class="flex items-center gap-3">
+              <input type="radio" name="payment" value="card">
+              Credit / Debit Card
+            </label>
+
+            <label class="flex items-center gap-3">
+              <input type="radio" name="payment" value="cash">
+              Cash on pickup
+            </label>
+
+          </div>
+        </div>
+
+      </div>
+
+
+      <!-- RIGHT -->
+      <div class="lg:col-span-5">
+
+        <div class="bg-white dark:bg-surface-dark p-8 rounded-2xl shadow sticky top-24">
+
+          <h2 class="text-xl font-bold mb-6">Order Summary</h2>
+
+          <div class="flex gap-4 mb-6">
+            <img src="{{ item.image.url }}"
+                 class="h-20 w-20 rounded-xl object-cover">
+
+            <div>
+              <p class="font-semibold">{{ item.title }}</p>
+              <p class="text-sm text-slate-500">
+                {{ start_date }} → {{ end_date }}
+              </p>
+            </div>
+          </div>
+
+          <div class="space-y-3 text-sm">
+
+            <div class="flex justify-between">
+              <span>Price per day</span>
+              <span>₹{{ item.price_per_day }}</span>
+            </div>
+
+            <div class="flex justify-between">
+              <span>Days</span>
+              <span>{{ days }}</span>
+            </div>
+
+            <div class="flex justify-between">
+              <span>Service fee</span>
+              <span>₹{{ service_fee }}</span>
+            </div>
+
+            <div class="border-t pt-4 flex justify-between font-bold text-lg">
+              <span>Total</span>
+              <span class="text-primary">₹{{ total }}</span>
+            </div>
+
+          </div>
+
+          <button class="w-full mt-8 bg-primary text-white py-3 rounded-xl font-bold hover:bg-primary-hover">
+            Confirm Booking
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </form>
+
+</section>
+
+{% endblock %}

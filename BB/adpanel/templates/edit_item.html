@@ -1,0 +1,177 @@
+{% extends "base_dashboard.html" %}
+{% block page_title %}Edit Item{% endblock %}
+
+{% block content %}
+
+<div class="max-w-3xl mx-auto">
+
+  <div class="bg-white border border-[#ede9fe] rounded-[22px] shadow-[0_2px_12px_rgba(109,40,217,0.05)] overflow-hidden">
+
+    <div class="px-7 py-5 border-b border-[#f1f5f9] flex items-center justify-between">
+      <div class="flex items-center gap-2.5">
+        <div class="w-8 h-8 rounded-xl bg-amber-50 flex items-center justify-center">
+          <span class="material-symbols-outlined text-[1rem] text-amber-500">edit</span>
+        </div>
+        <div>
+          <h2 class="font-display font-bold text-[1rem] text-[#0d0d12]">Edit Item</h2>
+          <p class="text-[0.75rem] text-gray-400 truncate max-w-[300px]">{{ item.title }}</p>
+        </div>
+      </div>
+      <a href="{% url 'product' item.id %}" target="_blank" class="inline-flex items-center gap-1 text-[0.78rem] font-semibold text-primary no-underline hover:gap-2 transition-all">
+        View listing <span class="material-symbols-outlined text-[0.85rem]">open_in_new</span>
+      </a>
+    </div>
+
+    <form method="POST" enctype="multipart/form-data" class="px-7 py-7">
+      {% csrf_token %}
+
+      <!-- IMAGE UPLOAD -->
+      <div class="mb-7">
+        <label class="block font-body font-semibold text-[0.78rem] text-gray-500 uppercase tracking-[0.08em] mb-3">Item Images (Min 3 required)</label>
+        
+        <div class="flex flex-col gap-4">
+          <!-- Main Image -->
+          <div class="flex items-start gap-4 bg-[#faf8ff] border border-[#ddd6fe] rounded-[16px] p-4">
+            <div class="w-20 h-20 shrink-0 bg-white border border-[#ddd6fe] rounded-xl overflow-hidden flex items-center justify-center relative group">
+              {% if item.image %}
+              <img id="img-preview-1" src="{{ item.image.url }}" class="w-full h-full object-cover">
+              {% else %}
+              <img id="img-preview-1" class="hidden w-full h-full object-cover">
+              {% endif %}
+              <span id="icon-1" class="{% if item.image %}hidden{% endif %} material-symbols-outlined text-[2rem] text-[#c4b5fd]">image</span>
+            </div>
+            <div class="flex-1">
+              <span class="block text-[0.85rem] font-bold text-primary mb-1">Main Photo <span class="text-red-500">*</span></span>
+              <input type="file" name="image" accept="image/*" class="w-full text-[0.75rem] text-gray-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:bg-primary file:font-semibold file:text-white hover:file:bg-primary-d" {% if not item.image %}required{% endif %} onchange="if(this.files[0]){ document.getElementById('img-preview-1').src = window.URL.createObjectURL(this.files[0]); document.getElementById('img-preview-1').classList.remove('hidden'); document.getElementById('icon-1').classList.add('hidden');}">
+              <span class="block text-[0.7rem] text-gray-400 mt-1">Leave blank to keep existing image</span>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <!-- Side 1 -->
+            <div class="flex items-center gap-3 bg-white border border-slate-200 p-3 rounded-[16px]">
+              <div class="w-14 h-14 bg-slate-50 border border-slate-200 rounded-lg overflow-hidden shrink-0 flex items-center justify-center relative">
+                {% if item.image2 %}
+                <img id="img-preview-2" src="{{ item.image2.url }}" class="w-full h-full object-cover">
+                {% else %}
+                <img id="img-preview-2" class="hidden w-full h-full object-cover">
+                {% endif %}
+                <span id="icon-2" class="{% if item.image2 %}hidden{% endif %} material-symbols-outlined text-[1.2rem] text-slate-300">image</span>
+              </div>
+              <div class="overflow-hidden w-full">
+                <span class="block text-[0.75rem] font-bold text-[#0d0d12]">Side Photo 1 <span class="text-red-500">*</span></span>
+                <input type="file" name="image2" accept="image/*" {% if not item.image2 %}required{% endif %} class="w-full text-[0.65rem] text-gray-500 mt-1 file:py-1 file:px-2 file:rounded file:border-0 file:bg-surface2 file:text-primary file:font-medium hover:file:bg-[#e0d9ff]" onchange="if(this.files[0]){ document.getElementById('img-preview-2').src = window.URL.createObjectURL(this.files[0]); document.getElementById('img-preview-2').classList.remove('hidden'); document.getElementById('icon-2').classList.add('hidden');}">
+              </div>
+            </div>
+            <!-- Side 2 -->
+            <div class="flex items-center gap-3 bg-white border border-slate-200 p-3 rounded-[16px]">
+              <div class="w-14 h-14 bg-slate-50 border border-slate-200 rounded-lg overflow-hidden shrink-0 flex items-center justify-center relative">
+                {% if item.image3 %}
+                <img id="img-preview-3" src="{{ item.image3.url }}" class="w-full h-full object-cover">
+                {% else %}
+                <img id="img-preview-3" class="hidden w-full h-full object-cover">
+                {% endif %}
+                <span id="icon-3" class="{% if item.image3 %}hidden{% endif %} material-symbols-outlined text-[1.2rem] text-slate-300">image</span>
+              </div>
+              <div class="overflow-hidden w-full">
+                <span class="block text-[0.75rem] font-bold text-[#0d0d12]">Side Photo 2 <span class="text-red-500">*</span></span>
+                <input type="file" name="image3" accept="image/*" {% if not item.image3 %}required{% endif %} class="w-full text-[0.65rem] text-gray-500 mt-1 file:py-1 file:px-2 file:rounded file:border-0 file:bg-surface2 file:text-primary file:font-medium hover:file:bg-[#e0d9ff]" onchange="if(this.files[0]){ document.getElementById('img-preview-3').src = window.URL.createObjectURL(this.files[0]); document.getElementById('img-preview-3').classList.remove('hidden'); document.getElementById('icon-3').classList.add('hidden');}">
+              </div>
+            </div>
+            <!-- Side 3 -->
+            <div class="flex items-center gap-3 bg-white border border-slate-200 p-3 rounded-[16px]">
+              <div class="w-14 h-14 bg-slate-50 border border-slate-200 rounded-lg overflow-hidden shrink-0 flex items-center justify-center relative">
+                {% if item.image4 %}
+                <img id="img-preview-4" src="{{ item.image4.url }}" class="w-full h-full object-cover">
+                {% else %}
+                <img id="img-preview-4" class="hidden w-full h-full object-cover">
+                {% endif %}
+                <span id="icon-4" class="{% if item.image4 %}hidden{% endif %} material-symbols-outlined text-[1.2rem] text-slate-300">image</span>
+              </div>
+              <div class="overflow-hidden w-full">
+                <span class="block text-[0.75rem] font-semibold text-gray-500">Side Photo 3 (Optional)</span>
+                <input type="file" name="image4" accept="image/*" class="w-full text-[0.65rem] text-gray-500 mt-1 file:py-1 file:px-2 file:rounded file:border-0 file:bg-surface2 file:text-primary file:font-medium hover:file:bg-[#e0d9ff]" onchange="if(this.files[0]){ document.getElementById('img-preview-4').src = window.URL.createObjectURL(this.files[0]); document.getElementById('img-preview-4').classList.remove('hidden'); document.getElementById('icon-4').classList.add('hidden');}">
+              </div>
+            </div>
+            <!-- Side 4 -->
+            <div class="flex items-center gap-3 bg-white border border-slate-200 p-3 rounded-[16px]">
+              <div class="w-14 h-14 bg-slate-50 border border-slate-200 rounded-lg overflow-hidden shrink-0 flex items-center justify-center relative">
+                {% if item.image5 %}
+                <img id="img-preview-5" src="{{ item.image5.url }}" class="w-full h-full object-cover">
+                {% else %}
+                <img id="img-preview-5" class="hidden w-full h-full object-cover">
+                {% endif %}
+                <span id="icon-5" class="{% if item.image5 %}hidden{% endif %} material-symbols-outlined text-[1.2rem] text-slate-300">image</span>
+              </div>
+              <div class="overflow-hidden w-full">
+                <span class="block text-[0.75rem] font-semibold text-gray-500">Side Photo 4 (Optional)</span>
+                <input type="file" name="image5" accept="image/*" class="w-full text-[0.65rem] text-gray-500 mt-1 file:py-1 file:px-2 file:rounded file:border-0 file:bg-surface2 file:text-primary file:font-medium hover:file:bg-[#e0d9ff]" onchange="if(this.files[0]){ document.getElementById('img-preview-5').src = window.URL.createObjectURL(this.files[0]); document.getElementById('img-preview-5').classList.remove('hidden'); document.getElementById('icon-5').classList.add('hidden');}">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FIELDS -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
+
+        <div class="sm:col-span-2">
+          <label class="block font-body font-semibold text-[0.78rem] text-gray-500 uppercase tracking-[0.08em] mb-1.5">Item Title</label>
+          <input type="text" name="title" value="{{ item.title }}"
+            class="w-full bg-[#fafafa] border-[1.5px] border-slate-200 rounded-xl px-4 py-2.5 font-body text-[0.9rem] text-[#0d0d12] outline-none focus:border-primary focus:bg-white transition-colors" required>
+        </div>
+
+        <div class="sm:col-span-2">
+          <label class="block font-body font-semibold text-[0.78rem] text-gray-500 uppercase tracking-[0.08em] mb-1.5">Description</label>
+          <textarea name="description" rows="4"
+            class="w-full bg-[#fafafa] border-[1.5px] border-slate-200 rounded-xl px-4 py-2.5 font-body text-[0.9rem] text-[#0d0d12] outline-none focus:border-primary focus:bg-white transition-colors resize-none" required>{{ item.description }}</textarea>
+        </div>
+
+        <div>
+          <label class="block font-body font-semibold text-[0.78rem] text-gray-500 uppercase tracking-[0.08em] mb-1.5">Category</label>
+          <div class="relative">
+            <span class="absolute left-3.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-[0.95rem] text-gray-400">category</span>
+            <select name="category"
+              class="w-full appearance-none bg-[#fafafa] border-[1.5px] border-slate-200 rounded-xl pl-9 pr-9 py-2.5 font-body text-[0.9rem] text-[#0d0d12] outline-none focus:border-primary focus:bg-white transition-colors cursor-pointer" required>
+              {% for cat in categories %}
+              <option value="{{ cat.id }}" {% if item.category.id == cat.id %}selected{% endif %}>{{ cat.name }}</option>
+              {% endfor %}
+            </select>
+            <span class="absolute right-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-[0.95rem] text-gray-400 pointer-events-none">expand_more</span>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-body font-semibold text-[0.78rem] text-gray-500 uppercase tracking-[0.08em] mb-1.5">Price Per Day (₹)</label>
+          <div class="relative">
+            <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-[0.9rem] font-bold text-gray-400">₹</span>
+            <input type="number" name="price_per_day" value="{{ item.price_per_day }}"
+              class="w-full bg-[#fafafa] border-[1.5px] border-slate-200 rounded-xl pl-8 pr-4 py-2.5 font-body text-[0.9rem] text-[#0d0d12] outline-none focus:border-primary focus:bg-white transition-colors" required>
+          </div>
+        </div>
+
+        <div class="sm:col-span-2">
+          <label class="block font-body font-semibold text-[0.78rem] text-gray-500 uppercase tracking-[0.08em] mb-1.5">Location</label>
+          <div class="relative">
+            <span class="absolute left-3.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-[0.95rem] text-gray-400">location_on</span>
+            <input type="text" name="location" value="{{ item.location }}"
+              class="w-full bg-[#fafafa] border-[1.5px] border-slate-200 rounded-xl pl-9 pr-4 py-2.5 font-body text-[0.9rem] text-[#0d0d12] outline-none focus:border-primary focus:bg-white transition-colors" required>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="flex items-center justify-between pt-5 border-t border-[#f1f5f9]">
+        <a href="{% url 'adpanel:my_items' %}" class="inline-flex items-center gap-1.5 px-4 py-2.5 bg-white border-[1.5px] border-slate-200 text-gray-600 rounded-xl font-display font-semibold text-[0.85rem] no-underline hover:bg-slate-50 transition-colors">
+          <span class="material-symbols-outlined text-[1rem]">close</span> Cancel
+        </a>
+        <button type="submit" class="inline-flex items-center gap-2 px-7 py-2.5 bg-primary hover:bg-primary-d text-white rounded-xl font-display font-bold text-[0.88rem] shadow-[0_4px_14px_rgba(109,40,217,0.25)] hover:shadow-[0_6px_20px_rgba(109,40,217,0.35)] hover:-translate-y-px transition-all">
+          <span class="material-symbols-outlined text-[1rem]">save</span> Update Item
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+{% endblock %}

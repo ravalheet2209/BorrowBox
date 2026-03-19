@@ -1,0 +1,70 @@
+{% extends "base_dashboard.html" %}
+{% block page_title %}Seller Requests{% endblock %}
+
+{% block content %}
+
+<div class="flex items-center justify-between mb-7">
+  <div>
+    <h2 class="font-display font-bold text-[1.1rem] text-[#0d0d12]">Pending Seller Requests</h2>
+    <p class="text-[0.78rem] text-gray-400 mt-0.5">Review and approve or reject applications below.</p>
+  </div>
+  {% if pending_profiles %}
+  <span class="inline-flex items-center gap-1.5 text-[0.75rem] font-bold text-orange-600 bg-orange-50 border border-orange-100 px-3 py-1.5 rounded-full">
+    <span class="w-2 h-2 rounded-full bg-orange-500 animate-pulse inline-block"></span>
+    {{ pending_profiles|length }} pending
+  </span>
+  {% endif %}
+</div>
+
+{% if pending_profiles %}
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+  {% for profile in pending_profiles %}
+  <div class="req-card bg-white border border-[#ede9fe] rounded-[20px] p-5 shadow-[0_2px_10px_rgba(109,40,217,0.05)] hover:shadow-[0_8px_24px_rgba(109,40,217,0.1)] transition-all">
+
+    <div class="flex items-center gap-3 mb-4">
+      <div class="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-indigo-500 flex items-center justify-center font-display font-extrabold text-[1rem] text-white shrink-0">
+        {{ profile.user.username|first|upper }}
+      </div>
+      <div class="min-w-0">
+        <div class="font-display font-bold text-[0.95rem] text-[#0d0d12] truncate">{{ profile.user.username }}</div>
+        <div class="text-[0.76rem] text-gray-400 truncate">{{ profile.user.email }}</div>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-2 text-[0.75rem] text-gray-400 mb-1">
+      <span class="material-symbols-outlined text-[0.82rem]">calendar_today</span>
+      Joined {{ profile.user.date_joined|date:"M d, Y" }}
+    </div>
+
+    <div class="flex items-center gap-2 mb-5">
+      <span class="inline-flex items-center gap-1 text-[0.68rem] font-bold text-amber-600 bg-amber-50 border border-amber-100 px-2.5 py-1 rounded-full">
+        <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse inline-block"></span> Pending Review
+      </span>
+    </div>
+
+    <div class="flex items-center gap-2.5">
+      <a href="{% url 'adpanel:approve_seller' profile.user.id %}"
+         class="flex-1 flex items-center justify-center gap-1.5 py-2.5 bg-green-500 hover:bg-green-600 text-white rounded-xl font-display font-bold text-[0.82rem] no-underline transition-all hover:-translate-y-px hover:shadow-[0_4px_12px_rgba(34,197,94,0.35)]">
+        <span class="material-symbols-outlined text-[0.95rem]">check_circle</span> Approve
+      </a>
+      <a href="{% url 'adpanel:reject_seller' profile.user.id %}"
+         class="flex-1 flex items-center justify-center gap-1.5 py-2.5 bg-red-50 hover:bg-red-500 text-red-500 hover:text-white border border-red-200 hover:border-red-500 rounded-xl font-display font-bold text-[0.82rem] no-underline transition-all hover:-translate-y-px">
+        <span class="material-symbols-outlined text-[0.95rem]">cancel</span> Reject
+      </a>
+    </div>
+
+  </div>
+  {% endfor %}
+</div>
+
+{% else %}
+<div class="bg-white border border-[#ede9fe] rounded-[22px] shadow-[0_2px_12px_rgba(109,40,217,0.05)] flex flex-col items-center justify-center py-24 text-center">
+  <div class="w-20 h-20 rounded-[22px] bg-green-50 border border-green-100 flex items-center justify-center mb-5">
+    <span class="material-symbols-outlined text-[2.5rem] text-green-400">check_circle</span>
+  </div>
+  <div class="font-display font-bold text-[1rem] text-[#0d0d12] mb-2">All clear!</div>
+  <p class="text-[0.83rem] text-gray-400">No pending seller requests at the moment.</p>
+</div>
+{% endif %}
+
+{% endblock %}

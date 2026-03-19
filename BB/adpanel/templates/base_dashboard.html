@@ -1,0 +1,307 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block tab_title %}Borrow Box Dashboard{% endblock %}</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        primary:     '#6d28d9',
+        'primary-l': '#7c3aed',
+        'primary-d': '#5b21b6',
+        accent:      '#f59e0b',
+        surface:     '#fafafa',
+        surface2:    '#f4f0ff',
+        'border-p':  '#ede9fe',
+      },
+      fontFamily: {
+        display: ['Outfit','sans-serif'],
+        body:    ['DM Sans','sans-serif'],
+      },
+    }
+  }
+}
+</script>
+
+<style>
+  body { font-family:'DM Sans',sans-serif; overflow-x:hidden; }
+  h1,h2,h3,h4,h5 { font-family:'Outfit',sans-serif; }
+  ::-webkit-scrollbar { width:5px; }
+  ::-webkit-scrollbar-track { background:#f8f5ff; }
+  ::-webkit-scrollbar-thumb { background:#c4b5fd; border-radius:99px; }
+
+  /* Active sidebar link highlight pseudo-element */
+  .sidebar-link { position:relative; transition:color 0.2s, background 0.2s; }
+  .sidebar-link.active { color:#6d28d9; background:#f4f0ff; font-weight:600; }
+  .sidebar-link.active .sidebar-icon { color:#6d28d9; }
+
+  /* Sidebar hover */
+  .sidebar-link:not(.active):hover { background:#faf8ff; color:#6d28d9; }
+  .sidebar-link:not(.active):hover .sidebar-icon { color:#6d28d9; }
+
+  /* Page fade-in */
+  @keyframes panelFadeIn  { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes panelFadeOut { from{opacity:1;transform:translateY(0)}    to{opacity:0;transform:translateY(14px)} }
+  .panel-in  { animation:panelFadeIn  0.38s cubic-bezier(.4,0,.2,1) forwards; }
+  .panel-out { animation:panelFadeOut 0.28s cubic-bezier(.4,0,.2,1) forwards; }
+
+  /* Sidebar gradient background */
+  #bb-sidebar {
+    background: linear-gradient(180deg, #ffffff 0%, #faf8ff 100%);
+  }
+
+  /* Sidebar section separator label */
+  .sidebar-sep { font-size:0.65rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:#c4b5fd; padding:0 12px; margin:8px 0 4px; }
+</style>
+
+{% block extra_css %}{% endblock %}
+</head>
+
+<body class="bg-[#f6f4fb] text-[#0d0d12] antialiased">
+
+<!-- Django Messages -->
+{% if messages %}
+<div class="fixed top-8 right-8 z-[1000] flex flex-col gap-3 max-w-sm w-full">
+  {% for message in messages %}
+  <div class="flex items-center gap-3 p-4 rounded-2xl shadow-2xl border backdrop-blur-xl animate-bounce-in
+              {% if message.tags == 'error' %}bg-white/95 border-red-100 text-red-600{% elif message.tags == 'success' %}bg-white/95 border-green-100 text-green-600{% else %}bg-white/95 border-primary/10 text-primary{% endif %}">
+    <span class="material-symbols-outlined shrink-0 text-[1.2rem]">
+      {% if message.tags == 'error' %}error{% elif message.tags == 'success' %}check_circle{% else %}info{% endif %}
+    </span>
+    <p class="text-sm font-semibold leading-tight">{{ message }}</p>
+    <button onclick="this.parentElement.remove()" class="ml-auto opacity-40 hover:opacity-100 transition-opacity">
+      <span class="material-symbols-outlined text-[1rem]">close</span>
+    </button>
+  </div>
+  {% endfor %}
+</div>
+
+<style>
+@keyframes bounceIn {
+  0% { opacity:0; transform:translateX(20px) scale(0.9); }
+  70% { opacity:1; transform:translateX(-4px) scale(1.02); }
+  100% { opacity:1; transform:translateX(0) scale(1); }
+}
+.animate-bounce-in { animation: bounceIn 0.4s cubic-bezier(.34,1.56,.64,1) forwards; }
+</style>
+
+<script>
+// Auto-dismiss after 5 seconds
+setTimeout(() => {
+  document.querySelectorAll('.animate-bounce-in').forEach(el => {
+    gsap.to(el, { opacity:0, x:20, duration:0.4, onComplete:()=>el.remove() });
+  });
+}, 5000);
+</script>
+{% endif %}
+
+<div class="flex min-h-screen">
+
+  <!-- ═══════════ SIDEBAR ═══════════ -->
+  <aside id="bb-sidebar" class="w-[240px] shrink-0 flex flex-col border-r border-[#ede9fe] shadow-[1px_0_20px_rgba(109,40,217,0.06)] sticky top-0 h-screen overflow-y-auto">
+
+    <!-- Logo -->
+    <div class="px-5 py-5 border-b border-[#ede9fe]">
+      <a href="{% url 'home' %}" class="flex items-center gap-2.5 no-underline group">
+        <div class="w-[36px] h-[36px] bg-primary rounded-[10px] flex items-center justify-center shadow-[0_4px_12px_rgba(109,40,217,0.28)] group-hover:shadow-[0_6px_18px_rgba(109,40,217,0.38)] transition-shadow">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/>
+            <path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/>
+          </svg>
+        </div>
+        <span class="font-display font-extrabold text-[1.1rem] text-[#0d0d12] tracking-[-0.02em]">Borrow Box</span>
+      </a>
+    </div>
+
+    <!-- Nav -->
+    <nav class="flex-1 px-3 py-4 flex flex-col gap-0.5">
+
+      <!-- General -->
+      <div class="sidebar-sep">General</div>
+
+      <a href="{% url 'adpanel:dashboard' %}"
+         class="sidebar-link flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-[0.875rem] font-medium text-gray-600 no-underline
+                {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+        <span class="sidebar-icon material-symbols-outlined text-[1.1rem] text-gray-400">grid_view</span>
+        Dashboard
+      </a>
+
+      {% if request.user.profile.is_seller %}
+      <div class="sidebar-sep mt-3">Seller</div>
+
+      <a href="{% url 'adpanel:owner_dashboard' %}"
+         class="sidebar-link flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-[0.875rem] font-medium text-gray-600 no-underline
+                {% if request.resolver_match.url_name == 'owner_dashboard' %}active{% endif %}">
+        <span class="sidebar-icon material-symbols-outlined text-[1.1rem] text-gray-400">storefront</span>
+        Seller Dashboard
+      </a>
+
+      <a href="{% url 'adpanel:add_item' %}"
+         class="sidebar-link flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-[0.875rem] font-medium text-gray-600 no-underline
+                {% if request.resolver_match.url_name == 'add_item' %}active{% endif %}">
+        <span class="sidebar-icon material-symbols-outlined text-[1.1rem] text-gray-400">add_circle</span>
+        Add Item
+      </a>
+
+      <a href="{% url 'adpanel:my_items' %}"
+         class="sidebar-link flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-[0.875rem] font-medium text-gray-600 no-underline
+                {% if request.resolver_match.url_name == 'my_items' %}active{% endif %}">
+        <span class="sidebar-icon material-symbols-outlined text-[1.1rem] text-gray-400">inventory_2</span>
+        My Items
+      </a>
+      {% endif %}
+
+      {% if request.user.is_superuser %}
+      <div class="sidebar-sep mt-3">Admin</div>
+
+      <a href="{% url 'adpanel:admin_dashboard' %}"
+         class="sidebar-link flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-[0.875rem] font-medium text-gray-600 no-underline
+                {% if request.resolver_match.url_name == 'admin_dashboard' %}active{% endif %}">
+        <span class="sidebar-icon material-symbols-outlined text-[1.1rem] text-gray-400">admin_panel_settings</span>
+        Admin Panel
+      </a>
+
+      <a href="{% url 'adpanel:admin_users' %}"
+         class="sidebar-link flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-[0.875rem] font-medium text-gray-600 no-underline
+                {% if request.resolver_match.url_name == 'admin_users' %}active{% endif %}">
+        <span class="sidebar-icon material-symbols-outlined text-[1.1rem] text-gray-400">group</span>
+        Users
+      </a>
+
+      <a href="{% url 'adpanel:admin_categories' %}"
+         class="sidebar-link flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-[0.875rem] font-medium text-gray-600 no-underline
+                {% if request.resolver_match.url_name == 'admin_categories' %}active{% endif %}">
+        <span class="sidebar-icon material-symbols-outlined text-[1.1rem] text-gray-400">category</span>
+        Categories
+      </a>
+
+      <a href="{% url 'adpanel:admin_seller_requests' %}"
+         class="sidebar-link flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-[0.875rem] font-medium text-gray-600 no-underline
+                {% if request.resolver_match.url_name == 'admin_seller_requests' %}active{% endif %}">
+        <span class="sidebar-icon material-symbols-outlined text-[1.1rem] text-gray-400">pending_actions</span>
+        Seller Requests
+        {% if pending_sellers_count %}
+        <span class="ml-auto text-[0.65rem] font-bold bg-primary text-white px-1.5 py-0.5 rounded-full">{{ pending_sellers_count }}</span>
+        {% endif %}
+      </a>
+      {% endif %}
+
+      <div class="sidebar-sep mt-3">Account</div>
+
+      <a href="{% url 'adpanel:profile' %}"
+         class="sidebar-link flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-[0.875rem] font-medium text-gray-600 no-underline
+                {% if request.resolver_match.url_name == 'profile' %}active{% endif %}">
+        <span class="sidebar-icon material-symbols-outlined text-[1.1rem] text-gray-400">person</span>
+        Profile
+      </a>
+
+      <a href="/" class="sidebar-link flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-[0.875rem] font-medium text-gray-600 no-underline">
+        <span class="sidebar-icon material-symbols-outlined text-[1.1rem] text-gray-400">open_in_new</span>
+        View Site
+      </a>
+
+    </nav>
+
+    <!-- Bottom user card -->
+    <div class="px-3 pb-4">
+      <div class="flex items-center gap-2.5 px-3 py-3 bg-[#f4f0ff] border border-[#ede9fe] rounded-xl">
+        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-indigo-500 flex items-center justify-center text-[0.7rem] font-extrabold text-white font-display shrink-0">
+          {{ request.user.username|first|upper }}
+        </div>
+        <div class="min-w-0 flex-1">
+          <div class="font-display font-bold text-[0.82rem] text-[#0d0d12] truncate">{{ request.user.username }}</div>
+          <div class="text-[0.7rem] text-gray-400 truncate">{{ request.user.email }}</div>
+        </div>
+        <a href="{% url 'logout' %}" class="shrink-0 text-gray-400 hover:text-red-500 transition-colors no-underline" title="Logout">
+          <span class="material-symbols-outlined text-[1.1rem]">logout</span>
+        </a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ═══════════ MAIN ═══════════ -->
+  <div class="flex-1 flex flex-col min-w-0">
+
+    <!-- Topbar -->
+    <div class="bg-white border-b border-[#ede9fe] px-8 py-4 flex items-center justify-between sticky top-0 z-40 shadow-[0_1px_8px_rgba(109,40,217,0.05)]">
+      <div>
+        <h1 class="font-display font-bold text-[1rem] text-[#0d0d12]">{% block page_title %}Dashboard{% endblock %}</h1>
+        <p class="text-[0.78rem] text-gray-400 mt-0.5">Welcome back, <span class="text-primary font-semibold">{{ request.user.username }}</span></p>
+      </div>
+      <div class="flex items-center gap-3">
+        <!-- Notification bell -->
+        <button class="w-9 h-9 rounded-xl bg-surface2 border border-border-p flex items-center justify-center text-gray-500 hover:text-primary hover:border-primary/40 transition-colors">
+          <span class="material-symbols-outlined text-[1.1rem]">notifications</span>
+        </button>
+        <!-- Avatar -->
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-primary to-indigo-500 flex items-center justify-center text-[0.75rem] font-extrabold text-white font-display">
+          {{ request.user.username|first|upper }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div id="main-panel" class="flex-1 p-8 opacity-0">
+      {% block content %}{% endblock %}
+    </div>
+
+  </div>
+
+</div>
+
+<!-- Mobile sidebar toggle (shown on small screens) -->
+<div class="fixed bottom-5 right-5 lg:hidden z-50">
+  <button id="mob-sidebar-btn" class="w-12 h-12 bg-primary text-white rounded-full shadow-[0_4px_20px_rgba(109,40,217,0.4)] flex items-center justify-center">
+    <span class="material-symbols-outlined">menu</span>
+  </button>
+</div>
+
+<script>
+/* Page fade-in */
+document.addEventListener('DOMContentLoaded', function () {
+  const panel = document.getElementById('main-panel');
+  if (panel) {
+    panel.classList.remove('opacity-0');
+    panel.classList.add('panel-in');
+  }
+
+  /* Link transition */
+  document.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', function (e) {
+      const href = this.getAttribute('href');
+      const target = this.getAttribute('target');
+      if (!href || href.startsWith('#') || href.startsWith('javascript') || target === '_blank') return;
+      e.preventDefault();
+      if (panel) {
+        panel.classList.remove('panel-in');
+        panel.classList.add('panel-out');
+        setTimeout(() => { window.location.href = href; }, 280);
+      } else {
+        window.location.href = href;
+      }
+    });
+  });
+
+  /* BFCache */
+  window.addEventListener('pageshow', e => {
+    if (e.persisted && panel) {
+      panel.classList.remove('panel-out');
+      panel.classList.add('panel-in');
+    }
+  });
+});
+</script>
+
+{% block extra_js %}{% endblock %}
+</body>
+</html>

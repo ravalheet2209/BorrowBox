@@ -1,0 +1,87 @@
+{% extends "base_dashboard.html" %}
+{% block page_title %}My Items{% endblock %}
+
+{% block content %}
+
+<!-- Header -->
+<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-7">
+  <div>
+    <h2 class="font-display font-bold text-[1.1rem] text-[#0d0d12]">My Listed Items</h2>
+    <p class="text-[0.78rem] text-gray-400 mt-0.5">Manage all items you've listed for rent.</p>
+  </div>
+  <a href="{% url 'adpanel:add_item' %}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-primary hover:bg-primary-d text-white rounded-xl font-display font-bold text-[0.88rem] no-underline shadow-[0_4px_14px_rgba(109,40,217,0.25)] hover:shadow-[0_6px_20px_rgba(109,40,217,0.35)] hover:-translate-y-px transition-all">
+    <span class="material-symbols-outlined text-[1rem]">add_circle</span> Add Item
+  </a>
+</div>
+
+{% if items %}
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5">
+  {% for item in items %}
+  <div class="item-card bg-white border border-[#ede9fe] rounded-[20px] overflow-hidden shadow-[0_2px_8px_rgba(109,40,217,0.05)] hover:shadow-[0_10px_30px_rgba(109,40,217,0.12)] hover:-translate-y-1 transition-all flex flex-col group">
+
+    <!-- Image -->
+    <div class="relative overflow-hidden bg-[#f0ebff]" style="aspect-ratio:4/3;">
+      {% if item.image %}
+      <img src="{{ item.image.url }}" alt="{{ item.title }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.06]">
+      {% else %}
+      <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-[#f0ebff] to-[#ddd6fe]">
+        <span class="material-symbols-outlined text-[3rem] text-[#c4b5fd]">image</span>
+      </div>
+      {% endif %}
+
+      <!-- Price badge -->
+      <div class="absolute top-2.5 right-2.5 bg-white/95 px-2.5 py-1 rounded-full font-display font-extrabold text-[0.8rem] text-[#0d0d12] shadow-[0_2px_8px_rgba(0,0,0,.1)]">
+        ₹{{ item.price_per_day }}<span class="text-[0.6rem] font-normal text-gray-400">/day</span>
+      </div>
+
+      <!-- Category badge -->
+      <div class="absolute top-2.5 left-2.5 bg-white/90 backdrop-blur px-2 py-0.5 rounded-full text-[0.62rem] font-bold uppercase tracking-[0.1em] text-primary">
+        {{ item.category.name }}
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="p-4 flex flex-col flex-1">
+      <h3 class="font-display font-bold text-[0.92rem] text-[#0d0d12] truncate mb-1">{{ item.title }}</h3>
+      <div class="flex items-center gap-1 text-[0.75rem] text-gray-400 mb-3">
+        <span class="material-symbols-outlined text-[0.82rem]">location_on</span>
+        {{ item.location }}
+      </div>
+
+      <div class="mt-auto pt-3 border-t border-[#f8f5ff] flex items-center gap-2">
+        <a href="{% url 'adpanel:edit_item' item.id %}"
+           class="flex-1 flex items-center justify-center gap-1.5 py-2 bg-surface2 border border-border-p text-primary rounded-[10px] font-display font-semibold text-[0.78rem] no-underline hover:bg-[#e0d9ff] transition-colors">
+          <span class="material-symbols-outlined text-[0.9rem]">edit</span> Edit
+        </a>
+        <a href="{% url 'product' item.id %}" target="_blank"
+           class="flex items-center justify-center w-9 h-9 bg-surface2 border border-border-p text-gray-500 rounded-[10px] hover:text-primary hover:border-primary/40 transition-colors no-underline">
+          <span class="material-symbols-outlined text-[0.9rem]">open_in_new</span>
+        </a>
+        <a href="{% url 'adpanel:delete_item' item.id %}"
+           onclick="return confirm('Delete \'{{ item.title }}\'? This cannot be undone.')"
+           class="flex items-center justify-center w-9 h-9 bg-red-50 border border-red-100 text-red-400 rounded-[10px] hover:bg-red-100 hover:text-red-600 transition-colors no-underline">
+          <span class="material-symbols-outlined text-[0.9rem]">delete</span>
+        </a>
+      </div>
+    </div>
+
+  </div>
+  {% endfor %}
+</div>
+
+{% else %}
+<!-- Empty state -->
+<div class="bg-white border border-[#ede9fe] rounded-[22px] shadow-[0_2px_12px_rgba(109,40,217,0.05)] flex flex-col items-center justify-center py-24 px-6 text-center">
+  <div class="w-20 h-20 rounded-[22px] bg-surface2 border border-border-p flex items-center justify-center mb-5">
+    <span class="material-symbols-outlined text-[2.5rem] text-[#c4b5fd]">inventory_2</span>
+  </div>
+  <div class="font-display font-bold text-[1rem] text-[#0d0d12] mb-2">No items listed yet</div>
+  <p class="text-[0.83rem] text-gray-400 max-w-[260px] leading-relaxed">Start earning by listing items you're not using. It only takes 2 minutes.</p>
+  <a href="{% url 'adpanel:add_item' %}" class="mt-6 inline-flex items-center gap-2 px-6 py-2.5 bg-primary text-white rounded-xl font-display font-bold text-[0.88rem] no-underline hover:bg-primary-d transition-all shadow-[0_4px_14px_rgba(109,40,217,0.25)]">
+    <span class="material-symbols-outlined text-[1rem]">add_circle</span> Add Your First Item
+  </a>
+</div>
+{% endif %}
+
+{% endblock %}
+
