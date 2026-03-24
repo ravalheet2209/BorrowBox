@@ -1,0 +1,351 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Borrow Box{% endblock %}</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/litepicker/dist/css/litepicker.css"/>
+<script src="https://cdn.jsdelivr.net/npm/litepicker/dist/bundle.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/SplitText.min.js"></script>
+<script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        primary:  '#6d28d9',
+        'primary-l': '#7c3aed',
+        'primary-d': '#5b21b6',
+        accent:   '#f59e0b',
+        surface:  '#fafafa',
+        surface2: '#f4f0ff',
+        'border-p': '#ede9fe',
+      },
+      fontFamily: {
+        display: ['Outfit','sans-serif'],
+        body:    ['DM Sans','sans-serif'],
+      },
+      borderRadius: { '2xl':'1rem','3xl':'1.5rem','4xl':'2rem' },
+    }
+  }
+}
+</script>
+
+<!-- Minimal style: only keyframes + pseudo-elements + third-party overrides -->
+<style>
+  /* Body base */
+  body { font-family:'DM Sans',sans-serif; overflow-x:hidden; }
+  h1,h2,h3,h4,h5 { font-family:'Outfit',sans-serif; }
+  ::-webkit-scrollbar { width:5px; }
+  ::-webkit-scrollbar-track { background:#f8f5ff; }
+  ::-webkit-scrollbar-thumb { background:#c4b5fd; border-radius:99px; }
+
+  /* Loader pulse keyframe */
+  @keyframes loaderPulse {
+    0%,100% { box-shadow:0 8px 28px rgba(109,40,217,.28); }
+    50%      { box-shadow:0 8px 40px rgba(109,40,217,.55); }
+  }
+  .loader-pulse { animation:loaderPulse 1.8s ease-in-out infinite; }
+
+  /* Navbar: transparent → solid on scroll */
+  #bb-nav { transition:background 0.4s, box-shadow 0.4s, backdrop-filter 0.4s; }
+  #bb-nav.nav-solid {
+    background:rgba(255,255,255,0.94);
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+    box-shadow:0 1px 0 rgba(0,0,0,0.06),0 4px 24px rgba(109,40,217,0.05);
+  }
+
+  /* Logo hover: rotate on mark */
+  .nav-logo:hover .nav-logo-mark { transform:rotate(-8deg) scale(1.08); }
+  .nav-logo-mark { transition:transform 0.3s cubic-bezier(.34,1.56,.64,1); }
+
+  /* Nav pill hover highlight (needs ::before pseudo-element) */
+  .nav-pill-link { position:relative; transition:color 0.2s; }
+  .nav-pill-link::before {
+    content:''; position:absolute; inset:0;
+    background:#f4f0ff; border-radius:99px;
+    opacity:0; transition:opacity 0.2s;
+  }
+  .nav-pill-link:hover::before, .nav-pill-link.active::before { opacity:1; }
+  .nav-pill-link span { position:relative; z-index:1; }
+
+  /* Hamburger bars animation */
+  .ham-bar { transition:transform 0.3s, opacity 0.3s; }
+  #bb-hamburger.open .ham-bar:nth-child(1) { transform:translateY(7px) rotate(45deg); }
+  #bb-hamburger.open .ham-bar:nth-child(2) { opacity:0; }
+  #bb-hamburger.open .ham-bar:nth-child(3) { transform:translateY(-7px) rotate(-45deg); }
+
+  /* Mobile panel slide */
+  #mobile-nav-panel { transition:transform 0.4s cubic-bezier(.4,0,.2,1); }
+
+  /* Footer watermark text */
+  #bb-footer { position:relative; overflow:hidden; }
+  #bb-footer::before {
+    content:'BORROW BOX';
+    position:absolute; bottom:-10px; left:-10px;
+    font-family:'Outfit',sans-serif; font-weight:900;
+    font-size:clamp(4rem,12vw,9rem); letter-spacing:-0.04em;
+    color:transparent; -webkit-text-stroke:1px rgba(109,40,217,0.05);
+    pointer-events:none; user-select:none; white-space:nowrap; line-height:1;
+  }
+
+  /* Footer link hover left-nudge */
+  .footer-link { transition:color 0.2s, padding-left 0.2s; }
+  .footer-link:hover { color:#6d28d9; padding-left:4px; }
+
+  /* Footer social hover */
+  .footer-social-btn { transition:background 0.2s, color 0.2s, transform 0.2s; }
+  .footer-social-btn:hover { background:#6d28d9; color:#fff; border-color:#6d28d9; transform:translateY(-2px); }
+</style>
+
+{% block extra_css %}{% endblock %}
+</head>
+
+<body class="bg-white text-[#0d0d12] antialiased">
+
+<!-- Django Messages -->
+{% if messages %}
+<div class="fixed top-20 right-6 z-[600] flex flex-col gap-3 max-w-sm w-full">
+  {% for message in messages %}
+  <div class="flex items-center gap-3 p-4 rounded-2xl shadow-2xl border backdrop-blur-xl animate-bounce-in
+              {% if message.tags == 'error' %}bg-white/95 border-red-100 text-red-600{% elif message.tags == 'success' %}bg-white/95 border-green-100 text-green-600{% else %}bg-white/95 border-primary/10 text-primary{% endif %}">
+    <span class="material-symbols-outlined shrink-0 text-[1.2rem]">
+      {% if message.tags == 'error' %}error{% elif message.tags == 'success' %}check_circle{% else %}info{% endif %}
+    </span>
+    <p class="text-sm font-semibold leading-tight">{{ message }}</p>
+    <button onclick="this.parentElement.remove()" class="ml-auto opacity-40 hover:opacity-100 transition-opacity">
+      <span class="material-symbols-outlined text-[1rem]">close</span>
+    </button>
+  </div>
+  {% endfor %}
+</div>
+
+<style>
+@keyframes bounceIn {
+  0% { opacity:0; transform:translateX(20px) scale(0.9); }
+  70% { opacity:1; transform:translateX(-4px) scale(1.02); }
+  100% { opacity:1; transform:translateX(0) scale(1); }
+}
+.animate-bounce-in { animation: bounceIn 0.4s cubic-bezier(.34,1.56,.64,1) forwards; }
+</style>
+
+<script>
+// Auto-dismiss after 5 seconds
+setTimeout(() => {
+  document.querySelectorAll('.animate-bounce-in').forEach(el => {
+    gsap.to(el, { opacity:0, x:20, duration:0.4, onComplete:()=>el.remove() });
+  });
+}, 5000);
+</script>
+{% endif %}
+
+<!-- ═══════════════════════════
+     PAGE LOADER
+═══════════════════════════ -->
+<div id="bb-loader" class="fixed inset-0 z-[9999] bg-white flex flex-col items-center justify-center gap-5">
+  <div class="flex items-center gap-3">
+    <div class="loader-pulse w-[52px] h-[52px] bg-primary rounded-[14px] flex items-center justify-center shadow-[0_8px_28px_rgba(109,40,217,.28)]">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/>
+        <path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/>
+      </svg>
+    </div>
+    <span class="font-display font-extrabold text-[1.9rem] text-[#0d0d12] tracking-[-0.03em]">Borrow Box</span>
+  </div>
+  <div class="w-[200px] h-[2px] bg-[#f0ebff] rounded-full overflow-hidden">
+    <div id="loader-fill" class="h-full w-0 rounded-full bg-gradient-to-r from-primary to-accent"></div>
+  </div>
+  <span class="font-body text-[0.7rem] tracking-[0.22em] uppercase text-[#c4b5fd]">Preparing your collection</span>
+</div>
+
+<!-- ═══════════════════════════
+     NAVBAR
+═══════════════════════════ -->
+<header id="bb-nav" class="fixed top-0 left-0 right-0 z-[500] h-[68px] px-8 flex items-center justify-between nav-solid">
+
+  <!-- Logo -->
+  <a href="{% url 'home' %}" class="nav-logo flex items-center gap-2.5 no-underline shrink-0">
+    <div class="nav-logo-mark w-[38px] h-[38px] bg-primary rounded-[11px] flex items-center justify-center">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/>
+        <path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/>
+      </svg>
+    </div>
+    <span class="font-display font-extrabold text-[1.2rem] text-[#0d0d12] tracking-[-0.02em]">Borrow Box</span>
+  </a>
+
+  <!-- Center pill nav (desktop) -->
+  <nav class="absolute left-1/2 -translate-x-1/2 hidden md:flex items-center gap-0.5 bg-white/70 border border-primary/10 rounded-full px-2 py-1.5 backdrop-blur-xl shadow-[0_2px_16px_rgba(109,40,217,0.07)]">
+    <a href="/"              class="nav-pill-link px-[18px] py-[7px] rounded-full font-body font-medium text-sm text-gray-500 no-underline whitespace-nowrap {% if request.path == '/' %}active text-primary font-semibold{% endif %}"><span>Home</span></a>
+    <a href="/item_listing/" class="nav-pill-link px-[18px] py-[7px] rounded-full font-body font-medium text-sm text-gray-500 no-underline whitespace-nowrap {% if '/item_listing' in request.path %}active text-primary font-semibold{% endif %}"><span>Browse</span></a>
+    <a href="/trust/"        class="nav-pill-link px-[18px] py-[7px] rounded-full font-body font-medium text-sm text-gray-500 no-underline whitespace-nowrap {% if '/trust' in request.path %}active text-primary font-semibold{% endif %}"><span>Trust & Safety</span></a>
+  </nav>
+
+  <!-- Right -->
+  <div class="flex items-center gap-2.5 shrink-0">
+    {% if user.is_authenticated %}
+    <div class="relative group">
+      <div class="flex items-center gap-2 px-3.5 py-1.5 bg-surface2 border border-border-p rounded-full cursor-pointer hover:shadow-[0_2px_12px_rgba(109,40,217,0.12)] transition-shadow">
+        <div class="w-7 h-7 rounded-full bg-gradient-to-br from-primary to-indigo-500 flex items-center justify-center text-[0.7rem] font-extrabold text-white font-display">{{ user.username|first|upper }}</div>
+        <span class="hidden sm:inline font-body text-sm font-medium text-[#0d0d12]">{{ user.username }}</span>
+        <span class="material-symbols-outlined text-[1rem] text-gray-400">expand_more</span>
+      </div>
+      <!-- Dropdown -->
+      <div class="absolute right-0 top-[calc(100%+10px)] min-w-[180px] bg-white border border-slate-100 rounded-[18px] shadow-[0_12px_40px_rgba(0,0,0,0.1)] p-1.5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+        <a href="/adpanel/profile/" class="flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-sm font-medium text-gray-600 hover:bg-surface2 hover:text-primary transition-colors no-underline">
+          <span class="material-symbols-outlined text-[1.1rem]">person</span> Profile
+        </a>
+        <a href="{% url 'adpanel:dashboard' %}" class="flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-sm font-medium text-gray-600 hover:bg-surface2 hover:text-primary transition-colors no-underline">
+          <span class="material-symbols-outlined text-[1.1rem]">dashboard</span> Dashboard
+        </a>
+        <a href="/adpanel/listings/" class="flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-sm font-medium text-gray-600 hover:bg-surface2 hover:text-primary transition-colors no-underline">
+          <span class="material-symbols-outlined text-[1.1rem]">inventory_2</span> My Listings
+        </a>
+        <div class="h-px bg-slate-100 my-1"></div>
+        <a href="{% url 'logout' %}" class="flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-sm font-medium text-red-500 hover:bg-red-50 hover:text-red-600 transition-colors no-underline">
+          <span class="material-symbols-outlined text-[1.1rem]">logout</span> Logout
+        </a>
+      </div>
+    </div>
+    {% else %}
+    <a href="{% url 'login' %}"    class="hidden md:block font-body font-medium text-sm text-gray-500 hover:text-primary hover:bg-surface2 px-4 py-2 rounded-full transition-colors no-underline">Sign in</a>
+    <a href="{% url 'register' %}" class="hidden md:block font-display font-bold text-sm text-white bg-primary hover:bg-primary-d px-5 py-2.5 rounded-full shadow-[0_4px_14px_rgba(109,40,217,0.3)] hover:shadow-[0_6px_20px_rgba(109,40,217,0.4)] hover:-translate-y-px transition-all no-underline">Get Started</a>
+    {% endif %}
+
+    <!-- Hamburger (mobile) -->
+    <button id="bb-hamburger" class="md:hidden flex flex-col gap-[5px] w-[38px] h-[38px] bg-surface2 border border-border-p rounded-[10px] items-center justify-center px-2.5" aria-label="Menu">
+      <span class="ham-bar block w-full h-0.5 bg-[#0d0d12] rounded"></span>
+      <span class="ham-bar block w-full h-0.5 bg-[#0d0d12] rounded"></span>
+      <span class="ham-bar block w-full h-0.5 bg-[#0d0d12] rounded"></span>
+    </button>
+  </div>
+</header>
+
+<!-- Mobile nav panel -->
+<div id="mobile-nav-panel" class="fixed top-[68px] left-0 right-0 z-[490] bg-white/97 backdrop-blur-xl border-b border-border-p shadow-[0_16px_40px_rgba(0,0,0,0.08)] px-6 py-5 -translate-y-[110%]">
+  <a href="/"              class="block py-3.5 font-display font-semibold text-[1.05rem] text-[#0d0d12] border-b border-slate-100 hover:text-primary hover:pl-1.5 transition-all no-underline">Home</a>
+  <a href="/item_listing/" class="block py-3.5 font-display font-semibold text-[1.05rem] text-[#0d0d12] border-b border-slate-100 hover:text-primary hover:pl-1.5 transition-all no-underline">Browse Items</a>
+  <a href="/trust/"        class="block py-3.5 font-display font-semibold text-[1.05rem] text-[#0d0d12] border-b border-slate-100 hover:text-primary hover:pl-1.5 transition-all no-underline">Trust & Safety</a>
+  {% if user.is_authenticated %}
+  <a href="/adpanel/profile/"              class="block py-3.5 font-display font-semibold text-[1.05rem] text-[#0d0d12] border-b border-slate-100 hover:text-primary hover:pl-1.5 transition-all no-underline">Profile</a>
+  <a href="{% url 'adpanel:dashboard' %}"  class="block py-3.5 font-display font-semibold text-[1.05rem] text-[#0d0d12] border-b border-slate-100 hover:text-primary hover:pl-1.5 transition-all no-underline">Dashboard</a>
+  <a href="{% url 'logout' %}"             class="block py-3.5 font-display font-semibold text-[1.05rem] text-red-500 no-underline">Logout</a>
+  {% else %}
+  <div class="flex gap-2.5 mt-4">
+    <a href="{% url 'login' %}"    class="flex-1 text-center py-2.5 rounded-xl border border-border-p font-display font-semibold text-[0.9rem] text-gray-600 no-underline">Sign in</a>
+    <a href="{% url 'register' %}" class="flex-1 text-center py-2.5 rounded-xl bg-primary font-display font-bold text-[0.9rem] text-white no-underline">Get Started</a>
+  </div>
+  {% endif %}
+</div>
+
+<!-- Main -->
+<main id="bb-main" class="pt-[68px]">
+  {% block content %}{% endblock %}
+</main>
+
+<!-- ═══════════════════════════
+     FOOTER
+═══════════════════════════ -->
+<footer id="bb-footer" class="bg-white border-t border-slate-100 pt-16 pb-8">
+  <div class="max-w-[1280px] mx-auto px-8">
+    <!-- Top grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1.8fr_1fr_1fr_1fr] gap-10 pb-12 border-b border-slate-100">
+
+      <!-- Brand -->
+      <div>
+        <a href="{% url 'home' %}" class="nav-logo inline-flex items-center gap-2.5 no-underline mb-3.5">
+          <div class="nav-logo-mark w-[42px] h-[42px] bg-primary rounded-[13px] flex items-center justify-center">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/>
+              <path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/>
+            </svg>
+          </div>
+          <span class="font-display font-extrabold text-[1.3rem] text-[#0d0d12] tracking-[-0.02em]">Borrow Box</span>
+        </a>
+        <p class="text-sm text-gray-400 leading-[1.75] max-w-[280px]">India's peer-to-peer rental marketplace — borrow and lend tools, tech, fashion & gear with your community.</p>
+        <div class="flex gap-2.5 mt-6">
+          <a href="#" class="footer-social-btn w-[38px] h-[38px] rounded-[10px] bg-surface2 border border-border-p flex items-center justify-center text-gray-500 no-underline" aria-label="X">
+            <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.741l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+          <a href="#" class="footer-social-btn w-[38px] h-[38px] rounded-[10px] bg-surface2 border border-border-p flex items-center justify-center text-gray-500 no-underline" aria-label="Instagram">
+            <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </a>
+          <a href="#" class="footer-social-btn w-[38px] h-[38px] rounded-[10px] bg-surface2 border border-border-p flex items-center justify-center text-gray-500 no-underline" aria-label="LinkedIn">
+            <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Platform -->
+      <div>
+        <div class="font-display font-bold text-[0.8rem] uppercase tracking-[0.12em] text-[#0d0d12] mb-4">Platform</div>
+        <a href="/item_listing/"       class="footer-link block mb-2.5 text-sm text-gray-400 no-underline">Browse Items</a>
+        <a href="{% url 'register' %}" class="footer-link block mb-2.5 text-sm text-gray-400 no-underline">List Your Item</a>
+        <a href="/trust/"              class="footer-link block mb-2.5 text-sm text-gray-400 no-underline">Trust & Safety</a>
+        <a href="#"                    class="footer-link block mb-2.5 text-sm text-gray-400 no-underline">How It Works</a>
+      </div>
+
+      <!-- Company -->
+      <div>
+        <div class="font-display font-bold text-[0.8rem] uppercase tracking-[0.12em] text-[#0d0d12] mb-4">Company</div>
+        <a href="#" class="footer-link block mb-2.5 text-sm text-gray-400 no-underline">About Us</a>
+        <a href="#" class="footer-link block mb-2.5 text-sm text-gray-400 no-underline">Careers</a>
+        <a href="#" class="footer-link block mb-2.5 text-sm text-gray-400 no-underline">Blog</a>
+        <a href="#" class="footer-link block mb-2.5 text-sm text-gray-400 no-underline">Contact</a>
+      </div>
+
+      <!-- Legal -->
+      <div>
+        <div class="font-display font-bold text-[0.8rem] uppercase tracking-[0.12em] text-[#0d0d12] mb-4">Legal</div>
+        <a href="#" class="footer-link block mb-2.5 text-sm text-gray-400 no-underline">Terms of Service</a>
+        <a href="#" class="footer-link block mb-2.5 text-sm text-gray-400 no-underline">Privacy Policy</a>
+        <a href="#" class="footer-link block mb-2.5 text-sm text-gray-400 no-underline">Cookie Policy</a>
+        <a href="#" class="footer-link block mb-2.5 text-sm text-gray-400 no-underline">Insurance</a>
+      </div>
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 flex-wrap">
+      <span class="text-[0.8rem] text-gray-400">© 2026 Borrow Box — All rights reserved.</span>
+      <div class="flex items-center gap-2">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-surface2 border border-border-p rounded-full text-[0.73rem] font-semibold text-primary">
+          <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Secure Platform
+        </span>
+        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-surface2 border border-border-p rounded-full text-[0.73rem] font-semibold text-primary">
+          <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="1"/></svg>
+          Trusted Payments
+        </span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ── Loader ── */
+(function(){
+  const fill=document.getElementById('loader-fill'),loader=document.getElementById('bb-loader'),seen=sessionStorage.getItem('bb_seen');
+  if(!seen||location.pathname==='/'){
+    let p=0;const iv=setInterval(()=>{p=Math.min(p+Math.random()*20,88);if(fill)fill.style.width=p+'%';},110);
+    window.addEventListener('load',()=>{clearInterval(iv);if(fill)fill.style.width='100%';setTimeout(()=>{gsap.to(loader,{opacity:0,duration:0.5,onComplete:()=>{loader.style.display='none';sessionStorage.setItem('bb_seen','1');}});},380);});
+  }else{loader.style.display='none';}
+})();
+
+/* ── Mobile hamburger ── */
+const ham=document.getElementById('bb-hamburger'),panel=document.getElementById('mobile-nav-panel');
+ham?.addEventListener('click',()=>{ham.classList.toggle('open');panel.classList.toggle('-translate-y-[110%]');panel.classList.toggle('translate-y-0');});
+panel?.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{ham.classList.remove('open');panel.classList.add('-translate-y-[110%]');panel.classList.remove('translate-y-0');}));
+
+</script>
+
+{% block extra_js %}{% endblock %}
+</body>
+</html>

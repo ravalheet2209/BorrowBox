@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+{% block title %}Cart{% endblock %}
+
+{% block content %}
+
+<section class="max-w-6xl mx-auto px-6 py-14">
+
+  <h1 class="text-3xl font-bold mb-10">Your Cart</h1>
+
+  <div class="grid lg:grid-cols-3 gap-10">
+
+    <!-- LEFT: ITEMS -->
+    <div class="lg:col-span-2 space-y-6">
+
+      {% for booking in bookings %}
+      <div class="bg-white dark:bg-surface-dark p-6 rounded-2xl shadow flex gap-6">
+
+        <img src="{{ booking.item.image.url }}"
+             class="h-28 w-28 rounded-xl object-cover">
+
+        <div class="flex-1">
+
+          <h3 class="font-semibold text-lg">
+            {{ booking.item.title }}
+          </h3>
+
+          <p class="text-sm text-slate-500 mb-3">
+            {{ booking.item.location }}
+          </p>
+
+          <div class="flex gap-6 text-sm">
+            <p>From: {{ booking.start_date }}</p>
+            <p>To: {{ booking.end_date }}</p>
+          </div>
+
+        </div>
+
+        <div class="text-right">
+          <p class="font-bold text-primary text-lg">
+            ₹{{ booking.total_price }}
+          </p>
+
+          <a href="{% url 'remove' booking.id %}"
+             class="text-sm text-red-500 mt-2 block">
+            Remove
+          </a>
+        </div>
+
+      </div>
+      {% empty %}
+      <p>Your cart is empty.</p>
+      {% endfor %}
+
+    </div>
+
+
+    <!-- RIGHT: SUMMARY -->
+    <div>
+
+      <div class="bg-white dark:bg-surface-dark p-8 rounded-2xl shadow sticky top-24">
+
+        <h2 class="text-xl font-bold mb-6">Order Summary</h2>
+
+        <div class="space-y-3 text-sm">
+
+          <div class="flex justify-between">
+            <span>Subtotal</span>
+            <span>₹{{ subtotal }}</span>
+          </div>
+
+          <div class="flex justify-between">
+            <span>Service fee</span>
+            <span>₹{{ service_fee }}</span>
+          </div>
+
+          <div class="border-t pt-4 flex justify-between font-bold text-lg">
+            <span>Total</span>
+            <span class="text-primary">₹{{ total }}</span>
+          </div>
+
+        </div>
+
+        {% if needs_deposit %}
+        <div class="mt-8 bg-red-50 border border-red-200 rounded-xl p-4 text-center">
+            <p class="text-[0.8rem] text-red-600 font-bold mb-1">Insufficient Security Deposit</p>
+            <p class="text-[0.7rem] text-red-500 mb-4">You need ₹{{ required_deposit }} deposit for this rental, but you only have ₹{{ current_deposit }}. Please add ₹{{ deficit }} to proceed.</p>
+            
+            <form id="deposit-form" action="{% url 'adpanel:add_deposit' %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{% url 'cart' %}">
+                <input type="hidden" id="deposit-amount" name="amount" value="{{ deficit }}">
+                <button id="rzp-button-deposit-cart" type="button" class="w-full bg-red-600 text-white text-center py-2.5 rounded-lg font-bold hover:bg-red-700 transition-all text-sm shadow">
+                  Add ₹{{ deficit }} to Deposit
+                </button>
+            </form>
+        </div>
+
+        <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+        <script>
+        document.getElementById('rzp-button-deposit-cart').onclick = function(e){
+            e.preventDefault();
+            const amountInPaise = parseInt(parseFloat("{{ deficit }}") * 100);
+            const options = {
+                "key": "rzp_test_bilBagOBVTi4lE",
+                "amount": amountInPaise,
+                "currency": "INR",
+                "name": "Borrow Box",
+                "description": "Add Security Deposit",
+                "handler": function (response){
+                    document.getElementById('deposit-form').submit();
+                },
+                "prefill": {
+                    "name": "{{ request.user.first_name }}",
+                    "email": "{{ request.user.email }}",
+                    "contact": "{{ request.user.profile.phone }}" && "{{ request.user.profile.phone }}" !== "None" ? "{{ request.user.profile.phone }}" : "9000090000"
+                },
+                "theme": {
+                    "color": "#ef4444"
+                }
+            };
+            const rzp1 = new Razorpay(options);
+            rzp1.open();
+        }
+        </script>
+        {% elif needs_id_proof %}
+        <div class="mt-8 bg-amber-50 border border-amber-200 rounded-xl p-4 text-center">
+            <p class="text-[0.8rem] text-amber-600 font-bold mb-1">ID Proof Required</p>
+            <p class="text-[0.7rem] text-amber-500 mb-4">Please upload your ID proof in your profile before you can rent items.</p>
+            <a href="{% url 'adpanel:profile' %}" class="block w-full bg-amber-600 text-white text-center py-2.5 rounded-lg font-bold hover:bg-amber-700 transition-all text-sm shadow no-underline">
+              Go to Profile
+            </a>
+        </div>
+        {% else %}
+        <form id="checkout-form" action="{% url 'checkout' %}" method="POST">
+            {% csrf_token %}
+            <button id="rzp-button-checkout" type="button"
+               class="block w-full mt-8 bg-primary text-white text-center py-3 rounded-xl font-bold hover:bg-primary-hover shadow-[0_4px_14px_rgba(109,40,217,0.25)] transition-all">
+              Proceed to Checkout
+            </button>
+        </form>
+        <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+        <script>
+        document.getElementById('rzp-button-checkout').onclick = function(e){
+            e.preventDefault();
+            const amountInPaise = parseInt(parseFloat("{{ total }}") * 100);
+            const options = {
+                "key": "rzp_test_bilBagOBVTi4lE",
+                "amount": amountInPaise,
+                "currency": "INR",
+                "name": "Borrow Box",
+                "description": "Cart Checkout",
+                "handler": function (response){
+                    document.getElementById('checkout-form').submit();
+                },
+                "prefill": {
+                    "name": "{{ request.user.first_name }}",
+                    "email": "{{ request.user.email }}",
+                    "contact": "{{ request.user.profile.phone }}" && "{{ request.user.profile.phone }}" !== "None" ? "{{ request.user.profile.phone }}" : "9000090000"
+                },
+                "theme": {
+                    "color": "#6d28d9"
+                }
+            };
+            const rzp1 = new Razorpay(options);
+            rzp1.open();
+        }
+        </script>
+        {% endif %}
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+{% endblock %}

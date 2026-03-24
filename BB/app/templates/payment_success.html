@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Payment Successful{% endblock %}
+
+{% block content %}
+
+<section class="min-h-[70vh] flex items-center justify-center px-6 py-20">
+
+  <div class="bg-white dark:bg-surface-dark p-12 rounded-2xl shadow-xl text-center max-w-lg w-full">
+
+    <!-- ICON -->
+    <div class="mb-6">
+      <span class="material-symbols-outlined text-green-500 text-6xl">
+        check_circle
+      </span>
+    </div>
+
+    <!-- TITLE -->
+    <h1 class="text-3xl font-bold mb-4">
+      Payment Successful 🎉
+    </h1>
+
+    <p class="text-slate-500 mb-8">
+      Your booking has been confirmed successfully.
+      You can view booking details in your dashboard.
+    </p>
+
+    <!-- ACTIONS -->
+    <div class="flex flex-col gap-4">
+
+      <a href="/browse/"
+         class="bg-primary text-white py-3 rounded-xl font-bold hover:bg-primary-hover transition">
+        Browse More Items
+      </a>
+
+      <a href="/dashboard/"
+         class="border border-slate-300 py-3 rounded-xl font-semibold hover:bg-gray-100 dark:hover:bg-slate-800 transition">
+        Go to Dashboard
+      </a>
+
+    </div>
+
+  </div>
+
+</section>
+
+{% endblock %}

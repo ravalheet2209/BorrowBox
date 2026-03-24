@@ -1,0 +1,60 @@
+{% extends "base_dashboard.html" %}
+{% block page_title %}Categories{% endblock %}
+
+{% block content %}
+
+<!-- Add Category Form -->
+<div class="bg-white border border-[#ede9fe] rounded-[22px] shadow-[0_2px_12px_rgba(109,40,217,0.05)] overflow-hidden mb-7">
+  <div class="px-7 py-5 border-b border-[#f1f5f9] flex items-center gap-2.5">
+    <div class="w-8 h-8 rounded-xl bg-amber-50 flex items-center justify-center">
+      <span class="material-symbols-outlined text-[1rem] text-amber-500">add_circle</span>
+    </div>
+    <h2 class="font-display font-bold text-[1rem] text-[#0d0d12]">Add New Category</h2>
+  </div>
+  <div class="px-7 py-5">
+    <form method="POST" action="{% url 'adpanel:add_category' %}" class="flex flex-col sm:flex-row gap-3 max-w-lg">
+      {% csrf_token %}
+      <div class="flex-1 relative">
+        <span class="absolute left-3.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-[0.95rem] text-gray-400">category</span>
+        <input name="name" placeholder="Category name (e.g. Cameras, Drones...)"
+          class="w-full bg-[#fafafa] border-[1.5px] border-slate-200 rounded-xl pl-9 pr-4 py-2.5 font-body text-[0.9rem] text-[#0d0d12] outline-none focus:border-primary focus:bg-white transition-colors placeholder-gray-300" required>
+      </div>
+      <button class="inline-flex items-center gap-2 px-6 py-2.5 bg-primary hover:bg-primary-d text-white rounded-xl font-display font-bold text-[0.88rem] shadow-[0_4px_14px_rgba(109,40,217,0.22)] hover:shadow-[0_6px_18px_rgba(109,40,217,0.32)] hover:-translate-y-px transition-all">
+        <span class="material-symbols-outlined text-[1rem]">add</span> Add Category
+      </button>
+    </form>
+  </div>
+</div>
+
+<!-- Category Grid -->
+{% if categories %}
+<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+  {% for category in categories %}
+  <div class="cat-card bg-white border border-[#ede9fe] rounded-[20px] p-5 text-center shadow-[0_2px_8px_rgba(109,40,217,0.05)] hover:shadow-[0_8px_24px_rgba(109,40,217,0.1)] hover:-translate-y-1 transition-all group">
+    <div class="w-14 h-14 bg-gradient-to-br from-[#f0ebff] to-[#ddd6fe] rounded-full flex items-center justify-center mx-auto font-display font-extrabold text-[1.4rem] text-primary mb-3 group-hover:from-[#e0d9ff] group-hover:to-[#c4b5fd] transition-all">
+      {{ category.name|first|upper }}
+    </div>
+    <h3 class="font-display font-bold text-[0.9rem] text-[#0d0d12] mb-1 truncate">{{ category.name }}</h3>
+    <p class="text-[0.72rem] text-gray-400">{{ category.items.count|default:"0" }} items</p>
+    <div class="mt-4 pt-3 border-t border-[#f8f5ff]">
+      <a href="{% url 'adpanel:delete_category' category.id %}"
+         onclick="return confirm('Delete \'{{ category.name }}\'? All items in this category may be affected.')"
+         class="inline-flex items-center gap-1 text-[0.75rem] font-semibold text-red-400 hover:text-red-600 no-underline transition-colors">
+        <span class="material-symbols-outlined text-[0.85rem]">delete</span> Delete
+      </a>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% else %}
+<div class="bg-white border border-[#ede9fe] rounded-[22px] shadow-[0_2px_12px_rgba(109,40,217,0.05)] flex flex-col items-center justify-center py-20 text-center">
+  <div class="w-16 h-16 rounded-[20px] bg-surface2 border border-border-p flex items-center justify-center mb-4">
+    <span class="material-symbols-outlined text-[2rem] text-[#c4b5fd]">category</span>
+  </div>
+  <div class="font-display font-bold text-[0.95rem] text-[#0d0d12] mb-1.5">No categories yet</div>
+  <p class="text-[0.82rem] text-gray-400">Add your first category using the form above.</p>
+</div>
+{% endif %}
+
+{% endblock %}

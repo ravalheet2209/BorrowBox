@@ -1,0 +1,254 @@
+{% extends "base.html" %}
+{% block title %}Browse Rentals — Borrow Box{% endblock %}
+
+{% block extra_css %}
+<style>
+/* Only pseudo-elements and third-party sort-select arrow */
+.sort-select-wrap { position:relative; }
+.sort-select-wrap::after { content:'expand_more'; font-family:'Material Symbols Outlined'; position:absolute; right:10px; top:50%; transform:translateY(-50%); font-size:1rem; color:#9ca3af; pointer-events:none; }
+.item-card:hover .item-img { transform:scale(1.07); }
+.item-img { transition:transform .55s ease; }
+.wish-btn.active .wish-icon { color:#ef4444; font-variation-settings:"'FILL' 1"; }
+.cat-check-label:has(input:checked) { background:#f0ebff; }
+.filter-link:hover { color:#6d28d9; padding-left:4px; }
+.filter-link { transition:color 0.2s, padding-left 0.2s; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-[#fafafa]" data-scroll-section>
+
+  <!-- ══ BANNER ══ -->
+  <div class="relative bg-white border-b border-slate-100 py-9 pb-7 overflow-hidden">
+    <!-- Dot grid bg -->
+    <div class="absolute inset-0 opacity-40" style="background-image:radial-gradient(circle,#ddd6fe 1px,transparent 1px);background-size:24px 24px;"></div>
+    <!-- Blob accent -->
+    <div class="absolute -top-16 -right-16 w-[280px] h-[280px] rounded-full opacity-90" style="background:radial-gradient(circle,rgba(109,40,217,.09) 0%,transparent 70%);"></div>
+
+    <div class="relative z-10 max-w-[1280px] mx-auto px-8">
+      <div class="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-[#f0ebff] border border-[#ddd6fe] rounded-full text-[0.7rem] font-bold text-primary uppercase tracking-[0.12em] mb-3" id="browse-eyebrow">
+        <span class="material-symbols-outlined text-[0.8rem]">inventory_2</span> Marketplace
+      </div>
+      <h1 id="browse-title" class="font-display font-extrabold tracking-[-0.03em] text-[#0d0d12] leading-[1.15]" style="font-size:clamp(1.6rem,3vw,2.2rem);">Browse Rentals</h1>
+      <p id="browse-sub" class="text-[0.9rem] text-gray-400 mt-1.5">Discover thousands of items available to rent near you.</p>
+
+      <form method="GET" id="browse-search-row" class="flex gap-2.5 mt-5 max-w-[580px]">
+        <div class="flex-1 flex items-center gap-2 bg-white border-[1.5px] border-slate-200 rounded-[13px] px-3.5 shadow-[0_2px_10px_rgba(0,0,0,.04)] focus-within:border-primary focus-within:shadow-[0_0_0_3px_rgba(109,40,217,.08)] transition-all">
+          <span class="material-symbols-outlined text-[#c4b5fd] text-[1.1rem]">search</span>
+          <input name="q" value="{{ request.GET.q }}" placeholder="Search items, brands, categories..." autocomplete="off"
+                 class="flex-1 border-none outline-none bg-transparent font-body text-[0.9rem] text-[#0d0d12] placeholder-[#c4b5fd] py-3">
+        </div>
+        <button class="px-5 py-3 bg-primary hover:bg-primary-d text-white rounded-[11px] font-display font-bold text-[0.88rem] shadow-[0_4px_14px_rgba(109,40,217,.28)] hover:shadow-[0_6px_20px_rgba(109,40,217,.38)] hover:-translate-y-px transition-all" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ══ LAYOUT ══ -->
+  <div class="max-w-[1280px] mx-auto px-8 py-8 pb-16 grid grid-cols-1 lg:grid-cols-[264px_1fr] gap-7 items-start">
+
+    <!-- ── SIDEBAR ── -->
+    <aside>
+      <!-- Mobile toggle -->
+      <button id="mobile-filter-btn" class="lg:hidden flex items-center gap-2 px-[18px] py-2.5 bg-white text-primary border-[1.5px] border-[#ede9fe] rounded-[11px] font-display font-semibold text-[0.875rem] mb-3 hover:bg-surface2 transition-colors">
+        <span class="material-symbols-outlined text-base">tune</span> Filters
+      </button>
+
+      <div id="filter-panel" class="hidden ml-[-25%]  lg:block bg-white border border-slate-100 rounded-[20px] overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,.04)] sticky top-[88px]">
+        <!-- Header -->
+        <div class="flex items-center justify-between px-5 py-[18px] border-b border-slate-100">
+          <div class="flex items-center gap-1.5 font-display font-bold text-[0.95rem] text-[#0d0d12]">
+            <span class="material-symbols-outlined text-[1.1rem] text-primary">tune</span> Filters
+          </div>
+          <a href="{% url 'item_listing' %}" class="text-[0.78rem] font-semibold text-primary px-2.5 py-1 rounded-md hover:bg-surface2 transition-colors no-underline">Clear all</a>
+        </div>
+
+        <form method="GET" id="filter-form" class="px-5 pb-5">
+          <!-- Categories -->
+          <div class="py-[18px] border-b border-slate-100">
+            <div class="font-display font-bold text-[0.82rem] uppercase tracking-[0.1em] text-gray-400 mb-3.5">Category</div>
+            {% for cat in categories %}
+            <label class="cat-check-label flex items-center gap-2.5 px-2.5 py-2 rounded-[10px] cursor-pointer mb-1 hover:bg-[#f0ebff] transition-colors">
+              <input type="checkbox" name="category" value="{{ cat.id }}"
+                {% if cat.id|stringformat:"s" in request.GET.category %}checked{% endif %}
+                class="w-4 h-4 rounded-[5px] border-gray-300 cursor-pointer accent-primary">
+              <span class="flex-1 text-[0.875rem] text-gray-600">{{ cat.name }}</span>
+              <span class="text-[0.72rem] text-gray-400 bg-slate-100 px-1.5 py-0.5 rounded-full">{{ cat.item_count|default:"0" }}</span>
+            </label>
+            {% empty %}
+            <p class="text-[0.82rem] text-gray-400">No categories found.</p>
+            {% endfor %}
+          </div>
+
+          <!-- Price -->
+          <div class="py-[18px] border-b border-slate-100">
+            <div class="font-display font-bold text-[0.82rem] uppercase tracking-[0.1em] text-gray-400 mb-3.5">Price per Day (₹)</div>
+            <div class="flex items-center gap-2">
+              <input class="flex-1 w-8 px-3 py-2.5 bg-[#fafafa] border-[1.5px] border-slate-200 rounded-[10px] font-body text-[0.875rem] text-[#0d0d12] outline-none focus:border-primary transition-colors" name="min_price" placeholder="Min" value="{{ request.GET.min_price }}">
+              <span class="text-[0.85rem] text-gray-400 shrink-0">—</span>
+              <input class="flex-1  w-8 px-3 py-2.5 bg-[#fafafa] border-[1.5px] border-slate-200 rounded-[10px] font-body text-[0.875rem] text-[#0d0d12] outline-none focus:border-primary transition-colors" name="max_price" placeholder="Max" value="{{ request.GET.max_price }}">
+            </div>
+          </div>
+
+          <!-- Location -->
+          <div class="py-[18px]">
+            <div class="font-display font-bold text-[0.82rem] uppercase tracking-[0.1em] text-gray-400 mb-3.5">Location</div>
+            <div class="flex items-center gap-2 bg-[#fafafa] border-[1.5px] border-slate-200 rounded-[10px] px-3 focus-within:border-primary transition-colors">
+              <span class="material-symbols-outlined text-base text-gray-400">location_on</span>
+              <input class="flex-1 py-2.5 bg-transparent border-none outline-none font-body text-[0.875rem] text-[#0d0d12] placeholder-gray-300" name="location" placeholder="City or area..." value="{{ request.GET.location }}">
+            </div>
+          </div>
+
+          <button class="w-full py-3 bg-primary hover:bg-primary-d text-white rounded-xl font-display font-bold text-[0.9rem] mt-2 shadow-[0_4px_14px_rgba(109,40,217,.25)] hover:shadow-[0_6px_20px_rgba(109,40,217,.35)] hover:-translate-y-px transition-all" type="submit">Apply Filters</button>
+        </form>
+      </div>
+    </aside>
+
+    <!-- ── MAIN ── -->
+    <div>
+
+      <!-- Topbar -->
+      <div id="listing-topbar" class="flex items-center justify-between flex-wrap gap-3 bg-white border border-slate-100 rounded-2xl px-[18px] py-3.5 mb-5 shadow-[0_1px_4px_rgba(0,0,0,.03)]">
+        <div>
+          <div class="font-display font-bold text-[0.95rem] text-[#0d0d12]">
+            <span class="text-primary">{{ items.paginator.count }}</span> items found
+          </div>
+          {% if request.GET.q %}<div class="text-[0.8rem] text-gray-400 mt-0.5">Results for "<strong class="text-[#0d0d12]">{{ request.GET.q }}</strong>"</div>{% endif %}
+        </div>
+        <div class="flex items-center gap-2.5">
+          <form method="GET" id="sort-form" class="flex items-center gap-2">
+            <input type="hidden" name="q" value="{{ request.GET.q }}">
+            <input type="hidden" name="location" value="{{ request.GET.location }}">
+            <div class="sort-select-wrap">
+              <select name="sort" class="appearance-none pr-9 pl-3.5 py-2 bg-[#fafafa] border-[1.5px] border-slate-200 rounded-[10px] font-body text-[0.85rem] font-medium text-[#0d0d12] cursor-pointer outline-none focus:border-primary transition-colors" onchange="document.getElementById('sort-form').submit()">
+                <option value="">Sort by</option>
+                <option value="low"  {% if request.GET.sort == 'low' %}selected{% endif %}>Price: Low → High</option>
+                <option value="high" {% if request.GET.sort == 'high' %}selected{% endif %}>Price: High → Low</option>
+                <option value="new"  {% if request.GET.sort == 'new' %}selected{% endif %}>Newest First</option>
+              </select>
+            </div>
+          </form>
+          <!-- View toggle -->
+          <div class="flex gap-1 bg-[#fafafa] border border-slate-200 rounded-[10px] p-1">
+            <button id="grid-view-btn" class="w-8 h-8 rounded-[7px] flex items-center justify-center bg-primary text-white transition-colors" title="Grid view">
+              <span class="material-symbols-outlined text-[1.05rem]">grid_view</span>
+            </button>
+            <button id="list-view-btn" class="w-8 h-8 rounded-[7px] flex items-center justify-center text-gray-400 hover:bg-surface2 transition-colors" title="List view">
+              <span class="material-symbols-outlined text-[1.05rem]">view_list</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Items grid -->
+      <div id="items-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[18px]">
+
+        {% for item in items %}
+        <div class="item-card group bg-white border border-slate-100 rounded-[20px] overflow-hidden shadow-[0_2px_8px_rgba(0,0,0,.04)] transition-all duration-[350ms] hover:-translate-y-1.5 hover:shadow-[0_20px_44px_rgba(0,0,0,.10)] flex flex-col item-anim">
+          <div class="relative overflow-hidden bg-[#f0ebff]" style="aspect-ratio:4/3;">
+            <a href="{% url 'product' item.id %}">
+              {% if item.image %}<img class="item-img w-full h-full object-cover" src="{{ item.image.url }}" alt="{{ item.title }}">
+              {% else %}<div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-[#f0ebff] to-[#ddd6fe]"><span class="material-symbols-outlined text-5xl text-[#c4b5fd]">image</span></div>{% endif %}
+            </a>
+            <!-- Category badge -->
+            <div class="absolute top-2.5 left-2.5 bg-white/90 backdrop-blur px-2.5 py-1 rounded-full text-[0.65rem] font-bold uppercase tracking-[0.1em] text-primary">{{ item.category.name }}</div>
+            <!-- Price pill -->
+            <div class="absolute bottom-2.5 left-2.5 bg-white px-2.5 py-1.5 rounded-full font-display font-extrabold text-[0.82rem] text-[#0d0d12] shadow-[0_2px_10px_rgba(0,0,0,.1)]">
+              <sup class="text-[0.58rem] font-semibold text-primary align-super">₹</sup>{{ item.price_per_day }}<sub class="text-[0.6rem] font-normal text-gray-400">/day</sub>
+            </div>
+            <!-- Wishlist -->
+            <button class="wish-btn absolute top-2.5 right-2.5 w-8 h-8 bg-white/88 backdrop-blur rounded-full flex items-center justify-center shadow-[0_2px_8px_rgba(0,0,0,.08)] border-none cursor-pointer hover:bg-white hover:scale-110 transition-all">
+              <span class="wish-icon material-symbols-outlined text-base text-gray-300">favorite</span>
+            </button>
+          </div>
+          <div class="p-4 flex flex-col flex-1">
+            <div class="flex items-center justify-between mb-1.5">
+              <div class="flex items-center gap-0.5 text-[0.77rem] text-gray-400">
+                <span class="material-symbols-outlined text-[0.85rem]">location_on</span>{{ item.location|default:"—" }}
+              </div>
+              <div class="flex items-center gap-px text-amber-500">
+                {% for i in "12345"|make_list %}
+                <span class="material-symbols-outlined text-[0.7rem]" style="font-variation-settings:'FILL' {% if item.rating|default:5 >= forloop.counter %}1{% else %}0{% endif %};">star</span>
+                {% endfor %}
+                <span class="text-[0.67rem] font-bold ml-1 text-gray-400">({{ item.reviews.count|default:"0" }})</span>
+              </div>
+            </div>
+            <a href="{% url 'product' item.id %}" class="font-display font-bold text-[0.95rem] text-[#0d0d12] truncate mb-1 no-underline hover:text-primary transition-colors">{{ item.title }}</a>
+            <p class="text-[0.8rem] text-gray-400 leading-[1.6] mb-2.5 line-clamp-2">{{ item.description|truncatechars:75 }}</p>
+            <div class="flex items-center justify-between mt-auto pt-3 border-t border-slate-50">
+              <div class="flex items-center gap-1.5 min-w-0">
+                <div class="w-6 h-6 rounded-full shrink-0 bg-gradient-to-br from-primary to-indigo-500 flex items-center justify-center text-[0.6rem] font-extrabold text-white">{{ item.owner.username|first|upper }}</div>
+                <span class="text-[0.77rem] text-gray-400 truncate">{{ item.owner.username }}</span>
+              </div>
+              <a href="{% url 'product' item.id %}" class="shrink-0 px-4 py-2 bg-primary hover:bg-primary-d text-white rounded-[10px] font-display font-bold text-[0.79rem] no-underline transition-all hover:-translate-y-px hover:shadow-[0_4px_12px_rgba(109,40,217,.3)]">Rent Now</a>
+            </div>
+          </div>
+        </div>
+        {% empty %}
+        <div class="col-span-full text-center py-16 px-5">
+          <div class="w-20 h-20 rounded-[22px] bg-surface2 flex items-center justify-center mx-auto mb-5">
+            <span class="material-symbols-outlined text-[2.2rem] text-[#c4b5fd]">search_off</span>
+          </div>
+          <div class="font-display font-bold text-[1.15rem] text-[#0d0d12] mb-2">No items found</div>
+          <p class="text-[0.875rem] text-gray-400">Try adjusting your filters or search query.</p>
+        </div>
+        {% endfor %}
+
+      </div>
+
+      <!-- Pagination -->
+      {% if items.has_other_pages %}
+      <div id="pagination-wrap" class="flex items-center justify-center gap-2 mt-9 flex-wrap">
+        {% if items.has_previous %}
+        <a href="?page={{ items.previous_page_number }}&q={{ request.GET.q }}&sort={{ request.GET.sort }}"
+           class="w-[38px] h-[38px] flex items-center justify-center rounded-[10px] bg-white border-[1.5px] border-slate-200 text-gray-600 no-underline hover:bg-surface2 hover:text-primary hover:border-border-p hover:-translate-y-px transition-all">
+          <span class="material-symbols-outlined text-[1.1rem]">chevron_left</span>
+        </a>
+        {% endif %}
+        {% for num in items.paginator.page_range %}
+          {% if items.number == num %}
+          <span class="w-[38px] h-[38px] flex items-center justify-center rounded-[10px] bg-primary text-white font-display font-semibold text-[0.875rem] shadow-[0_4px_12px_rgba(109,40,217,.3)]">{{ num }}</span>
+          {% elif num > items.number|add:'-3' and num < items.number|add:'3' %}
+          <a href="?page={{ num }}&q={{ request.GET.q }}&sort={{ request.GET.sort }}"
+             class="w-[38px] h-[38px] flex items-center justify-center rounded-[10px] bg-white border-[1.5px] border-slate-200 text-gray-600 font-display font-semibold text-[0.875rem] no-underline hover:bg-surface2 hover:text-primary hover:border-border-p hover:-translate-y-px transition-all">{{ num }}</a>
+          {% endif %}
+        {% endfor %}
+        {% if items.has_next %}
+        <a href="?page={{ items.next_page_number }}&q={{ request.GET.q }}&sort={{ request.GET.sort }}"
+           class="w-[38px] h-[38px] flex items-center justify-center rounded-[10px] bg-white border-[1.5px] border-slate-200 text-gray-600 no-underline hover:bg-surface2 hover:text-primary hover:border-border-p hover:-translate-y-px transition-all">
+          <span class="material-symbols-outlined text-[1.1rem]">chevron_right</span>
+        </a>
+        {% endif %}
+      </div>
+      {% endif %}
+
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+/* Wishlist */
+document.querySelectorAll('.wish-btn').forEach(btn=>{
+  btn.addEventListener('click',e=>{e.preventDefault();btn.classList.toggle('active');});
+});
+
+/* View toggle */
+const gridBtn=document.getElementById('grid-view-btn'),listBtn=document.getElementById('list-view-btn'),grid=document.getElementById('items-grid');
+gridBtn?.addEventListener('click',()=>{
+  grid.classList.remove('grid-cols-1');grid.classList.add('sm:grid-cols-2','lg:grid-cols-3');
+  gridBtn.classList.add('bg-primary','text-white');gridBtn.classList.remove('text-gray-400');
+  listBtn.classList.remove('bg-primary','text-white');listBtn.classList.add('text-gray-400');
+});
+listBtn?.addEventListener('click',()=>{
+  grid.classList.add('grid-cols-1');grid.classList.remove('sm:grid-cols-2','lg:grid-cols-3');
+  listBtn.classList.add('bg-primary','text-white');listBtn.classList.remove('text-gray-400');
+  gridBtn.classList.remove('bg-primary','text-white');gridBtn.classList.add('text-gray-400');
+});
+
+/* Mobile filter toggle */
+document.getElementById('mobile-filter-btn')?.addEventListener('click',()=>{
+  document.getElementById('filter-panel').classList.toggle('hidden');
+});
+</script>
+{% endblock %}

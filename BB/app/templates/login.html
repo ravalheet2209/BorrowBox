@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+{% block title %}Sign In — Borrow Box{% endblock %}
+
+{% block extra_css %}
+<style>
+@keyframes blobA { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(30px,20px) scale(1.06)} }
+@keyframes blobB { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-20px,-30px) scale(1.04)} }
+.blob-a { animation: blobA 14s ease-in-out infinite; }
+.blob-b { animation: blobB 18s ease-in-out infinite; }
+
+/* Input focus glow */
+.auth-input:focus { border-color:#6d28d9; box-shadow:0 0 0 3px rgba(109,40,217,0.1); background:#fff; }
+.auth-input { transition: border-color 0.2s, box-shadow 0.2s, background 0.2s; }
+
+/* Password toggle */
+.pw-toggle { transition: color 0.15s; }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="relative min-h-screen bg-[#fafafa] flex items-center justify-center px-4 py-16 overflow-hidden">
+
+  <!-- Background blobs -->
+  <div class="blob-a pointer-events-none absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full opacity-100" style="background:radial-gradient(circle,rgba(109,40,217,.09) 0%,transparent 70%);filter:blur(2px);"></div>
+  <div class="blob-b pointer-events-none absolute -bottom-24 -right-24 w-[420px] h-[420px] rounded-full" style="background:radial-gradient(circle,rgba(99,102,241,.07) 0%,transparent 70%);filter:blur(2px);"></div>
+  <!-- Dot grid -->
+  <div class="pointer-events-none absolute inset-0 opacity-40" style="background-image:radial-gradient(circle,#ddd6fe 1px,transparent 1px);background-size:28px 28px;"></div>
+
+  <div class="relative z-10 w-full max-w-[420px]" id="auth-card">
+
+    <!-- Logo -->
+    <div class="flex flex-col items-center mb-8">
+      <a href="/" class="flex items-center gap-2.5 no-underline group mb-6">
+        <div class="w-11 h-11 bg-primary rounded-[13px] flex items-center justify-center shadow-[0_6px_20px_rgba(109,40,217,0.3)] group-hover:shadow-[0_8px_28px_rgba(109,40,217,0.45)] transition-shadow">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/>
+            <path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/>
+          </svg>
+        </div>
+        <span class="font-display font-extrabold text-[1.25rem] text-[#0d0d12] tracking-[-0.02em]">Borrow Box</span>
+      </a>
+      <h1 class="font-display font-extrabold text-[1.75rem] text-[#0d0d12] tracking-[-0.03em] text-center">Welcome back</h1>
+      <p class="text-[0.875rem] text-gray-500 mt-1.5 text-center">Sign in to your account to continue</p>
+    </div>
+
+    <!-- Card -->
+    <div class="bg-white border border-[#ede9fe] rounded-[24px] shadow-[0_8px_40px_rgba(109,40,217,0.09),0_2px_12px_rgba(0,0,0,0.04)] p-8">
+
+      <form method="POST" action="{% url 'login' %}" class="flex flex-col gap-4">
+        {% csrf_token %}
+
+        <!-- Username -->
+        <div>
+          <label class="block font-body font-semibold text-[0.75rem] text-gray-500 uppercase tracking-[0.08em] mb-1.5">Username</label>
+          <div class="relative">
+            <span class="absolute left-3.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-[1rem] text-gray-400 pointer-events-none">person</span>
+            <input
+              type="text"
+              name="username"
+              placeholder="Enter your username"
+              required
+              autocomplete="username"
+              class="auth-input w-full bg-[#fafafa] border-[1.5px] border-slate-200 rounded-[13px] pl-10 pr-4 py-3 font-body text-[0.9rem] text-[#0d0d12] outline-none placeholder-gray-300"
+            >
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div>
+          <div class="flex items-center justify-between mb-1.5">
+            <label class="font-body font-semibold text-[0.75rem] text-gray-500 uppercase tracking-[0.08em]">Password</label>
+            <a href="#" class="text-[0.75rem] font-semibold text-primary no-underline hover:text-primary-d transition-colors">Forgot password?</a>
+          </div>
+          <div class="relative">
+            <span class="absolute left-3.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-[1rem] text-gray-400 pointer-events-none">lock</span>
+            <input
+              type="password"
+              name="password"
+              id="pw-field"
+              placeholder="Enter your password"
+              required
+              autocomplete="current-password"
+              class="auth-input w-full bg-[#fafafa] border-[1.5px] border-slate-200 rounded-[13px] pl-10 pr-12 py-3 font-body text-[0.9rem] text-[#0d0d12] outline-none placeholder-gray-300"
+            >
+            <button type="button" id="pw-toggle" class="pw-toggle absolute right-3.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-[1rem] text-gray-400 hover:text-primary bg-transparent border-none cursor-pointer p-0">visibility</button>
+          </div>
+        </div>
+
+        <!-- Error -->
+        {% if form.errors %}
+        <div class="flex items-center gap-2 bg-red-50 border border-red-200 rounded-xl px-3.5 py-2.5">
+          <span class="material-symbols-outlined text-[1rem] text-red-500 shrink-0">error</span>
+          <p class="text-[0.82rem] font-medium text-red-600">Invalid username or password. Please try again.</p>
+        </div>
+        {% endif %}
+
+        <!-- Submit -->
+        <button
+          type="submit"
+          class="w-full flex items-center justify-center gap-2 py-3.5 mt-1 bg-primary hover:bg-primary-d text-white rounded-[13px] font-display font-bold text-[0.95rem] shadow-[0_4px_16px_rgba(109,40,217,0.28)] hover:shadow-[0_6px_22px_rgba(109,40,217,0.38)] hover:-translate-y-px transition-all"
+        >
+          <span class="material-symbols-outlined text-[1.05rem]">login</span>
+          Sign In
+        </button>
+
+      </form>
+
+      <!-- Divider -->
+      <div class="flex items-center gap-3 my-5">
+        <div class="flex-1 h-px bg-slate-100"></div>
+        <span class="text-[0.73rem] font-semibold text-gray-400 uppercase tracking-[0.1em]">or</span>
+        <div class="flex-1 h-px bg-slate-100"></div>
+      </div>
+
+      <!-- Google Sign In Button -->
+      <a href="#" class="w-full mb-6 flex items-center justify-center gap-2.5 py-3.5 bg-white border border-slate-200 hover:border-slate-300 hover:bg-[#fafafa] text-[#0d0d12] rounded-[13px] font-display font-bold text-[0.95rem] transition-all no-underline shadow-sm hover:shadow">
+        <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" class="w-5 h-5">
+        Continue with Google
+      </a>
+
+      <!-- Sign up link -->
+      <p class="text-center text-[0.875rem] text-gray-500">
+        Don't have an account?
+        <a href="{% url 'register' %}" class="font-semibold text-primary hover:text-primary-d no-underline transition-colors">Create one free</a>
+      </p>
+
+    </div>
+
+    <!-- Trust row -->
+    <div class="flex items-center justify-center gap-5 mt-6">
+      <div class="flex items-center gap-1.5 text-[0.72rem] text-gray-400">
+        <span class="material-symbols-outlined text-[0.85rem] text-green-500">verified_user</span> Secure login
+      </div>
+      <div class="flex items-center gap-1.5 text-[0.72rem] text-gray-400">
+        <span class="material-symbols-outlined text-[0.85rem] text-green-500">lock</span> Encrypted
+      </div>
+      <div class="flex items-center gap-1.5 text-[0.72rem] text-gray-400">
+        <span class="material-symbols-outlined text-[0.85rem] text-green-500">shield</span> Private
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+/* Card entrance */
+gsap.from('#auth-card', { opacity:0, y:32, duration:0.7, ease:'power3.out', delay:0.1 });
+gsap.from('#auth-card > *', { opacity:0, y:16, duration:0.55, stagger:0.1, ease:'power3.out', delay:0.2 });
+
+/* Password toggle */
+const pwField  = document.getElementById('pw-field');
+const pwToggle = document.getElementById('pw-toggle');
+if (pwField && pwToggle) {
+  pwToggle.addEventListener('click', () => {
+    const isText = pwField.type === 'text';
+    pwField.type = isText ? 'password' : 'text';
+    pwToggle.textContent = isText ? 'visibility' : 'visibility_off';
+    pwToggle.style.color = isText ? '' : '#6d28d9';
+  });
+}
+</script>
+{% endblock %}

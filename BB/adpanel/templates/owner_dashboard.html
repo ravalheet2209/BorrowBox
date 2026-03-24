@@ -1,0 +1,167 @@
+{% extends "base_dashboard.html" %}
+{% block page_title %}Seller Dashboard{% endblock %}
+
+{% block content %}
+
+<!-- ── Stat Cards ── -->
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 mb-8" id="seller-stats">
+
+  <!-- Total Items -->
+  <div class="bg-white border border-[#ede9fe] rounded-[20px] p-5 shadow-[0_2px_12px_rgba(109,40,217,0.05)] hover:shadow-[0_6px_24px_rgba(109,40,217,0.1)] transition-shadow stat-card">
+    <div class="flex items-center justify-between mb-4">
+      <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+        <span class="material-symbols-outlined text-[1.2rem] text-primary">inventory_2</span>
+      </div>
+      <span class="text-[0.7rem] font-bold text-primary bg-[#f0ebff] px-2 py-0.5 rounded-full">Listed</span>
+    </div>
+    <div class="font-display font-extrabold text-[1.9rem] text-[#0d0d12] tracking-[-0.02em] leading-none">{{ total_items }}</div>
+    <div class="text-[0.8rem] text-gray-400 mt-1.5">Total Items</div>
+  </div>
+
+  <!-- Total Bookings -->
+  <div class="bg-white border border-[#ede9fe] rounded-[20px] p-5 shadow-[0_2px_12px_rgba(109,40,217,0.05)] hover:shadow-[0_6px_24px_rgba(109,40,217,0.1)] transition-shadow stat-card">
+    <div class="flex items-center justify-between mb-4">
+      <div class="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center">
+        <span class="material-symbols-outlined text-[1.2rem] text-indigo-500">receipt_long</span>
+      </div>
+      <span class="text-[0.7rem] font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-full">All time</span>
+    </div>
+    <div class="font-display font-extrabold text-[1.9rem] text-[#0d0d12] tracking-[-0.02em] leading-none">{{ total_bookings }}</div>
+    <div class="text-[0.8rem] text-gray-400 mt-1.5">Total Bookings</div>
+  </div>
+
+  <!-- Total Earnings -->
+  <div class="bg-gradient-to-br from-primary to-primary-l border-0 rounded-[20px] p-5 shadow-[0_4px_20px_rgba(109,40,217,0.3)] stat-card">
+    <div class="flex items-center justify-between mb-4">
+      <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
+        <span class="material-symbols-outlined text-[1.2rem] text-white">payments</span>
+      </div>
+      <span class="text-[0.7rem] font-bold text-white/70 bg-white/15 px-2 py-0.5 rounded-full">Revenue</span>
+    </div>
+    <div class="font-display font-extrabold text-[1.9rem] text-white tracking-[-0.02em] leading-none">₹{{ total_earnings }}</div>
+    <div class="text-[0.8rem] text-white/60 mt-1.5">Total Earnings</div>
+  </div>
+
+  <!-- Active Orders -->
+  <div class="bg-white border border-[#ede9fe] rounded-[20px] p-5 shadow-[0_2px_12px_rgba(109,40,217,0.05)] hover:shadow-[0_6px_24px_rgba(109,40,217,0.1)] transition-shadow stat-card">
+    <div class="flex items-center justify-between mb-4">
+      <div class="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center">
+        <span class="material-symbols-outlined text-[1.2rem] text-green-500">local_shipping</span>
+      </div>
+      <span class="inline-flex items-center gap-1 text-[0.7rem] font-bold text-green-600 bg-green-50 px-2 py-0.5 rounded-full">
+        <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse inline-block"></span> Live
+      </span>
+    </div>
+    <div class="font-display font-extrabold text-[1.9rem] text-[#0d0d12] tracking-[-0.02em] leading-none">{{ active_orders }}</div>
+    <div class="text-[0.8rem] text-gray-400 mt-1.5">Active Orders</div>
+  </div>
+
+</div>
+
+<!-- ── Quick actions ── -->
+<div class="flex flex-wrap gap-3 mb-8">
+  <a href="{% url 'adpanel:add_item' %}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-white rounded-xl font-display font-bold text-[0.85rem] no-underline hover:bg-primary-d transition-all shadow-[0_4px_14px_rgba(109,40,217,0.25)] hover:shadow-[0_6px_20px_rgba(109,40,217,0.35)] hover:-translate-y-px">
+    <span class="material-symbols-outlined text-[1rem]">add_circle</span> Add New Item
+  </a>
+  <a href="{% url 'adpanel:my_items' %}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-primary border border-border-p rounded-xl font-display font-bold text-[0.85rem] no-underline hover:bg-surface2 transition-all">
+    <span class="material-symbols-outlined text-[1rem]">inventory_2</span> Manage Items
+  </a>
+</div>
+
+<!-- ── Recent Bookings ── -->
+<div class="bg-white border border-[#ede9fe] rounded-[22px] shadow-[0_2px_12px_rgba(109,40,217,0.05)] overflow-hidden">
+
+  <div class="flex items-center justify-between px-6 py-5 border-b border-[#f1f5f9]">
+    <div>
+      <h3 class="font-display font-bold text-[1rem] text-[#0d0d12]">Recent Bookings</h3>
+      <p class="text-[0.78rem] text-gray-400 mt-0.5">Orders placed by renters on your items</p>
+    </div>
+    <div class="w-8 h-8 rounded-xl bg-surface2 border border-border-p flex items-center justify-center">
+      <span class="material-symbols-outlined text-[1rem] text-primary">receipt_long</span>
+    </div>
+  </div>
+
+  {% if bookings %}
+  <div class="divide-y divide-[#f8f5ff]">
+    {% for booking in bookings %}
+    <div class="flex items-center gap-4 px-6 py-4 hover:bg-[#faf8ff] transition-colors booking-row">
+
+      <!-- Avatar -->
+      <div class="w-9 h-9 rounded-full bg-gradient-to-br from-primary to-indigo-500 flex items-center justify-center text-[0.68rem] font-extrabold text-white font-display shrink-0">
+        {{ booking.user.username|first|upper }}
+      </div>
+
+      <!-- Info -->
+      <div class="flex-1 min-w-0">
+        <div class="font-display font-semibold text-[0.9rem] text-[#0d0d12] truncate">{{ booking.item.title }}</div>
+        <div class="flex items-center gap-2 mt-0.5 flex-wrap">
+          <span class="flex items-center gap-1 text-[0.72rem] text-gray-400">
+            <span class="material-symbols-outlined text-[0.78rem]">person</span>{{ booking.user.username }}
+          </span>
+          <span class="text-gray-300">·</span>
+          <span class="flex items-center gap-1 text-[0.72rem] text-gray-400">
+            <span class="material-symbols-outlined text-[0.78rem]">calendar_today</span>
+            {{ booking.start_date }} → {{ booking.end_date }}
+          </span>
+        </div>
+        <div class="flex items-center gap-2 mt-1 flex-wrap">
+          {% if booking.user.profile.phone %}
+          <span class="flex items-center gap-1 text-[0.72rem] text-gray-500">
+            <span class="material-symbols-outlined text-[0.78rem]">call</span>{{ booking.user.profile.phone }}
+          </span>
+          {% endif %}
+          
+          {% if booking.user.profile.id_number %}
+          <span class="text-gray-300">·</span>
+          <span class="flex items-center gap-1 text-[0.72rem] text-gray-500">
+            <span class="material-symbols-outlined text-[0.78rem]">badge</span>{{ booking.user.profile.mask_id_number }}
+          </span>
+          {% endif %}
+          
+          {% if booking.user.profile.id_proof %}
+          <span class="text-gray-300">·</span>
+          <a href="{{ booking.user.profile.id_proof.url }}" target="_blank" class="flex items-center gap-1 text-[0.72rem] text-primary hover:underline">
+            <span class="material-symbols-outlined text-[0.78rem]">visibility</span>View ID Proof
+          </a>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Price + Status -->
+      <div class="text-right shrink-0">
+        <div class="font-display font-bold text-[0.95rem] text-[#0d0d12]">₹{{ booking.total_price }}</div>
+        <div class="mt-1">
+          {% if booking.status == 'active' or booking.status == 'approved' %}
+          <span class="inline-flex items-center gap-1 text-[0.65rem] font-bold text-green-600 bg-green-50 px-2 py-0.5 rounded-full">
+            <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>{{ booking.status|title }}
+          </span>
+          {% elif booking.status == 'pending' %}
+          <span class="inline-flex items-center gap-1 text-[0.65rem] font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full">
+            <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>Pending
+          </span>
+          {% elif booking.status == 'returned' or booking.status == 'completed' %}
+          <span class="inline-flex items-center gap-1 text-[0.65rem] font-bold text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">
+            <span class="material-symbols-outlined text-[0.7rem]">check_circle</span>{{ booking.status|title }}
+          </span>
+          {% else %}
+          <span class="text-[0.65rem] font-bold text-primary bg-surface2 px-2 py-0.5 rounded-full">{{ booking.status|title }}</span>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  {% else %}
+  <div class="flex flex-col items-center justify-center py-20 px-6 text-center">
+    <div class="w-16 h-16 rounded-[20px] bg-surface2 border border-border-p flex items-center justify-center mb-4">
+      <span class="material-symbols-outlined text-[2rem] text-[#c4b5fd]">receipt_long</span>
+    </div>
+    <div class="font-display font-bold text-[0.95rem] text-[#0d0d12] mb-1.5">No bookings yet</div>
+    <p class="text-[0.82rem] text-gray-400 max-w-[240px]">Once renters book your items, orders will appear here.</p>
+  </div>
+  {% endif %}
+
+</div>
+
+{% endblock %}
