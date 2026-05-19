@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% block title %}Complete Signup — Borrow Box{% endblock %}
+
+{% block extra_css %}
+<style>
+@keyframes blobA { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(30px,20px) scale(1.06)} }
+@keyframes blobB { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-20px,-30px) scale(1.04)} }
+.blob-a { animation: blobA 14s ease-in-out infinite; }
+.blob-b { animation: blobB 18s ease-in-out infinite; }
+
+#auth-card form input {
+  width: 100%;
+  background-color: #fafafa;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 13px;
+  padding: 0.75rem 1rem;
+  font-family: inherit;
+  font-size: 0.9rem;
+  color: #0d0d12;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+  margin-top: 0.375rem;
+}
+#auth-card form input:focus {
+  border-color: #6d28d9;
+  box-shadow: 0 0 0 3px rgba(109,40,217,0.1);
+  background: #fff;
+}
+#auth-card form ul.errorlist {
+  color: #dc2626;
+  font-size: 0.82rem;
+  font-weight: 500;
+  margin-top: 0.25rem;
+  padding-left: 0;
+  list-style: none;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="relative min-h-screen bg-[#fafafa] flex items-center justify-center px-4 py-16 overflow-hidden">
+
+  <!-- Background -->
+  <div class="blob-a pointer-events-none absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full" style="background:radial-gradient(circle,rgba(109,40,217,.09) 0%,transparent 70%);filter:blur(2px);"></div>
+  <div class="blob-b pointer-events-none absolute -bottom-24 -right-24 w-[420px] h-[420px] rounded-full" style="background:radial-gradient(circle,rgba(99,102,241,.07) 0%,transparent 70%);filter:blur(2px);"></div>
+  <div class="pointer-events-none absolute inset-0 opacity-40" style="background-image:radial-gradient(circle,#ddd6fe 1px,transparent 1px);background-size:28px 28px;"></div>
+
+  <div class="relative z-10 w-full max-w-[460px]" id="auth-card">
+
+    <!-- Logo -->
+    <div class="flex flex-col items-center mb-8">
+      <a href="/" class="flex items-center gap-2.5 no-underline group mb-6">
+        <div class="w-11 h-11 bg-primary rounded-[13px] flex items-center justify-center shadow-[0_6px_20px_rgba(109,40,217,0.3)] group-hover:shadow-[0_8px_28px_rgba(109,40,217,0.45)] transition-shadow">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/>
+            <path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/>
+          </svg>
+        </div>
+        <span class="font-display font-extrabold text-[1.25rem] text-[#0d0d12] tracking-[-0.02em]">Borrow Box</span>
+      </a>
+      <h1 class="font-display font-extrabold text-[1.75rem] text-[#0d0d12] tracking-[-0.03em] text-center">Almost there</h1>
+      <p class="text-[0.875rem] text-gray-500 mt-1.5 text-center">Please choose your username to finish signing up.</p>
+    </div>
+
+    <!-- Card -->
+    <div class="bg-white border border-[#ede9fe] rounded-[24px] shadow-[0_8px_40px_rgba(109,40,217,0.09),0_2px_12px_rgba(0,0,0,0.04)] p-8">
+
+      <form class="signup" id="signup_form" method="post" action="{% url 'socialaccount_signup' %}" class="flex flex-col gap-4">
+        {% csrf_token %}
+
+        {% for field in form.hidden_fields %}
+          {{ field }}
+        {% endfor %}
+
+        {% for field in form.visible_fields %}
+          <div class="mb-4">
+            <label class="block font-body font-semibold text-[0.75rem] text-gray-500 uppercase tracking-[0.08em]" for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}
+              {{ field.errors }}
+            {% endif %}
+            {% if field.help_text %}
+              <p class="text-[0.7rem] text-gray-400 mt-1">{{ field.help_text }}</p>
+            {% endif %}
+          </div>
+        {% endfor %}
+
+        <!-- Error messages -->
+        {% if form.non_field_errors %}
+        <div class="flex items-start gap-2 bg-red-50 border border-red-200 rounded-xl px-3.5 py-2.5 mb-4">
+          <span class="material-symbols-outlined text-[1rem] text-red-500 shrink-0 mt-0.5">error</span>
+          <div>
+              {% for error in form.non_field_errors %}
+              <p class="text-[0.82rem] font-medium text-red-600">{{ error }}</p>
+              {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+
+        <!-- Terms note -->
+        <p class="text-[0.75rem] text-gray-400 leading-relaxed mb-4">
+          By signing up you agree to our
+          <a href="#" class="text-primary font-semibold no-underline hover:text-primary-d transition-colors">Terms of Service</a> and
+          <a href="#" class="text-primary font-semibold no-underline hover:text-primary-d transition-colors">Privacy Policy</a>.
+        </p>
+
+        <!-- Submit -->
+        <button
+          type="submit"
+          class="w-full flex items-center justify-center gap-2 py-3.5 mt-1 bg-primary hover:bg-primary-d text-white rounded-[13px] font-display font-bold text-[0.95rem] shadow-[0_4px_16px_rgba(109,40,217,0.28)] hover:shadow-[0_6px_22px_rgba(109,40,217,0.38)] hover:-translate-y-px transition-all"
+        >
+          <span class="material-symbols-outlined text-[1.05rem]">check_circle</span>
+          Complete Signup
+        </button>
+
+      </form>
+
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}

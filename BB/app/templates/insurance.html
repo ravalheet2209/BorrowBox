@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% block title %}Item Insurance — Borrow Box{% endblock %}
+
+{% block content %}
+
+<!-- Hero -->
+<section class="relative bg-gradient-to-br from-[#f9f5ff] via-white to-[#fff9f0] overflow-hidden py-28">
+  <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl -translate-y-36 translate-x-36 pointer-events-none"></div>
+  <div class="relative max-w-3xl mx-auto px-6 text-center">
+    <span class="inline-flex items-center gap-2 px-4 py-1.5 bg-green-500/10 border border-green-500/20 rounded-full text-xs font-semibold text-green-700 uppercase tracking-widest mb-6">
+      <span class="material-symbols-outlined text-[1rem]">health_and_safety</span>
+      Protection Coverage
+    </span>
+    <h1 class="font-display font-extrabold text-[3rem] md:text-[4rem] text-[#0d0d12] leading-[1.08] tracking-[-0.03em] mb-6">
+      Your Items Are<br>
+      <span class="bg-gradient-to-r from-primary to-green-500 bg-clip-text text-transparent">Protected</span>
+    </h1>
+    <p class="text-gray-500 text-lg leading-relaxed max-w-xl mx-auto">
+      Borrow Box includes basic item protection on every verified rental — so owners can lend with confidence and renters can use without fear.
+    </p>
+  </div>
+</section>
+
+<!-- Coverage Cards -->
+<section class="py-20 bg-white">
+  <div class="max-w-5xl mx-auto px-6">
+    <h2 class="font-display font-extrabold text-[2.2rem] text-[#0d0d12] tracking-[-0.03em] text-center mb-14">What's Covered</h2>
+    <div class="grid md:grid-cols-3 gap-6">
+
+      <div class="p-8 rounded-3xl border-2 border-green-500/20 bg-green-500/5 text-center hover:shadow-lg transition-all">
+        <span class="material-symbols-outlined text-green-600 text-[2.5rem] block mb-4">verified_user</span>
+        <h3 class="font-display font-bold text-lg text-[#0d0d12] mb-2">Accidental Damage</h3>
+        <p class="text-gray-500 text-sm leading-relaxed">Unintentional damage during a verified rental period is covered up to ₹5,000 per incident, subject to assessment.</p>
+        <div class="mt-4 text-green-600 font-display font-bold text-lg">Up to ₹5,000</div>
+      </div>
+
+      <div class="p-8 rounded-3xl border-2 border-primary/20 bg-primary/5 text-center hover:shadow-lg transition-all">
+        <span class="material-symbols-outlined text-primary text-[2.5rem] block mb-4">search</span>
+        <h3 class="font-display font-bold text-lg text-[#0d0d12] mb-2">Loss Investigation</h3>
+        <p class="text-gray-500 text-sm leading-relaxed">If an item is not returned, our team conducts a full investigation and mediates using the renter's security deposit and ID.</p>
+        <div class="mt-4 text-primary font-display font-bold text-lg">Full Mediation</div>
+      </div>
+
+      <div class="p-8 rounded-3xl border-2 border-accent/20 bg-accent/5 text-center hover:shadow-lg transition-all">
+        <span class="material-symbols-outlined text-accent text-[2.5rem] block mb-4">support_agent</span>
+        <h3 class="font-display font-bold text-lg text-[#0d0d12] mb-2">Dispute Support</h3>
+        <p class="text-gray-500 text-sm leading-relaxed">Dedicated dispute resolution team available 6 days a week. Most cases resolved within 48 business hours.</p>
+        <div class="mt-4 text-accent font-display font-bold text-lg">48hr Resolution</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- What's not covered -->
+<section class="py-16 bg-[#f9f5ff]">
+  <div class="max-w-4xl mx-auto px-6">
+    <div class="grid md:grid-cols-2 gap-10">
+      <div>
+        <h2 class="font-display font-bold text-xl text-[#0d0d12] mb-6 flex items-center gap-2">
+          <span class="material-symbols-outlined text-green-600">check_circle</span> Covered
+        </h2>
+        <ul class="space-y-3">
+          <li class="flex items-start gap-3 text-sm text-gray-600"><span class="material-symbols-outlined text-green-500 text-[1rem] shrink-0 mt-0.5">check</span> Accidental damage during rental period</li>
+          <li class="flex items-start gap-3 text-sm text-gray-600"><span class="material-symbols-outlined text-green-500 text-[1rem] shrink-0 mt-0.5">check</span> Item malfunction not caused by the renter</li>
+          <li class="flex items-start gap-3 text-sm text-gray-600"><span class="material-symbols-outlined text-green-500 text-[1rem] shrink-0 mt-0.5">check</span> Non-return with confirmed booking & ID</li>
+          <li class="flex items-start gap-3 text-sm text-gray-600"><span class="material-symbols-outlined text-green-500 text-[1rem] shrink-0 mt-0.5">check</span> Third-party liability mediation</li>
+          <li class="flex items-start gap-3 text-sm text-gray-600"><span class="material-symbols-outlined text-green-500 text-[1rem] shrink-0 mt-0.5">check</span> Items with verified bookings only</li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="font-display font-bold text-xl text-[#0d0d12] mb-6 flex items-center gap-2">
+          <span class="material-symbols-outlined text-red-500">cancel</span> Not Covered
+        </h2>
+        <ul class="space-y-3">
+          <li class="flex items-start gap-3 text-sm text-gray-600"><span class="material-symbols-outlined text-red-400 text-[1rem] shrink-0 mt-0.5">close</span> Intentional damage or theft</li>
+          <li class="flex items-start gap-3 text-sm text-gray-600"><span class="material-symbols-outlined text-red-400 text-[1rem] shrink-0 mt-0.5">close</span> Normal wear and tear</li>
+          <li class="flex items-start gap-3 text-sm text-gray-600"><span class="material-symbols-outlined text-red-400 text-[1rem] shrink-0 mt-0.5">close</span> Damage after the rental period ends</li>
+          <li class="flex items-start gap-3 text-sm text-gray-600"><span class="material-symbols-outlined text-red-400 text-[1rem] shrink-0 mt-0.5">close</span> Pre-existing damage not documented before rental</li>
+          <li class="flex items-start gap-3 text-sm text-gray-600"><span class="material-symbols-outlined text-red-400 text-[1rem] shrink-0 mt-0.5">close</span> Off-platform or unverified transactions</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- How to file a claim -->
+<section class="py-20 bg-white">
+  <div class="max-w-4xl mx-auto px-6">
+    <h2 class="font-display font-extrabold text-[2.2rem] text-[#0d0d12] tracking-[-0.03em] text-center mb-12">How to File a Claim</h2>
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="text-center">
+        <div class="w-14 h-14 rounded-full bg-primary flex items-center justify-center text-white font-display font-extrabold text-xl mx-auto mb-4">1</div>
+        <h3 class="font-display font-bold text-[#0d0d12] mb-2">Document the Issue</h3>
+        <p class="text-gray-500 text-sm">Take clear photos or videos of the damage / issue as soon as you discover it.</p>
+      </div>
+      <div class="text-center">
+        <div class="w-14 h-14 rounded-full bg-primary flex items-center justify-center text-white font-display font-extrabold text-xl mx-auto mb-4">2</div>
+        <h3 class="font-display font-bold text-[#0d0d12] mb-2">Contact Support</h3>
+        <p class="text-gray-500 text-sm">Email <a href="mailto:claims@borrowbox.in" class="text-primary hover:underline">claims@borrowbox.in</a> within 24 hours of the incident with photos and your booking ID.</p>
+      </div>
+      <div class="text-center">
+        <div class="w-14 h-14 rounded-full bg-green-600 flex items-center justify-center text-white font-display font-extrabold text-xl mx-auto mb-4">3</div>
+        <h3 class="font-display font-bold text-[#0d0d12] mb-2">Receive Resolution</h3>
+        <p class="text-gray-500 text-sm">Our team reviews the case and provides a fair resolution within 48 business hours.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="py-16 bg-gradient-to-r from-green-600 to-primary">
+  <div class="max-w-3xl mx-auto px-6 text-center">
+    <h2 class="font-display font-extrabold text-[2rem] text-white tracking-[-0.03em] mb-4">Rent with Confidence</h2>
+    <p class="text-white/70 mb-7">Every booking on Borrow Box includes basic protection. Start renting today.</p>
+    <a href="{% url 'item_listing' %}" class="inline-block px-10 py-3.5 bg-white text-primary font-display font-bold rounded-full hover:shadow-xl hover:-translate-y-1 transition-all no-underline">Browse Items</a>
+  </div>
+</section>
+
+{% endblock %}

@@ -1,6 +1,49 @@
 {% extends "base_dashboard.html" %}
 {% block page_title %}Seller Dashboard{% endblock %}
 
+{% block extra_css %}
+<style>
+@media (max-width: 639px) {
+  .booking-row { flex-wrap: wrap; gap: 8px; }
+  .booking-row .price-right { flex: 1 1 100%; display: flex; align-items: center; justify-content: space-between; padding-top: 4px; border-top: 1px solid #f8f5ff; }
+}
+
+/* Wallet Modal */
+#withdrawModal {
+  display: none;
+  position: fixed; inset: 0; z-index: 9999;
+  background: rgba(13,13,18,0.55);
+  backdrop-filter: blur(4px);
+  align-items: flex-start; justify-content: center;
+  padding-top: 12vh;
+}
+#withdrawModal.open { display: flex; }
+#withdrawModal .modal-box {
+  background: #fff;
+  border-radius: 24px;
+  width: min(480px, 95vw);
+  padding: 2rem;
+  box-shadow: 0 24px 60px rgba(109,40,217,0.18);
+  animation: slideDown 0.25s ease-out;
+}
+@keyframes slideDown {
+  from { opacity:0; transform:translateY(-24px); }
+  to   { opacity:1; transform:translateY(0);    }
+}
+
+/* Pill tabs */
+.tab-pill { cursor:pointer; padding:0.35rem 1rem; border-radius:999px; font-size:0.78rem; font-weight:700; color:#6b7280; background:transparent; transition:all .15s; border:none; }
+.tab-pill.active { background:#ede9fe; color:#6d28d9; }
+.tab-pane { display:none; }
+.tab-pane.active { display:block; }
+
+/* Status badge helpers */
+.badge-pending  { background:#fef3c7; color:#d97706; }
+.badge-approved { background:#d1fae5; color:#059669; }
+.badge-rejected { background:#fee2e2; color:#dc2626; }
+</style>
+{% endblock %}
+
 {% block content %}
 
 <!-- ── Stat Cards ── -->
@@ -58,6 +101,44 @@
 
 </div>
 
+<!-- ── Wallet Balance Card ── -->
+<div class="bg-gradient-to-br from-emerald-500 to-teal-600 rounded-[22px] p-6 mb-8 shadow-[0_6px_28px_rgba(16,185,129,0.3)] relative overflow-hidden" id="seller-wallet">
+
+  <!-- decorative circles -->
+  <div class="absolute -top-8 -right-8 w-40 h-40 rounded-full bg-white/10"></div>
+  <div class="absolute -bottom-10 -left-6 w-32 h-32 rounded-full bg-white/10"></div>
+
+  <div class="relative z-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5">
+
+    <div>
+      <div class="flex items-center gap-2 mb-1">
+        <div class="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center">
+          <span class="material-symbols-outlined text-white text-[1.1rem]">account_balance_wallet</span>
+        </div>
+        <span class="text-[0.78rem] font-bold text-white/70 uppercase tracking-wider">Seller Wallet</span>
+      </div>
+      <div class="font-display font-extrabold text-[2.4rem] text-white tracking-[-0.03em] leading-none mt-2">
+        ₹{{ wallet_balance|floatformat:2 }}
+      </div>
+      <div class="text-[0.8rem] text-white/60 mt-1">Available for withdrawal</div>
+    </div>
+
+    <div class="flex flex-col gap-2 sm:items-end">
+      <button onclick="document.getElementById('withdrawModal').classList.add('open')"
+        {% if wallet_balance <= 0 %}disabled title="No balance to withdraw"{% endif %}
+        class="inline-flex items-center gap-2 px-6 py-2.5 bg-white text-emerald-700 rounded-xl font-display font-bold text-[0.85rem] shadow hover:bg-emerald-50 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+        id="open-withdraw-modal-btn">
+        <span class="material-symbols-outlined text-[1rem]">arrow_upward</span>
+        Withdraw Funds
+      </button>
+      <p class="text-[0.72rem] text-white/50 sm:text-right">
+        Funds are credited when you mark a booking as returned.
+      </p>
+    </div>
+
+  </div>
+</div>
+
 <!-- ── Quick actions ── -->
 <div class="flex flex-wrap gap-3 mb-8">
   <a href="{% url 'adpanel:add_item' %}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-white rounded-xl font-display font-bold text-[0.85rem] no-underline hover:bg-primary-d transition-all shadow-[0_4px_14px_rgba(109,40,217,0.25)] hover:shadow-[0_6px_20px_rgba(109,40,217,0.35)] hover:-translate-y-px">
@@ -69,7 +150,7 @@
 </div>
 
 <!-- ── Recent Bookings ── -->
-<div class="bg-white border border-[#ede9fe] rounded-[22px] shadow-[0_2px_12px_rgba(109,40,217,0.05)] overflow-hidden">
+<div class="bg-white border border-[#ede9fe] rounded-[22px] shadow-[0_2px_12px_rgba(109,40,217,0.05)] overflow-hidden mb-8">
 
   <div class="flex items-center justify-between px-6 py-5 border-b border-[#f1f5f9]">
     <div>
@@ -84,7 +165,7 @@
   {% if bookings %}
   <div class="divide-y divide-[#f8f5ff]">
     {% for booking in bookings %}
-    <div class="flex items-center gap-4 px-6 py-4 hover:bg-[#faf8ff] transition-colors booking-row">
+    <div class="flex items-center gap-3 sm:gap-4 px-4 sm:px-6 py-4 hover:bg-[#faf8ff] transition-colors booking-row">
 
       <!-- Avatar -->
       <div class="w-9 h-9 rounded-full bg-gradient-to-br from-primary to-indigo-500 flex items-center justify-center text-[0.68rem] font-extrabold text-white font-display shrink-0">
@@ -110,14 +191,12 @@
             <span class="material-symbols-outlined text-[0.78rem]">call</span>{{ booking.user.profile.phone }}
           </span>
           {% endif %}
-          
           {% if booking.user.profile.id_number %}
           <span class="text-gray-300">·</span>
           <span class="flex items-center gap-1 text-[0.72rem] text-gray-500">
             <span class="material-symbols-outlined text-[0.78rem]">badge</span>{{ booking.user.profile.mask_id_number }}
           </span>
           {% endif %}
-          
           {% if booking.user.profile.id_proof %}
           <span class="text-gray-300">·</span>
           <a href="{{ booking.user.profile.id_proof.url }}" target="_blank" class="flex items-center gap-1 text-[0.72rem] text-primary hover:underline">
@@ -128,10 +207,19 @@
       </div>
 
       <!-- Price + Status -->
-      <div class="text-right shrink-0">
-        <div class="font-display font-bold text-[0.95rem] text-[#0d0d12]">₹{{ booking.total_price }}</div>
+      <div class="text-right shrink-0 price-right">
+        <div class="font-display font-bold text-[0.9rem] sm:text-[0.95rem] text-[#0d0d12]">&#8377;{{ booking.total_price }}</div>
         <div class="mt-1">
-          {% if booking.status == 'active' or booking.status == 'approved' %}
+          {% if booking.status == 'confirmed' %}
+          <span class="inline-flex items-center gap-1 text-[0.65rem] font-bold text-green-600 bg-green-50 px-2 py-0.5 rounded-full">
+            <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>{{ booking.status|title }}
+          </span>
+          <div class="mt-2">
+            <a href="{% url 'adpanel:confirm_return' booking.id %}" class="inline-flex items-center gap-1 text-[0.7rem] bg-indigo-600 text-white px-2 py-1 rounded hover:bg-indigo-700 transition-colors shadow-sm">
+              <span class="material-symbols-outlined text-[0.8rem]">check</span> Mark Returned
+            </a>
+          </div>
+          {% elif booking.status == 'active' or booking.status == 'approved' %}
           <span class="inline-flex items-center gap-1 text-[0.65rem] font-bold text-green-600 bg-green-50 px-2 py-0.5 rounded-full">
             <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>{{ booking.status|title }}
           </span>
@@ -164,4 +252,174 @@
 
 </div>
 
+<!-- ── Withdrawal History ── -->
+<div class="bg-white border border-[#ede9fe] rounded-[22px] shadow-[0_2px_12px_rgba(109,40,217,0.05)] overflow-hidden" id="withdrawal-history">
+
+  <div class="flex items-center justify-between px-6 py-5 border-b border-[#f1f5f9]">
+    <div>
+      <h3 class="font-display font-bold text-[1rem] text-[#0d0d12]">Withdrawal History</h3>
+      <p class="text-[0.78rem] text-gray-400 mt-0.5">Track your payout requests</p>
+    </div>
+    <div class="w-8 h-8 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center">
+      <span class="material-symbols-outlined text-[1rem] text-emerald-600">account_balance</span>
+    </div>
+  </div>
+
+  {% if withdrawal_history %}
+  <div class="divide-y divide-[#f8f5ff]">
+    {% for wr in withdrawal_history %}
+    <div class="flex items-center gap-4 px-6 py-4 hover:bg-[#fafff9] transition-colors">
+      <div class="w-9 h-9 rounded-full bg-emerald-50 flex items-center justify-center shrink-0">
+        <span class="material-symbols-outlined text-[1rem] text-emerald-600">arrow_upward</span>
+      </div>
+      <div class="flex-1 min-w-0">
+        <div class="font-display font-semibold text-[0.88rem] text-[#0d0d12]">₹{{ wr.amount|floatformat:2 }}</div>
+        <div class="flex items-center gap-2 flex-wrap mt-0.5">
+          {% if wr.upi_id %}
+          <span class="flex items-center gap-1 text-[0.72rem] text-gray-400">
+            <span class="material-symbols-outlined text-[0.75rem]">qr_code</span>{{ wr.upi_id }}
+          </span>
+          {% endif %}
+          {% if wr.bank_account %}
+          <span class="flex items-center gap-1 text-[0.72rem] text-gray-400">
+            <span class="material-symbols-outlined text-[0.75rem]">account_balance</span>{{ wr.bank_account }}
+          </span>
+          {% endif %}
+          <span class="text-gray-300">·</span>
+          <span class="text-[0.72rem] text-gray-400">{{ wr.requested_at|date:"d M Y, H:i" }}</span>
+        </div>
+      </div>
+      <div>
+        <span class="inline-flex items-center gap-1 text-[0.68rem] font-bold px-2.5 py-1 rounded-full
+          {% if wr.status == 'pending' %}badge-pending{% elif wr.status == 'approved' %}badge-approved{% else %}badge-rejected{% endif %}">
+          {% if wr.status == 'pending' %}
+            <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse inline-block"></span>
+          {% elif wr.status == 'approved' %}
+            <span class="material-symbols-outlined text-[0.7rem]">check_circle</span>
+          {% else %}
+            <span class="material-symbols-outlined text-[0.7rem]">cancel</span>
+          {% endif %}
+          {{ wr.status|title }}
+        </span>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="flex flex-col items-center justify-center py-16 px-6 text-center">
+    <div class="w-14 h-14 rounded-[18px] bg-emerald-50 border border-emerald-100 flex items-center justify-center mb-3">
+      <span class="material-symbols-outlined text-[1.8rem] text-emerald-300">account_balance</span>
+    </div>
+    <div class="font-display font-bold text-[0.9rem] text-[#0d0d12] mb-1">No withdrawals yet</div>
+    <p class="text-[0.8rem] text-gray-400 max-w-[220px]">Mark a booking as returned and funds will appear in your wallet.</p>
+  </div>
+  {% endif %}
+
+</div>
+
+
+<!-- ══════════════════════════════════════
+     WITHDRAW MODAL
+════════════════════════════════════════ -->
+<div id="withdrawModal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal-box">
+
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-6">
+      <div>
+        <h2 class="font-display font-bold text-[1.1rem] text-[#0d0d12]" id="modal-title">Withdraw Earnings</h2>
+        <p class="text-[0.78rem] text-gray-400 mt-0.5">Available: <strong class="text-emerald-600">₹{{ wallet_balance|floatformat:2 }}</strong></p>
+      </div>
+      <button onclick="document.getElementById('withdrawModal').classList.remove('open')"
+        class="w-8 h-8 rounded-lg bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors" id="close-withdraw-modal-btn">
+        <span class="material-symbols-outlined text-[1rem] text-gray-500">close</span>
+      </button>
+    </div>
+
+    <form method="POST" action="{% url 'adpanel:withdraw_earnings' %}">
+      {% csrf_token %}
+
+      <!-- Amount -->
+      <div class="mb-4">
+        <label class="block text-[0.8rem] font-bold text-[#0d0d12] mb-1.5" for="withdraw-amount">Amount (₹)</label>
+        <div class="relative">
+          <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 font-bold">₹</span>
+          <input type="number" name="amount" id="withdraw-amount"
+            min="1" max="{{ wallet_balance }}" step="0.01" required
+            placeholder="Enter amount"
+            class="w-full pl-8 pr-4 py-2.5 border border-gray-200 rounded-xl text-[0.88rem] focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 transition-all">
+        </div>
+        <button type="button" onclick="document.getElementById('withdraw-amount').value='{{ wallet_balance }}'"
+          class="mt-1 text-[0.72rem] text-emerald-600 font-semibold hover:underline" id="withdraw-max-btn">
+          Withdraw Max
+        </button>
+      </div>
+
+      <!-- Payment Method Tabs -->
+      <div class="mb-4">
+        <label class="block text-[0.8rem] font-bold text-[#0d0d12] mb-2">Payment Method</label>
+        <div class="flex gap-2 mb-3">
+          <button type="button" class="tab-pill active" onclick="switchTab('upi', this)" id="tab-upi-btn">UPI</button>
+          <button type="button" class="tab-pill" onclick="switchTab('bank', this)" id="tab-bank-btn">Bank Account</button>
+        </div>
+
+        <!-- UPI Tab -->
+        <div class="tab-pane active" id="tab-upi">
+          <input type="text" name="upi_id" id="upi-id-input"
+            placeholder="yourname@upi"
+            class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-[0.88rem] focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 transition-all">
+          <p class="text-[0.72rem] text-gray-400 mt-1">e.g. 9876543210@paytm</p>
+        </div>
+
+        <!-- Bank Tab -->
+        <div class="tab-pane" id="tab-bank">
+          <input type="text" name="bank_account" id="bank-account-input"
+            placeholder="Account number or IFSC reference"
+            class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-[0.88rem] focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 transition-all">
+          <p class="text-[0.72rem] text-gray-400 mt-1">Enter your bank account number or IFSC for reference.</p>
+        </div>
+      </div>
+
+      <!-- Info note -->
+      <div class="flex gap-2 bg-amber-50 border border-amber-100 rounded-xl p-3 mb-5 text-[0.76rem] text-amber-700">
+        <span class="material-symbols-outlined text-[1rem] shrink-0 mt-0.5">info</span>
+        <span>Payouts are processed within <strong>2–3 business days</strong> after request. Your wallet will be debited immediately.</span>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex gap-3">
+        <button type="button" onclick="document.getElementById('withdrawModal').classList.remove('open')"
+          class="flex-1 py-2.5 border border-gray-200 rounded-xl font-display font-bold text-[0.85rem] text-gray-600 hover:bg-gray-50 transition-all" id="cancel-withdraw-btn">
+          Cancel
+        </button>
+        <button type="submit"
+          class="flex-1 py-2.5 bg-emerald-600 text-white rounded-xl font-display font-bold text-[0.85rem] hover:bg-emerald-700 transition-all shadow-[0_4px_14px_rgba(16,185,129,0.3)] hover:shadow-[0_6px_20px_rgba(16,185,129,0.4)]" id="submit-withdraw-btn">
+          Request Withdrawal
+        </button>
+      </div>
+    </form>
+
+  </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Tab switcher
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab-pill').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-' + name).classList.add('active');
+  // clear other tab input
+  if (name === 'upi') document.getElementById('bank-account-input').value = '';
+  else document.getElementById('upi-id-input').value = '';
+}
+
+// Close modal on backdrop click
+document.getElementById('withdrawModal').addEventListener('click', function(e) {
+  if (e.target === this) this.classList.remove('open');
+});
+</script>
 {% endblock %}

@@ -1,0 +1,222 @@
+{% extends "base.html" %}
+{% block title %}FAQ — Borrow Box{% endblock %}
+
+{% block content %}
+
+<!-- Hero -->
+<section class="relative bg-gradient-to-br from-[#f9f5ff] via-white to-white overflow-hidden py-24">
+  <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-3xl -translate-y-28 translate-x-28 pointer-events-none"></div>
+  <div class="relative max-w-3xl mx-auto px-6 text-center">
+    <span class="inline-flex items-center gap-2 px-4 py-1.5 bg-primary/10 border border-primary/20 rounded-full text-xs font-semibold text-primary uppercase tracking-widest mb-6">
+      <span class="material-symbols-outlined text-[1rem]">help</span>
+      FAQ
+    </span>
+    <h1 class="font-display font-extrabold text-[3rem] md:text-[3.8rem] text-[#0d0d12] leading-[1.08] tracking-[-0.03em] mb-4">
+      Frequently Asked<br>
+      <span class="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Questions</span>
+    </h1>
+    <p class="text-gray-500 leading-relaxed">Everything you need to know about renting and listing on Borrow Box.</p>
+  </div>
+</section>
+
+<!-- FAQ Blocks -->
+<section class="py-16 bg-white">
+  <div class="max-w-3xl mx-auto px-6">
+
+    <!-- Category: Getting Started -->
+    <div class="mb-12">
+      <div class="flex items-center gap-2 mb-6">
+        <div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+          <span class="material-symbols-outlined text-primary text-[1rem]">rocket_launch</span>
+        </div>
+        <h2 class="font-display font-bold text-lg text-[#0d0d12]">Getting Started</h2>
+      </div>
+      <div class="space-y-3" id="faq-start">
+
+        <details class="group border border-slate-100 rounded-2xl overflow-hidden cursor-pointer hover:border-primary/30 transition-colors">
+          <summary class="flex items-center justify-between px-6 py-5 font-display font-semibold text-[0.95rem] text-[#0d0d12] list-none select-none">
+            How do I create an account?
+            <span class="material-symbols-outlined text-gray-400 group-open:rotate-180 transition-transform text-[1.2rem]">expand_more</span>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-gray-500 leading-relaxed">
+            Click <strong>Get Started</strong> in the top-right corner and fill in your name, email, and password. You'll be signed in instantly. To rent, you'll also need to upload a government ID to your profile.
+          </div>
+        </details>
+
+        <details class="group border border-slate-100 rounded-2xl overflow-hidden cursor-pointer hover:border-primary/30 transition-colors">
+          <summary class="flex items-center justify-between px-6 py-5 font-display font-semibold text-[0.95rem] text-[#0d0d12] list-none select-none">
+            Do I need to verify my identity?
+            <span class="material-symbols-outlined text-gray-400 group-open:rotate-180 transition-transform text-[1.2rem]">expand_more</span>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-gray-500 leading-relaxed">
+            Yes. Before making your first booking, you must upload a valid government-issued ID (Aadhaar, Passport, or Driving Licence) from your profile. This keeps everyone safe on the platform.
+          </div>
+        </details>
+
+        <details class="group border border-slate-100 rounded-2xl overflow-hidden cursor-pointer hover:border-primary/30 transition-colors">
+          <summary class="flex items-center justify-between px-6 py-5 font-display font-semibold text-[0.95rem] text-[#0d0d12] list-none select-none">
+            Is Borrow Box available across India?
+            <span class="material-symbols-outlined text-gray-400 group-open:rotate-180 transition-transform text-[1.2rem]">expand_more</span>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-gray-500 leading-relaxed">
+            Yes! Borrow Box operates across 30+ cities in India, including Bangalore, Mumbai, Delhi, Hyderabad, and Pune. We're expanding rapidly — if your city isn't covered, list anyway and start a local community!
+          </div>
+        </details>
+
+      </div>
+    </div>
+
+    <!-- Category: Renting -->
+    <div class="mb-12">
+      <div class="flex items-center gap-2 mb-6">
+        <div class="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center">
+          <span class="material-symbols-outlined text-accent text-[1rem]">shopping_bag</span>
+        </div>
+        <h2 class="font-display font-bold text-lg text-[#0d0d12]">Renting Items</h2>
+      </div>
+      <div class="space-y-3">
+
+        <details class="group border border-slate-100 rounded-2xl overflow-hidden cursor-pointer hover:border-primary/30 transition-colors">
+          <summary class="flex items-center justify-between px-6 py-5 font-display font-semibold text-[0.95rem] text-[#0d0d12] list-none select-none">
+            What is the security deposit?
+            <span class="material-symbols-outlined text-gray-400 group-open:rotate-180 transition-transform text-[1.2rem]">expand_more</span>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-gray-500 leading-relaxed">
+            A refundable ₹2,000 security deposit is required per active rental. This covers potential damage. If you return the item in good condition, the deposit is fully refunded. You can hold a cumulative balance for multiple rentals.
+          </div>
+        </details>
+
+        <details class="group border border-slate-100 rounded-2xl overflow-hidden cursor-pointer hover:border-primary/30 transition-colors">
+          <summary class="flex items-center justify-between px-6 py-5 font-display font-semibold text-[0.95rem] text-[#0d0d12] list-none select-none">
+            Can I cancel a booking?
+            <span class="material-symbols-outlined text-gray-400 group-open:rotate-180 transition-transform text-[1.2rem]">expand_more</span>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-gray-500 leading-relaxed">
+            Pending bookings can be removed from your cart at any time before checkout. Once confirmed, please contact our support team to assist with cancellations. Our cancellation policy applies.
+          </div>
+        </details>
+
+        <details class="group border border-slate-100 rounded-2xl overflow-hidden cursor-pointer hover:border-primary/30 transition-colors">
+          <summary class="flex items-center justify-between px-6 py-5 font-display font-semibold text-[0.95rem] text-[#0d0d12] list-none select-none">
+            What if the item is damaged during my rental?
+            <span class="material-symbols-outlined text-gray-400 group-open:rotate-180 transition-transform text-[1.2rem]">expand_more</span>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-gray-500 leading-relaxed">
+            You're responsible for returning items in the condition you received them. Accidental damage during a rental may result in a deduction from your security deposit. Our team mediates fairly in any dispute.
+          </div>
+        </details>
+
+        <details class="group border border-slate-100 rounded-2xl overflow-hidden cursor-pointer hover:border-primary/30 transition-colors">
+          <summary class="flex items-center justify-between px-6 py-5 font-display font-semibold text-[0.95rem] text-[#0d0d12] list-none select-none">
+            How do I receive a booking confirmation?
+            <span class="material-symbols-outlined text-gray-400 group-open:rotate-180 transition-transform text-[1.2rem]">expand_more</span>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-gray-500 leading-relaxed">
+            After confirming checkout, both you and the item owner receive a detailed PDF booking confirmation via email, including rental dates, cost breakdown, and terms.
+          </div>
+        </details>
+
+      </div>
+    </div>
+
+    <!-- Category: Listing -->
+    <div class="mb-12">
+      <div class="flex items-center gap-2 mb-6">
+        <div class="w-8 h-8 rounded-lg bg-green-500/10 flex items-center justify-center">
+          <span class="material-symbols-outlined text-green-600 text-[1rem]">inventory_2</span>
+        </div>
+        <h2 class="font-display font-bold text-lg text-[#0d0d12]">Listing Your Items</h2>
+      </div>
+      <div class="space-y-3">
+
+        <details class="group border border-slate-100 rounded-2xl overflow-hidden cursor-pointer hover:border-primary/30 transition-colors">
+          <summary class="flex items-center justify-between px-6 py-5 font-display font-semibold text-[0.95rem] text-[#0d0d12] list-none select-none">
+            Is listing free?
+            <span class="material-symbols-outlined text-gray-400 group-open:rotate-180 transition-transform text-[1.2rem]">expand_more</span>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-gray-500 leading-relaxed">
+            Absolutely free. There's no charge to list any number of items on Borrow Box. We only earn a small service fee from renters, not owners.
+          </div>
+        </details>
+
+        <details class="group border border-slate-100 rounded-2xl overflow-hidden cursor-pointer hover:border-primary/30 transition-colors">
+          <summary class="flex items-center justify-between px-6 py-5 font-display font-semibold text-[0.95rem] text-[#0d0d12] list-none select-none">
+            What items can I list?
+            <span class="material-symbols-outlined text-gray-400 group-open:rotate-180 transition-transform text-[1.2rem]">expand_more</span>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-gray-500 leading-relaxed">
+            Tools, electronics, cameras, sporting gear, musical instruments, fashion, furniture, and more. Items must be safe, legal, and in working condition. Consumables and perishables cannot be listed.
+          </div>
+        </details>
+
+        <details class="group border border-slate-100 rounded-2xl overflow-hidden cursor-pointer hover:border-primary/30 transition-colors">
+          <summary class="flex items-center justify-between px-6 py-5 font-display font-semibold text-[0.95rem] text-[#0d0d12] list-none select-none">
+            How do I set my rental price?
+            <span class="material-symbols-outlined text-gray-400 group-open:rotate-180 transition-transform text-[1.2rem]">expand_more</span>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-gray-500 leading-relaxed">
+            You're in full control. Set a daily rental price when listing your item. We suggest pricing at 5–10% of the item's market value per day. You can change the price anytime from your dashboard.
+          </div>
+        </details>
+
+      </div>
+    </div>
+
+    <!-- Category: Payments -->
+    <div class="mb-12">
+      <div class="flex items-center gap-2 mb-6">
+        <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center">
+          <span class="material-symbols-outlined text-blue-600 text-[1rem]">payments</span>
+        </div>
+        <h2 class="font-display font-bold text-lg text-[#0d0d12]">Payments & Refunds</h2>
+      </div>
+      <div class="space-y-3">
+
+        <details class="group border border-slate-100 rounded-2xl overflow-hidden cursor-pointer hover:border-primary/30 transition-colors">
+          <summary class="flex items-center justify-between px-6 py-5 font-display font-semibold text-[0.95rem] text-[#0d0d12] list-none select-none">
+            Are payments secure?
+            <span class="material-symbols-outlined text-gray-400 group-open:rotate-180 transition-transform text-[1.2rem]">expand_more</span>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-gray-500 leading-relaxed">
+            Yes. All transactions are protected with 256-bit SSL encryption. We use industry-standard payment gateways and your card or UPI details are never stored on our servers.
+          </div>
+        </details>
+
+        <details class="group border border-slate-100 rounded-2xl overflow-hidden cursor-pointer hover:border-primary/30 transition-colors">
+          <summary class="flex items-center justify-between px-6 py-5 font-display font-semibold text-[0.95rem] text-[#0d0d12] list-none select-none">
+            When do I get my deposit back?
+            <span class="material-symbols-outlined text-gray-400 group-open:rotate-180 transition-transform text-[1.2rem]">expand_more</span>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-gray-500 leading-relaxed">
+            Security deposits are held in your Borrow Box wallet and applied toward future rentals. You can request a withdrawal anytime from your dashboard — processing takes 2–5 business days.
+          </div>
+        </details>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Still have questions -->
+<section class="py-16 bg-[#f9f5ff]">
+  <div class="max-w-2xl mx-auto px-6 text-center">
+    <div class="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-5">
+      <span class="material-symbols-outlined text-primary text-[2rem]">chat_bubble</span>
+    </div>
+    <h2 class="font-display font-bold text-[1.8rem] text-[#0d0d12] tracking-tight mb-3">Still have questions?</h2>
+    <p class="text-gray-400 text-sm mb-6">Our support team is happy to help with anything not covered here.</p>
+    <a href="{% url 'contact' %}" class="inline-block px-8 py-3.5 bg-primary text-white font-display font-bold rounded-full hover:bg-primary-d hover:shadow-[0_8px_24px_rgba(109,40,217,0.3)] hover:-translate-y-0.5 transition-all no-underline">
+      Contact Support
+    </a>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block extra_css %}
+<style>
+  details > summary { cursor: pointer; }
+  details[open] { background: #f9f5ff; border-color: rgba(109,40,217,0.2) !important; }
+</style>
+{% endblock %}

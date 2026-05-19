@@ -40,7 +40,7 @@
             ₹{{ booking.total_price }}
           </p>
 
-          <a href="{% url 'remove' booking.id %}"
+          <a href="{% url 'remove_from_cart' booking.id %}"
              class="text-sm text-red-500 mt-2 block">
             Remove
           </a>
@@ -100,8 +100,11 @@
         document.getElementById('rzp-button-deposit-cart').onclick = function(e){
             e.preventDefault();
             const amountInPaise = parseInt(parseFloat("{{ deficit }}") * 100);
+            const rawPhone = "{{ request.user.profile.phone }}";
+            const digits = rawPhone.replace(/\D/g, "").slice(-10);
+            const contactDeposit = digits.length === 10 ? "+91" + digits : "+919000090000";
             const options = {
-                "key": "rzp_test_bilBagOBVTi4lE",
+                "key": "rzp_test_ytoQRUzHn3jtXL",
                 "amount": amountInPaise,
                 "currency": "INR",
                 "name": "Borrow Box",
@@ -112,7 +115,7 @@
                 "prefill": {
                     "name": "{{ request.user.first_name }}",
                     "email": "{{ request.user.email }}",
-                    "contact": "{{ request.user.profile.phone }}" && "{{ request.user.profile.phone }}" !== "None" ? "{{ request.user.profile.phone }}" : "9000090000"
+                    "contact": contactDeposit
                 },
                 "theme": {
                     "color": "#ef4444"
@@ -143,8 +146,11 @@
         document.getElementById('rzp-button-checkout').onclick = function(e){
             e.preventDefault();
             const amountInPaise = parseInt(parseFloat("{{ total }}") * 100);
+            const rawPhoneCheckout = "{{ request.user.profile.phone }}";
+            const digitsCheckout = rawPhoneCheckout.replace(/\D/g, "").slice(-10);
+            const contactCheckout = digitsCheckout.length === 10 ? "+91" + digitsCheckout : "+919000090000";
             const options = {
-                "key": "rzp_test_bilBagOBVTi4lE",
+                "key": "rzp_test_ytoQRUzHn3jtXL",
                 "amount": amountInPaise,
                 "currency": "INR",
                 "name": "Borrow Box",
@@ -155,7 +161,7 @@
                 "prefill": {
                     "name": "{{ request.user.first_name }}",
                     "email": "{{ request.user.email }}",
-                    "contact": "{{ request.user.profile.phone }}" && "{{ request.user.profile.phone }}" !== "None" ? "{{ request.user.profile.phone }}" : "9000090000"
+                    "contact": contactCheckout
                 },
                 "theme": {
                     "color": "#6d28d9"

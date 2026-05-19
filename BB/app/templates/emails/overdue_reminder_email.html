@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ff4d4d; border-radius: 10px; }
+        .header { background-color: #d00000; color: white; padding: 10px; text-align: center; border-radius: 10px 10px 0 0; }
+        .content { padding: 20px; }
+        .footer { text-align: center; font-size: 12px; color: #888; margin-top: 20px; }
+        .button { display: inline-block; padding: 10px 20px; background-color: #14213d; color: white; text-decoration: none; border-radius: 5px; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>URGENT: Booking Overdue</h1>
+        </div>
+        <div class="content">
+            <p>Hello <strong>{{ name }}</strong>,</p>
+            <p>Your booking for <strong>{{ item_title }}</strong> was due on <strong>{{ end_date }}</strong> and is now <strong>OVERDUE</strong>.</p>
+            <p>Please return the item immediately and ensure the owner confirms the return as soon as possible.</p>
+            <p style="color: #d00000; font-weight: bold;">Fines will be applied automatically starting 12 hours after the return date.</p>
+            <a href="{{ site_url }}/adpanel/dashboard/" class="button">View Dashboard</a>
+        </div>
+        <div class="footer">
+            <p>&copy; 2026 Borrow Box. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>

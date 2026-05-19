@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+{% block title %}How It Works — Borrow Box{% endblock %}
+
+{% block content %}
+
+<!-- Hero -->
+<section class="relative bg-gradient-to-br from-[#f9f5ff] via-white to-white overflow-hidden py-28">
+  <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl -translate-y-36 translate-x-36 pointer-events-none"></div>
+  <div class="relative max-w-3xl mx-auto px-6 text-center">
+    <span class="inline-flex items-center gap-2 px-4 py-1.5 bg-primary/10 border border-primary/20 rounded-full text-xs font-semibold text-primary uppercase tracking-widest mb-6">
+      <span class="material-symbols-outlined text-[1rem]">lightbulb</span>
+      Simple & Fast
+    </span>
+    <h1 class="font-display font-extrabold text-[3rem] md:text-[4rem] text-[#0d0d12] leading-[1.08] tracking-[-0.03em] mb-6">
+      Renting Made<br>
+      <span class="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Ridiculously Easy</span>
+    </h1>
+    <p class="text-gray-500 text-lg leading-relaxed max-w-xl mx-auto">From sign-up to first rental in under 5 minutes. Here's exactly how Borrow Box works.</p>
+  </div>
+</section>
+
+<!-- For Renters -->
+<section class="py-20 bg-white">
+  <div class="max-w-5xl mx-auto px-6">
+    <div class="flex items-center gap-3 mb-12">
+      <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+        <span class="material-symbols-outlined text-primary">person</span>
+      </div>
+      <h2 class="font-display font-extrabold text-[2rem] text-[#0d0d12] tracking-[-0.03em]">For Renters</h2>
+    </div>
+
+    <div class="grid md:grid-cols-4 gap-6 relative">
+      <div class="absolute top-8 left-[12.5%] right-[12.5%] h-0.5 bg-gradient-to-r from-primary/20 via-primary/40 to-primary/20 hidden md:block"></div>
+
+      {% for step in renter_steps %}
+      {% empty %}
+
+      <div class="relative text-center group">
+        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary to-indigo-500 flex items-center justify-center mx-auto mb-4 shadow-[0_8px_24px_rgba(109,40,217,0.25)] group-hover:shadow-[0_12px_32px_rgba(109,40,217,0.35)] group-hover:-translate-y-1 transition-all">
+          <span class="material-symbols-outlined text-white text-[1.6rem]">search</span>
+        </div>
+        <div class="font-display font-bold text-[#0d0d12] mb-1.5">Browse & Find</div>
+        <p class="text-gray-500 text-xs leading-relaxed">Search thousands of items by category, location, or price range.</p>
+      </div>
+
+      <div class="relative text-center group">
+        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary to-indigo-500 flex items-center justify-center mx-auto mb-4 shadow-[0_8px_24px_rgba(109,40,217,0.25)] group-hover:shadow-[0_12px_32px_rgba(109,40,217,0.35)] group-hover:-translate-y-1 transition-all">
+          <span class="material-symbols-outlined text-white text-[1.6rem]">calendar_month</span>
+        </div>
+        <div class="font-display font-bold text-[#0d0d12] mb-1.5">Pick Your Dates</div>
+        <p class="text-gray-500 text-xs leading-relaxed">Choose start and end dates from the item's live availability calendar.</p>
+      </div>
+
+      <div class="relative text-center group">
+        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary to-indigo-500 flex items-center justify-center mx-auto mb-4 shadow-[0_8px_24px_rgba(109,40,217,0.25)] group-hover:shadow-[0_12px_32px_rgba(109,40,217,0.35)] group-hover:-translate-y-1 transition-all">
+          <span class="material-symbols-outlined text-white text-[1.6rem]">shopping_cart</span>
+        </div>
+        <div class="font-display font-bold text-[#0d0d12] mb-1.5">Checkout Securely</div>
+        <p class="text-gray-500 text-xs leading-relaxed">Add to cart and check out — your security deposit covers all rentals.</p>
+      </div>
+
+      <div class="relative text-center group">
+        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-green-500 to-teal-500 flex items-center justify-center mx-auto mb-4 shadow-[0_8px_24px_rgba(34,197,94,0.25)] group-hover:shadow-[0_12px_32px_rgba(34,197,94,0.35)] group-hover:-translate-y-1 transition-all">
+          <span class="material-symbols-outlined text-white text-[1.6rem]">check_circle</span>
+        </div>
+        <div class="font-display font-bold text-[#0d0d12] mb-1.5">Enjoy & Return</div>
+        <p class="text-gray-500 text-xs leading-relaxed">Use the item, return on time, leave a review. That's it — you're done!</p>
+      </div>
+
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- For Owners -->
+<section class="py-20 bg-[#f9f5ff]">
+  <div class="max-w-5xl mx-auto px-6">
+    <div class="flex items-center gap-3 mb-12">
+      <div class="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center">
+        <span class="material-symbols-outlined text-accent">storefront</span>
+      </div>
+      <h2 class="font-display font-extrabold text-[2rem] text-[#0d0d12] tracking-[-0.03em]">For Item Owners</h2>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-8">
+
+      <div class="bg-white p-8 rounded-3xl border border-slate-100 hover:shadow-[0_12px_40px_rgba(109,40,217,0.08)] transition-all">
+        <div class="w-14 h-14 rounded-2xl bg-accent/10 flex items-center justify-center mb-5">
+          <span class="material-symbols-outlined text-accent text-[1.8rem]">add_photo_alternate</span>
+        </div>
+        <h3 class="font-display font-bold text-lg text-[#0d0d12] mb-2">List Your Item</h3>
+        <p class="text-gray-500 text-sm leading-relaxed">Add photos, set your daily price, describe your item, and go live in minutes. No fees to list.</p>
+      </div>
+
+      <div class="bg-white p-8 rounded-3xl border border-slate-100 hover:shadow-[0_12px_40px_rgba(109,40,217,0.08)] transition-all">
+        <div class="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-5">
+          <span class="material-symbols-outlined text-primary text-[1.8rem]">notifications</span>
+        </div>
+        <h3 class="font-display font-bold text-lg text-[#0d0d12] mb-2">Get Booking Alerts</h3>
+        <p class="text-gray-500 text-sm leading-relaxed">Receive instant email notifications when someone books your item, with full renter details and dates.</p>
+      </div>
+
+      <div class="bg-white p-8 rounded-3xl border border-slate-100 hover:shadow-[0_12px_40px_rgba(109,40,217,0.08)] transition-all">
+        <div class="w-14 h-14 rounded-2xl bg-green-500/10 flex items-center justify-center mb-5">
+          <span class="material-symbols-outlined text-green-600 text-[1.8rem]">payments</span>
+        </div>
+        <h3 class="font-display font-bold text-lg text-[#0d0d12] mb-2">Earn Passively</h3>
+        <p class="text-gray-500 text-sm leading-relaxed">Items sitting idle become income streams. Your earnings are transferred directly to your bank account.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Pricing Transparency -->
+<section class="py-20 bg-white">
+  <div class="max-w-4xl mx-auto px-6">
+    <div class="text-center mb-12">
+      <h2 class="font-display font-extrabold text-[2.2rem] text-[#0d0d12] tracking-[-0.03em] mb-3">Simple, Transparent Pricing</h2>
+      <p class="text-gray-400 text-sm">No hidden fees. No surprises. Ever.</p>
+    </div>
+    <div class="grid md:grid-cols-2 gap-6">
+      <div class="p-8 rounded-3xl border-2 border-primary/20 bg-[#f9f5ff]">
+        <div class="font-display font-bold text-xl text-primary mb-1">For Renters</div>
+        <div class="text-4xl font-extrabold font-display text-[#0d0d12] tracking-tight mb-4">2% <span class="text-lg font-semibold text-gray-400">service fee</span></div>
+        <ul class="space-y-2 text-sm text-gray-500">
+          <li class="flex items-center gap-2"><span class="material-symbols-outlined text-green-500 text-[1rem]">check</span> Daily rental price set by owner</li>
+          <li class="flex items-center gap-2"><span class="material-symbols-outlined text-green-500 text-[1rem]">check</span> Small 2% platform fee on total</li>
+          <li class="flex items-center gap-2"><span class="material-symbols-outlined text-green-500 text-[1rem]">check</span> ₹2,000 refundable deposit per rental</li>
+          <li class="flex items-center gap-2"><span class="material-symbols-outlined text-green-500 text-[1rem]">check</span> No subscription, no membership</li>
+        </ul>
+      </div>
+      <div class="p-8 rounded-3xl border-2 border-accent/20 bg-[#fffbf0]">
+        <div class="font-display font-bold text-xl text-accent mb-1">For Owners</div>
+        <div class="text-4xl font-extrabold font-display text-[#0d0d12] tracking-tight mb-4">Free <span class="text-lg font-semibold text-gray-400">to list</span></div>
+        <ul class="space-y-2 text-sm text-gray-500">
+          <li class="flex items-center gap-2"><span class="material-symbols-outlined text-green-500 text-[1rem]">check</span> Unlimited free listings</li>
+          <li class="flex items-center gap-2"><span class="material-symbols-outlined text-green-500 text-[1rem]">check</span> You set your own daily price</li>
+          <li class="flex items-center gap-2"><span class="material-symbols-outlined text-green-500 text-[1rem]">check</span> Earnings deposited directly</li>
+          <li class="flex items-center gap-2"><span class="material-symbols-outlined text-green-500 text-[1rem]">check</span> Item protection on verified rentals</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Final CTA -->
+<section class="py-20 bg-gradient-to-r from-primary to-indigo-600">
+  <div class="max-w-3xl mx-auto px-6 text-center">
+    <h2 class="font-display font-extrabold text-[2.2rem] text-white tracking-[-0.03em] mb-4">Start in 60 Seconds</h2>
+    <p class="text-white/70 mb-8">Sign up, verify your ID, and you're ready to rent or earn.</p>
+    <div class="flex flex-col sm:flex-row gap-3 justify-center">
+      <a href="{% url 'item_listing' %}" class="px-8 py-3.5 bg-white text-primary font-display font-bold rounded-full hover:shadow-xl hover:-translate-y-1 transition-all no-underline">Browse Items</a>
+      <a href="{% url 'register' %}" class="px-8 py-3.5 bg-white/15 text-white font-display font-bold rounded-full border border-white/30 hover:bg-white/25 transition-all no-underline">List an Item</a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

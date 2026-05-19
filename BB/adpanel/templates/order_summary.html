@@ -1,0 +1,189 @@
+{% extends "base.html" %}
+{% block title %}Order Summary | Borrow Box{% endblock %}
+
+{% block content %}
+<section class="max-w-4xl mx-auto px-6 py-14">
+  <div class="bg-white dark:bg-surface-dark border border-gray-100 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden">
+    
+    <!-- HEADER -->
+    <div class="bg-gradient-to-r from-primary to-[#8b5cf6] p-8 text-white relative overflow-hidden">
+      <!-- Decorative circles -->
+      <div class="absolute top-0 right-0 -mr-8 -mt-8 w-32 h-32 rounded-full bg-white/10 blur-2xl"></div>
+      <div class="absolute bottom-0 right-10 -mb-4 w-20 h-20 rounded-full bg-white/10 blur-xl"></div>
+      
+      <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h1 class="text-3xl font-display font-bold mb-1">Order Summary</h1>
+          <p class="text-primary-100 text-sm">Booking Ref: <span class="font-mono bg-black/20 px-2 py-0.5 rounded ml-1">BB-{{ booking.id|stringformat:"06d" }}</span></p>
+        </div>
+        
+        <div class="bg-white/20 backdrop-blur-md border border-white/30 rounded-2xl p-4 text-center min-w-[140px]">
+          <div class="text-[0.7rem] uppercase tracking-wider text-primary-100 font-bold mb-0.5">Total Paid</div>
+          <div class="font-display font-bold text-2xl">₹{{ booking.total_price }}</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- BODY -->
+    <div class="p-8">
+      
+      <!-- STATUS BADGE -->
+      <div class="flex items-center justify-between mb-8 pb-6 border-b border-gray-100">
+        <div>
+          <span class="text-sm text-gray-500 font-medium block mb-1">Current Status:</span>
+          {% if booking.status == 'confirmed' %}
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-green-50 text-green-600 font-bold text-sm border border-green-100">
+            <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span> Confirmed & Paid
+          </span>
+          {% elif booking.status == 'pending' %}
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 text-amber-600 font-bold text-sm border border-amber-100">
+            <span class="w-2 h-2 rounded-full bg-amber-500"></span> Pending
+          </span>
+          {% else %}
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gray-50 text-gray-600 font-bold text-sm border border-gray-200">
+            {{ booking.status|title }}
+          </span>
+          {% endif %}
+        </div>
+        
+        <div class="text-right">
+          <span class="text-sm text-gray-500 font-medium block mb-1">Booked On:</span>
+          <span class="font-semibold text-gray-800">{{ booking.created_at|date:"d M Y, h:i A" }}</span>
+        </div>
+      </div>
+      
+      <!-- ITEM DETAILS -->
+      <div class="bg-gray-50 rounded-2xl p-6 mb-8 flex flex-col sm:flex-row gap-6 items-start border border-gray-100">
+        <div class="w-32 h-32 rounded-xl bg-white shadow-sm shrink-0 overflow-hidden border border-gray-100">
+          {% if booking.item.image %}
+          <img src="{{ booking.item.image.url }}" class="w-full h-full object-cover shadow-sm hover:scale-105 transition-transform duration-500" alt="{{ booking.item.title }}">
+          {% else %}
+          <div class="w-full h-full flex items-center justify-center bg-gray-100 text-gray-400">
+            <span class="material-symbols-outlined text-4xl">inventory_2</span>
+          </div>
+          {% endif %}
+        </div>
+        
+        <div class="flex-1 w-full">
+          <div class="flex items-center justify-between w-full mb-1">
+            <h2 class="text-xl font-bold text-gray-900">{{ booking.item.title }}</h2>
+          </div>
+          
+          <p class="text-sm text-gray-500 flex items-center gap-1 mb-4">
+            <span class="material-symbols-outlined text-[1rem]">location_on</span> {{ booking.item.location }}
+          </p>
+          
+          <div class="grid grid-cols-2 gap-y-4 gap-x-8">
+            <div>
+              <span class="text-[0.75rem] text-gray-400 font-bold uppercase tracking-wide block mb-1">Rental Period</span>
+              <div class="font-medium text-gray-800 text-sm flex items-center gap-2">
+                <span class="material-symbols-outlined text-[1.1rem] text-primary">calendar_month</span>
+                {{ booking.start_date|date:"d M" }} &rarr; {{ booking.end_date|date:"d M Y" }}
+              </div>
+            </div>
+            
+            <div>
+              <span class="text-[0.75rem] text-gray-400 font-bold uppercase tracking-wide block mb-1">Duration</span>
+              <div class="font-medium text-gray-800 text-sm flex items-center gap-2">
+                <span class="material-symbols-outlined text-[1.1rem] text-primary">schedule</span>
+                {{ days }} Day{% if days > 1 %}s{% endif %}
+              </div>
+            </div>
+            
+            <div>
+              <span class="text-[0.75rem] text-gray-400 font-bold uppercase tracking-wide block mb-1">Rate</span>
+              <div class="font-medium text-gray-800 text-sm flex items-center gap-2">
+                <span class="material-symbols-outlined text-[1.1rem] text-primary">sell</span>
+                ₹{{ booking.item.price_per_day }} / day
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- USER / OWNER DETAILS -->
+      <div class="grid md:grid-cols-2 gap-6 mb-10">
+        <!-- Seller -->
+        <div class="border border-gray-100 rounded-2xl p-6">
+          <div class="flex items-center gap-2 mb-4">
+            <span class="w-8 h-8 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center">
+              <span class="material-symbols-outlined text-[1.1rem]">storefront</span>
+            </span>
+            <h3 class="font-display font-bold text-gray-800">Owner Details</h3>
+          </div>
+          <p class="text-sm text-gray-800 font-medium mb-1">{{ booking.item.owner.first_name }} {{ booking.item.owner.last_name }}</p>
+          <p class="text-xs text-gray-500 mb-3">@{{ booking.item.owner.username }}</p>
+          <div class="space-y-2 mt-4 text-sm text-gray-600">
+            <div class="flex items-center gap-2"><span class="material-symbols-outlined text-[1rem]">mail</span> {{ booking.item.owner.email }}</div>
+            {% if booking.item.owner.profile.phone %}
+            <div class="flex items-center gap-2"><span class="material-symbols-outlined text-[1rem]">call</span> {{ booking.item.owner.profile.phone }}</div>
+            {% endif %}
+          </div>
+        </div>
+        
+        <!-- Buyer -->
+        <div class="border border-gray-100 rounded-2xl p-6 bg-gradient-to-b from-white to-gray-50/50">
+          <div class="flex items-center gap-2 mb-4">
+            <span class="w-8 h-8 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center">
+              <span class="material-symbols-outlined text-[1.1rem]">account_circle</span>
+            </span>
+            <h3 class="font-display font-bold text-gray-800">Your Info</h3>
+          </div>
+          <p class="text-sm text-gray-800 font-medium mb-1">{{ booking.user.first_name }} {{ booking.user.last_name }}</p>
+          <div class="space-y-2 mt-5 text-sm text-gray-600">
+            <div class="flex items-center gap-2"><span class="material-symbols-outlined text-[1rem]">mail</span> {{ booking.user.email }}</div>
+            {% if booking.user.profile.phone %}
+            <div class="flex items-center gap-2"><span class="material-symbols-outlined text-[1rem]">call</span> {{ booking.user.profile.phone }}</div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      
+      <!-- ACTION BUTTONS -->
+      <div class="flex flex-col sm:flex-row gap-4 items-center justify-between pt-6 border-t border-gray-100">
+        <div class="flex gap-4">
+          <a href="{% url 'home' %}" class="flex items-center gap-2 text-sm font-semibold text-gray-500 hover:text-gray-800 transition-colors">
+            <span class="material-symbols-outlined text-[1.2rem]">home</span> Home
+          </a>
+          <div class="w-px bg-gray-200"></div>
+          <a href="{% url 'adpanel:dashboard' %}" class="flex items-center gap-2 text-sm font-semibold text-gray-500 hover:text-gray-800 transition-colors">
+            <span class="material-symbols-outlined text-[1.2rem]">dashboard</span> Dashboard
+          </a>
+        </div>
+        
+        <div class="flex gap-3">
+          <button class="px-5 py-2.5 rounded-xl border border-gray-200 text-gray-700 text-sm font-bold hover:bg-gray-50 transition-colors flex items-center gap-2 shadow-sm" onclick="window.print()">
+            <span class="material-symbols-outlined text-[1.1rem]">print</span> Print
+          </button>
+          
+          <a href="{% url 'product' booking.item.id %}" class="px-5 py-2.5 rounded-xl bg-primary text-white text-sm font-bold hover:bg-primary-hover transition-colors shadow-md shadow-primary/20 flex items-center gap-2">
+            View Item
+          </a>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+  <p class="text-center text-sm text-gray-500 mt-8 mb-2 font-medium">
+    Redirecting to home in <span id="countdown" class="font-bold text-primary">5</span> seconds...
+  </p>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  let seconds = 5;
+  const countdownEl = document.getElementById('countdown');
+  const timer = setInterval(() => {
+    seconds--;
+    if(seconds > 0) {
+      countdownEl.textContent = seconds;
+    }
+  }, 1000);
+
+  setTimeout(function() {
+      window.location.href = "{% url 'home' %}";
+  }, 5000);
+</script>
+{% endblock %}

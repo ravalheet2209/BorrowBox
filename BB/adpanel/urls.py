@@ -11,6 +11,8 @@ urlpatterns = [
     path("withdraw-deposit/", views.withdraw_deposit, name="withdraw_deposit"),
 
     path("owner-dashboard/", views.owner_dashboard, name="owner_dashboard"),
+    path("confirm-return/<int:booking_id>/", views.confirm_return, name="confirm_return"),
+    path("withdraw-earnings/", views.withdraw_earnings, name="withdraw_earnings"),
 
     path("my-items/", views.my_items, name="my_items"),
     path("add-item/", views.add_item, name="add_item"),

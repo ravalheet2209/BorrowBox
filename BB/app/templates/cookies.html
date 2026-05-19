@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}Cookie Policy — Borrow Box{% endblock %}
+
+{% block content %}
+
+<section class="bg-gradient-to-br from-[#f9f5ff] to-white py-16">
+  <div class="max-w-3xl mx-auto px-6">
+    <div class="mb-2 text-xs font-semibold text-primary uppercase tracking-widest">Legal</div>
+    <h1 class="font-display font-extrabold text-[2.8rem] text-[#0d0d12] tracking-[-0.03em] mb-2">Cookie Policy</h1>
+    <p class="text-gray-400 text-sm">Last updated: March 24, 2026</p>
+  </div>
+</section>
+
+<section class="py-16 bg-white">
+  <div class="max-w-3xl mx-auto px-6 space-y-10">
+
+    <div>
+      <h2 class="font-display font-bold text-xl text-[#0d0d12] mb-3">What Are Cookies?</h2>
+      <p class="text-gray-500 text-sm leading-relaxed">Cookies are small text files stored on your device when you visit a website. They help websites remember your preferences, keep you logged in, and understand how you use the site to improve the experience.</p>
+    </div>
+
+    <div>
+      <h2 class="font-display font-bold text-xl text-[#0d0d12] mb-4">Cookies We Use</h2>
+      <div class="space-y-4">
+        <div class="p-5 rounded-2xl border border-slate-100 hover:border-primary/20 transition-colors">
+          <div class="flex items-center justify-between mb-2">
+            <div class="font-display font-bold text-sm text-[#0d0d12]">Essential Cookies</div>
+            <span class="text-xs px-2.5 py-1 bg-green-500/10 text-green-700 rounded-full font-semibold">Always Active</span>
+          </div>
+          <p class="text-gray-500 text-xs leading-relaxed">Required for the website to function. These include session cookies to keep you logged in, CSRF tokens for security, and cart state. These cannot be disabled.</p>
+        </div>
+        <div class="p-5 rounded-2xl border border-slate-100 hover:border-primary/20 transition-colors">
+          <div class="flex items-center justify-between mb-2">
+            <div class="font-display font-bold text-sm text-[#0d0d12]">Functional Cookies</div>
+            <span class="text-xs px-2.5 py-1 bg-blue-500/10 text-blue-700 rounded-full font-semibold">Optional</span>
+          </div>
+          <p class="text-gray-500 text-xs leading-relaxed">Enable enhanced functionality like remembering your search filters, language preferences, and dismissing prompts (e.g., the page loader is only shown once per session).</p>
+        </div>
+        <div class="p-5 rounded-2xl border border-slate-100 hover:border-primary/20 transition-colors">
+          <div class="flex items-center justify-between mb-2">
+            <div class="font-display font-bold text-sm text-[#0d0d12]">Analytics Cookies</div>
+            <span class="text-xs px-2.5 py-1 bg-blue-500/10 text-blue-700 rounded-full font-semibold">Optional</span>
+          </div>
+          <p class="text-gray-500 text-xs leading-relaxed">Help us understand how users interact with the platform — pages visited, time spent, and errors encountered. Data is anonymized and used only to improve the product.</p>
+        </div>
+        <div class="p-5 rounded-2xl border border-slate-100 hover:border-primary/20 transition-colors">
+          <div class="flex items-center justify-between mb-2">
+            <div class="font-display font-bold text-sm text-[#0d0d12]">Marketing Cookies</div>
+            <span class="text-xs px-2.5 py-1 bg-gray-100 text-gray-500 rounded-full font-semibold">Not Used</span>
+          </div>
+          <p class="text-gray-500 text-xs leading-relaxed">We do not currently use third-party marketing or advertising cookies on Borrow Box. We will update this policy if that changes.</p>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <h2 class="font-display font-bold text-xl text-[#0d0d12] mb-3">Managing Cookies</h2>
+      <p class="text-gray-500 text-sm leading-relaxed mb-3">You can control cookies through your browser settings. Note that disabling essential cookies may impact the platform's functionality. Browser guides:</p>
+      <div class="flex flex-wrap gap-3">
+        <a href="https://support.google.com/chrome/answer/95647" target="_blank" class="px-4 py-2 rounded-xl bg-[#f9f5ff] border border-primary/10 text-sm text-primary font-medium hover:bg-primary/10 transition no-underline">Chrome →</a>
+        <a href="https://support.mozilla.org/en-US/kb/cookies-information-websites-store-on-your-computer" target="_blank" class="px-4 py-2 rounded-xl bg-[#f9f5ff] border border-primary/10 text-sm text-primary font-medium hover:bg-primary/10 transition no-underline">Firefox →</a>
+        <a href="https://support.apple.com/guide/safari/manage-cookies-sfri11471/mac" target="_blank" class="px-4 py-2 rounded-xl bg-[#f9f5ff] border border-primary/10 text-sm text-primary font-medium hover:bg-primary/10 transition no-underline">Safari →</a>
+        <a href="https://support.microsoft.com/en-us/microsoft-edge/delete-cookies-in-microsoft-edge-63947406-40ac-c3b8-57b9-2a946a29ae09" target="_blank" class="px-4 py-2 rounded-xl bg-[#f9f5ff] border border-primary/10 text-sm text-primary font-medium hover:bg-primary/10 transition no-underline">Edge →</a>
+      </div>
+    </div>
+
+    <div>
+      <h2 class="font-display font-bold text-xl text-[#0d0d12] mb-3">Changes to This Policy</h2>
+      <p class="text-gray-500 text-sm leading-relaxed">We may update this Cookie Policy occasionally. We will notify you of significant changes via email or platform notification. Continued use of Borrow Box after changes constitutes acceptance.</p>
+    </div>
+
+    <div class="p-6 bg-[#f9f5ff] rounded-2xl border border-primary/10">
+      <h3 class="font-display font-bold text-[#0d0d12] mb-2">Questions?</h3>
+      <p class="text-gray-500 text-sm mb-4">Email us at <strong>privacy@borrowbox.in</strong> for any cookie-related queries.</p>
+      <a href="{% url 'contact' %}" class="inline-block px-6 py-2.5 bg-primary text-white font-display font-bold text-sm rounded-full hover:bg-primary-d transition no-underline">Contact Us</a>
+    </div>
+
+  </div>
+</section>
+
+{% endblock %}

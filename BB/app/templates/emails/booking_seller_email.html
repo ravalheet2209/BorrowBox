@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: Helvetica, Arial, sans-serif; background-color: #f5f3ff; margin: 0; padding: 20px; color: #1e1b4b; }
+        .container { max-width: 600px; margin: 0 auto; background: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+        .header { text-align: center; border-bottom: 2px solid #6d28d9; padding-bottom: 20px; margin-bottom: 20px; }
+        .header h1 { color: #4c1d95; margin: 0; }
+        .alert { color: #6d28d9; font-weight: bold; }
+        .details { background: #faf5ff; padding: 15px; border-radius: 6px; margin: 20px 0; border: 1px solid #ddd6fe; }
+        .details th { text-align: left; padding: 8px; color: #6d28d9; }
+        .details td { padding: 8px; color: #4b5563; }
+        .amount { font-size: 20px; color: #059669; font-weight: bold; margin-top: 15px; text-align: center; }
+        .footer { text-align: center; margin-top: 30px; font-size: 12px; color: #9ca3af; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Borrow Box</h1>
+        </div>
+        <div class="content">
+            <p>Great news, <b>{{ name }}</b>!</p>
+            <p>Your item "{{ item_title }}" has been <span class="alert">Booked!</span></p>
+
+            <table class="details" width="100%">
+                <tr><th>Renter</th><td>{{ renter_name }} (@{{ renter_username }})</td></tr>
+                <tr><th>Dates</th><td>{{ start_date }} &rarr; {{ end_date }} ({{ days }} days)</td></tr>
+                <tr><th>Earnings</th><td class="amount">IRS {{ total_price }}</td></tr>
+            </table>
+
+            <p>Please ensure the item is ready and in good condition.</p>
+            <p>Full details are attached as a PDF.</p>
+
+            <p>Thank you for listing on Borrow Box!<br>The Borrow Box Team</p>
+        </div>
+        <div class="footer">
+            &copy; 2025 Borrow Box &middot; Empowering Peer-to-Peer Rentals
+        </div>
+    </div>
+</body>
+</html>

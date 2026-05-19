@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% block title %}Terms of Service — Borrow Box{% endblock %}
+
+{% block content %}
+
+<section class="bg-gradient-to-br from-[#f9f5ff] to-white py-16">
+  <div class="max-w-3xl mx-auto px-6">
+    <div class="mb-2 text-xs font-semibold text-primary uppercase tracking-widest">Legal</div>
+    <h1 class="font-display font-extrabold text-[2.8rem] text-[#0d0d12] tracking-[-0.03em] mb-2">Terms of Service</h1>
+    <p class="text-gray-400 text-sm">Last updated: March 24, 2026</p>
+  </div>
+</section>
+
+<section class="py-16 bg-white">
+  <div class="max-w-3xl mx-auto px-6">
+
+    <div class="prose prose-slate max-w-none">
+
+      <div class="p-5 bg-amber-50 border border-amber-200 rounded-2xl mb-10 flex items-start gap-3">
+        <span class="material-symbols-outlined text-amber-500 shrink-0">info</span>
+        <p class="text-amber-800 text-sm leading-relaxed m-0">Please read these terms carefully before using Borrow Box. By using our platform, you agree to be bound by these terms.</p>
+      </div>
+
+      {% for section in terms_sections %}
+      {% empty %}
+
+      <div class="mb-10">
+        <h2 class="font-display font-bold text-xl text-[#0d0d12] mb-4 flex items-center gap-2">
+          <span class="w-7 h-7 rounded-lg bg-primary/10 flex items-center justify-center text-primary text-sm font-extrabold">1</span>
+          Acceptance of Terms
+        </h2>
+        <p class="text-gray-500 text-sm leading-relaxed">By accessing or using the Borrow Box platform ("Service"), including our website and mobile applications, you agree to be bound by these Terms of Service ("Terms"). If you do not agree with any part of the terms, you may not use our Service. These Terms apply to all visitors, users, and others who access or use the Service.</p>
+      </div>
+
+      <div class="mb-10">
+        <h2 class="font-display font-bold text-xl text-[#0d0d12] mb-4 flex items-center gap-2">
+          <span class="w-7 h-7 rounded-lg bg-primary/10 flex items-center justify-center text-primary text-sm font-extrabold">2</span>
+          User Accounts
+        </h2>
+        <p class="text-gray-500 text-sm leading-relaxed mb-3">When you create an account, you must provide accurate and complete information. You are responsible for maintaining the confidentiality of your password and for all activities that occur under your account.</p>
+        <ul class="list-none space-y-2">
+          <li class="flex items-start gap-2 text-sm text-gray-500"><span class="material-symbols-outlined text-primary text-[1rem] shrink-0 mt-0.5">check_circle</span> You must be at least 18 years old to use Borrow Box</li>
+          <li class="flex items-start gap-2 text-sm text-gray-500"><span class="material-symbols-outlined text-primary text-[1rem] shrink-0 mt-0.5">check_circle</span> One account per person; accounts are non-transferable</li>
+          <li class="flex items-start gap-2 text-sm text-gray-500"><span class="material-symbols-outlined text-primary text-[1rem] shrink-0 mt-0.5">check_circle</span> You must submit a valid government-issued ID before renting</li>
+          <li class="flex items-start gap-2 text-sm text-gray-500"><span class="material-symbols-outlined text-primary text-[1rem] shrink-0 mt-0.5">check_circle</span> Notify us immediately of any unauthorized account access</li>
+        </ul>
+      </div>
+
+      <div class="mb-10">
+        <h2 class="font-display font-bold text-xl text-[#0d0d12] mb-4 flex items-center gap-2">
+          <span class="w-7 h-7 rounded-lg bg-primary/10 flex items-center justify-center text-primary text-sm font-extrabold">3</span>
+          Rental Transactions
+        </h2>
+        <p class="text-gray-500 text-sm leading-relaxed mb-3">Borrow Box facilitates peer-to-peer rentals. We are not a party to agreements between users but provide the platform for transactions to occur. </p>
+        <p class="text-gray-500 text-sm leading-relaxed">All rentals require a refundable security deposit of ₹2,000 per active booking. Renters are responsible for returning items in the same condition received. Damage may result in partial or full deposit forfeiture.</p>
+      </div>
+
+      <div class="mb-10">
+        <h2 class="font-display font-bold text-xl text-[#0d0d12] mb-4 flex items-center gap-2">
+          <span class="w-7 h-7 rounded-lg bg-primary/10 flex items-center justify-center text-primary text-sm font-extrabold">4</span>
+          Prohibited Items & Activities
+        </h2>
+        <p class="text-gray-500 text-sm leading-relaxed mb-3">You may not list, rent, or use the platform to facilitate the rental of any:</p>
+        <ul class="list-none space-y-2">
+          <li class="flex items-start gap-2 text-sm text-gray-500"><span class="material-symbols-outlined text-red-500 text-[1rem] shrink-0 mt-0.5">cancel</span> Illegal items or substances</li>
+          <li class="flex items-start gap-2 text-sm text-gray-500"><span class="material-symbols-outlined text-red-500 text-[1rem] shrink-0 mt-0.5">cancel</span> Weapons, explosives, or dangerous materials</li>
+          <li class="flex items-start gap-2 text-sm text-gray-500"><span class="material-symbols-outlined text-red-500 text-[1rem] shrink-0 mt-0.5">cancel</span> Counterfeit or stolen goods</li>
+          <li class="flex items-start gap-2 text-sm text-gray-500"><span class="material-symbols-outlined text-red-500 text-[1rem] shrink-0 mt-0.5">cancel</span> Adult content or services</li>
+          <li class="flex items-start gap-2 text-sm text-gray-500"><span class="material-symbols-outlined text-red-500 text-[1rem] shrink-0 mt-0.5">cancel</span> Animals or living organisms</li>
+        </ul>
+      </div>
+
+      <div class="mb-10">
+        <h2 class="font-display font-bold text-xl text-[#0d0d12] mb-4 flex items-center gap-2">
+          <span class="w-7 h-7 rounded-lg bg-primary/10 flex items-center justify-center text-primary text-sm font-extrabold">5</span>
+          Platform Fees
+        </h2>
+        <p class="text-gray-500 text-sm leading-relaxed">Borrow Box charges renters a service fee of 2% on the total rental amount. Owners list for free. Fees are subject to change with 30 days' notice. All transactions are subject to applicable taxes under Indian law.</p>
+      </div>
+
+      <div class="mb-10">
+        <h2 class="font-display font-bold text-xl text-[#0d0d12] mb-4 flex items-center gap-2">
+          <span class="w-7 h-7 rounded-lg bg-primary/10 flex items-center justify-center text-primary text-sm font-extrabold">6</span>
+          Dispute Resolution
+        </h2>
+        <p class="text-gray-500 text-sm leading-relaxed">In the event of a dispute between users, Borrow Box will act as a neutral mediator upon request. Users agree to first attempt resolution through our support channel. Matters unresolved through mediation shall be subject to the laws of India, with jurisdiction in Bengaluru, Karnataka.</p>
+      </div>
+
+      <div class="mb-10">
+        <h2 class="font-display font-bold text-xl text-[#0d0d12] mb-4 flex items-center gap-2">
+          <span class="w-7 h-7 rounded-lg bg-primary/10 flex items-center justify-center text-primary text-sm font-extrabold">7</span>
+          Limitation of Liability
+        </h2>
+        <p class="text-gray-500 text-sm leading-relaxed">To the fullest extent permitted by law, Borrow Box shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of the platform or any rental transaction. Our total liability shall not exceed the fees paid by you in the last 3 months.</p>
+      </div>
+
+      <div class="mb-10">
+        <h2 class="font-display font-bold text-xl text-[#0d0d12] mb-4 flex items-center gap-2">
+          <span class="w-7 h-7 rounded-lg bg-primary/10 flex items-center justify-center text-primary text-sm font-extrabold">8</span>
+          Changes to Terms
+        </h2>
+        <p class="text-gray-500 text-sm leading-relaxed">We reserve the right to modify these Terms at any time. We will provide notice via email or on-platform banner. Continued use after changes constitutes acceptance of new terms.</p>
+      </div>
+
+      {% endfor %}
+
+      <div class="mt-12 p-6 bg-[#f9f5ff] rounded-2xl border border-primary/10">
+        <h3 class="font-display font-bold text-[#0d0d12] mb-2">Questions about our Terms?</h3>
+        <p class="text-gray-500 text-sm mb-4">Contact our legal team if you need clarification on any part of these terms.</p>
+        <a href="{% url 'contact' %}" class="inline-block px-6 py-2.5 bg-primary text-white font-display font-bold text-sm rounded-full hover:bg-primary-d transition no-underline">Contact Us</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% endblock %}

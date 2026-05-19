@@ -12,14 +12,19 @@
     <h2 class="font-display font-bold text-[1rem] text-[#0d0d12]">Add New Category</h2>
   </div>
   <div class="px-7 py-5">
-    <form method="POST" action="{% url 'adpanel:add_category' %}" class="flex flex-col sm:flex-row gap-3 max-w-lg">
+    <form method="POST" action="{% url 'adpanel:add_category' %}" enctype="multipart/form-data" class="flex flex-col sm:flex-row gap-3 max-w-lg">
       {% csrf_token %}
       <div class="flex-1 relative">
         <span class="absolute left-3.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-[0.95rem] text-gray-400">category</span>
         <input name="name" placeholder="Category name (e.g. Cameras, Drones...)"
           class="w-full bg-[#fafafa] border-[1.5px] border-slate-200 rounded-xl pl-9 pr-4 py-2.5 font-body text-[0.9rem] text-[#0d0d12] outline-none focus:border-primary focus:bg-white transition-colors placeholder-gray-300" required>
       </div>
-      <button class="inline-flex items-center gap-2 px-6 py-2.5 bg-primary hover:bg-primary-d text-white rounded-xl font-display font-bold text-[0.88rem] shadow-[0_4px_14px_rgba(109,40,217,0.22)] hover:shadow-[0_6px_18px_rgba(109,40,217,0.32)] hover:-translate-y-px transition-all">
+      <div class="flex-1 relative">
+        <span class="absolute left-3.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-[0.95rem] text-gray-400">image</span>
+        <input type="file" name="image" accept="image/*"
+          class="w-full bg-[#fafafa] border-[1.5px] border-slate-200 rounded-xl pl-9 pr-4 py-2 font-body text-[0.8rem] text-gray-500 outline-none focus:border-primary transition-colors cursor-pointer file:mr-3 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-[0.75rem] file:font-semibold file:bg-[#f0ebff] file:text-primary hover:file:bg-[#e0d9ff]">
+      </div>
+      <button class="inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-primary hover:bg-primary-d text-white rounded-xl font-display font-bold text-[0.88rem] shadow-[0_4px_14px_rgba(109,40,217,0.22)] hover:shadow-[0_6px_18px_rgba(109,40,217,0.32)] hover:-translate-y-px transition-all">
         <span class="material-symbols-outlined text-[1rem]">add</span> Add Category
       </button>
     </form>

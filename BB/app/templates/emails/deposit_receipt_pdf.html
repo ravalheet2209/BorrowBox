@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        @page { size: a4 portrait; margin: 2cm; @frame footer { -pdf-frame-content: footerContent; bottom: 1cm; margin-left: 2cm; margin-right: 2cm; height: 1cm; } }
+        body { font-family: Helvetica, Arial, sans-serif; color: #1e1b4b; font-size: 12px; }
+        .header { background-color: #4c1d95; color: white; padding: 20px; text-align: center; border-radius: 5px; }
+        .title { font-size: 24px; font-weight: bold; }
+        .subtitle { font-size: 14px; color: #c4b5fd; margin-top: 5px; }
+        .amount-box { background-color: #f5f3ff; text-align: center; padding: 20px; margin: 20px 0; border: 1px solid #ddd6fe; border-radius: 5px; }
+        .amount { color: #059669; font-size: 24px; font-weight: bold; }
+        .amount.debited { color: #d97706; }
+        .section-title { font-size: 14px; font-weight: bold; color: #6d28d9; border-bottom: 2px solid #6d28d9; padding-bottom: 5px; margin-top: 20px; }
+        table.details { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        table.details td { padding: 8px; border-bottom: 1px solid #ddd6fe; border-left: 1px solid #ddd6fe; border-right: 1px solid #ddd6fe; }
+        table.details tr:nth-child(even) { background-color: #faf5ff; }
+        .label { font-weight: bold; color: #6d28d9; width: 40%; }
+        .note { background-color: #f5f3ff; border: 1px solid #6d28d9; padding: 15px; margin-top: 20px; font-size: 12px; border-radius: 5px; }
+        #footerContent { text-align: center; font-size: 10px; color: #9ca3af; border-top: 1px solid #ddd6fe; padding-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="title">Borrow Box</div>
+        <div class="subtitle">Security Deposit {{ action_lbl }} Receipt</div>
+    </div>
+
+    <div class="amount-box">
+        <div class="amount {% if not is_add %}debited{% endif %}">INR {{ amount }}</div>
+        <div>Amount {{ action_lbl }}</div>
+    </div>
+
+    <div class="section-title">Transaction Details</div>
+    <table class="details">
+        <tr><td class="label">Transaction Date</td><td>{{ date }}</td></tr>
+        <tr><td class="label">Transaction Type</td><td>{{ action_lbl }}</td></tr>
+        <tr><td class="label">Reference No.</td><td>{{ ref_no }}</td></tr>
+        <tr><td class="label">Status</td><td>&#10004; Successful</td></tr>
+    </table>
+
+    <div class="section-title">Account Details</div>
+    <table class="details">
+        <tr><td class="label">Full Name</td><td>{{ full_name }}</td></tr>
+        <tr><td class="label">Username</td><td>{{ username }}</td></tr>
+        <tr><td class="label">Email Address</td><td>{{ email }}</td></tr>
+        <tr><td class="label">Phone</td><td>{{ phone }}</td></tr>
+        <tr><td class="label">Amount Transacted</td><td>INR {{ amount }}</td></tr>
+        <tr><td class="label">New Deposit Balance</td><td>INR {{ new_balance }}</td></tr>
+    </table>
+
+    <div class="note">
+        <b>Note:</b> Your security deposit balance has been successfully {% if is_add %}credited{% else %}debited{% endif %} by <b>INR {{ amount }}</b>. 
+        Your new available deposit balance is <b>INR {{ new_balance }}</b>. 
+        This amount acts as collateral for future rentals on Borrow Box.
+    </div>
+
+    <div id="footerContent">
+        &copy; 2025 Borrow Box &middot; Empowering Peer-to-Peer Rentals<br>
+        This is a system-generated receipt &mdash; no signature required.
+    </div>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        @page { size: a4 portrait; margin: 2cm; @frame footer { -pdf-frame-content: footerContent; bottom: 1cm; margin-left: 2cm; margin-right: 2cm; height: 1cm; } }
+        body { font-family: Helvetica, Arial, sans-serif; color: #1e1b4b; font-size: 12px; }
+        .header { background-color: #4c1d95; color: white; padding: 20px; text-align: center; border-radius: 5px; }
+        .title { font-size: 24px; font-weight: bold; }
+        .subtitle { font-size: 14px; color: #c4b5fd; margin-top: 5px; }
+        .greet { font-size: 14px; margin-top: 20px; }
+        .amount-box { background-color: #f5f3ff; text-align: center; padding: 20px; margin: 20px 0; border: 1px solid #ddd6fe; border-radius: 5px; }
+        .amount { color: #059669; font-size: 24px; font-weight: bold; }
+        .section-title { font-size: 14px; font-weight: bold; color: #6d28d9; border-bottom: 2px solid #6d28d9; padding-bottom: 5px; margin-top: 20px; margin-bottom: 10px; }
+        table.details { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        table.details td { padding: 8px; border-bottom: 1px solid #ddd6fe; border-right: 1px solid #ddd6fe; border-left: 1px solid #ddd6fe; }
+        table.details tr:nth-child(even) { background-color: #faf5ff; }
+        .label { font-weight: bold; color: #6d28d9; width: 40%; }
+        ul { margin: 0; padding-left: 20px; }
+        li { margin-bottom: 5px; font-size: 12px; }
+        #footerContent { text-align: center; font-size: 10px; color: #9ca3af; border-top: 1px solid #ddd6fe; padding-top: 10px; }
+        h3 { font-size: 12px; font-weight: bold; color: #4c1d95; margin-top: 15px; margin-bottom: 5px; }
+        p.tc { font-size: 10px; color: #4b5563; margin-top: 0; }
+        pdf:nextpage { page-break-before: always; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="title">Borrow Box</div>
+        <div class="subtitle">{{ subtitle }}</div>
+    </div>
+
+    <div class="greet">{{ greeting|safe }}</div>
+
+    <div class="amount-box">
+        <div class="amount">INR {{ total_price }}</div>
+        <div>{{ amount_label }}</div>
+    </div>
+
+    <div class="section-title">Booking Details</div>
+    {% if item_image_path %}
+    <div style="text-align: right; margin-top: -35px; margin-bottom: 5px;">
+        <img src="{{ item_image_path }}" style="height: 80px; border-radius: 4px; border: 1px solid #ddd6fe;" />
+    </div>
+    {% endif %}
+    <table class="details">
+        <tr><td class="label">Booking Reference</td><td>{{ ref_no }}</td></tr>
+        <tr><td class="label">Booking Date</td><td>{{ date }}</td></tr>
+        <tr><td class="label">Item Name</td><td>{{ item_title }}</td></tr>
+        <tr><td class="label">Category</td><td>{{ category }}</td></tr>
+        <tr><td class="label">City / Location</td><td>{{ location }}</td></tr>
+        <tr><td class="label">Rental Start Date</td><td>{{ start_date }}</td></tr>
+        <tr><td class="label">Rental End Date</td><td>{{ end_date }}</td></tr>
+        <tr><td class="label">Duration</td><td>{{ duration }}</td></tr>
+        <tr><td class="label">Price Per Day</td><td>INR {{ price_per_day }}</td></tr>
+        <tr><td class="label">{{ total_label }}</td><td>INR {{ total_price }}</td></tr>
+        <tr><td class="label">Booking Status</td><td>&#10004; Confirmed</td></tr>
+    </table>
+
+    <div class="section-title">{{ other_party_title }} Details</div>
+    <table class="details">
+        <tr><td class="label">Name</td><td>{{ other_name }}</td></tr>
+        <tr><td class="label">Username</td><td>{{ other_username }}</td></tr>
+        <tr><td class="label">Email Address</td><td>{{ other_email }}</td></tr>
+        <tr><td class="label">Phone</td><td>{{ other_phone }}</td></tr>
+        {% if is_buyer %}
+        <tr><td class="label">Address</td><td>{{ other_address }}</td></tr>
+        {% else %}
+        <tr><td class="label">ID Proof No.</td><td>{{ other_id }}</td></tr>
+        {% endif %}
+    </table>
+
+    {% if is_buyer %}
+    <div class="section-title">Your Details</div>
+    <table class="details">
+        <tr><td class="label">Your Name</td><td>{{ my_name }}</td></tr>
+        <tr><td class="label">Username</td><td>{{ my_username }}</td></tr>
+        <tr><td class="label">Email Address</td><td>{{ my_email }}</td></tr>
+        <tr><td class="label">Phone</td><td>{{ my_phone }}</td></tr>
+        <tr><td class="label">ID Proof No.</td><td>{{ my_id }}</td></tr>
+    </table>
+    {% endif %}
+
+    <div class="section-title">Important Instructions</div>
+    <ul>
+        {% for inst in instructions %}
+        <li>{{ inst|safe }}</li>
+        {% endfor %}
+    </ul>
+
+    <div id="footerContent">
+        &copy; 2025 Borrow Box &middot; Empowering Peer-to-Peer Rentals<br>
+        This is a system-generated document. For support: support@borrowbox.com | www.borrowbox.com
+    </div>
+
+    <pdf:nextpage />
+    
+    <div class="section-title">Terms & Conditions</div>
+    <p style="font-size: 10px; color: #4b5563;">Please read these Terms & Conditions carefully. By completing a booking on Borrow Box you confirm that you have read, understood, and agreed to all the terms outlined below.</p>
+    
+    <h3>1. General Obligations</h3>
+    <p class="tc">By using Borrow Box, both the renter and owner agree to conduct transactions in good faith. The item must be used responsibly and returned in its original condition, including any accessories provided.</p>
+
+    <h3>2. Liability & Damages</h3>
+    <p class="tc">The renter is fully responsible for any damage, loss, or theft during the rental period. Borrow Box reserves the right to utilise the security deposit to compensate the owner. Disputes will be escalated to Borrow Box Support for independent resolution.</p>
+
+    <h3>3. Late Returns</h3>
+    <p class="tc">Items returned after the agreed end date are subject to additional charges calculated at the daily rental rate or as specified by the owner. Continued late returns may lead to account suspension.</p>
+
+    <h3>4. Cancellation Policy</h3>
+    <p class="tc">Cancellations made more than 48 hours before the rental start date are eligible for a full refund. Cancellations within 48 hours may incur a cancellation fee of up to 50% of the total amount. No refund is applicable for no-shows.</p>
+
+    <h3>5. Identification & Verification</h3>
+    <p class="tc">Renters must provide a valid government-issued photo ID before collecting any high-value item. Borrow Box may store a masked copy of the ID number for dispute-resolution purposes only.</p>
+
+    <h3>6. Security Deposit</h3>
+    <p class="tc">A refundable security deposit is held by Borrow Box during the rental period. It is released within 3–5 business days after a satisfactory return, less any applicable deductions for damage or late fees.</p>
+
+    <h3>7. Platform Fees</h3>
+    <p class="tc">Borrow Box charges a platform fee on every completed transaction. This fee is non-refundable and is clearly communicated prior to checkout.</p>
+
+    <h3>8. Governing Law</h3>
+    <p class="tc">These Terms are governed by the laws of India. Any disputes arising shall be subject to the exclusive jurisdiction of courts located in the relevant state.</p>
+
+    <div style="text-align: center; margin-top: 40px; font-size: 12px; font-style: italic; color: #4b5563;">
+        I acknowledge that I have read and agree to the Borrow Box Terms & Conditions.
+    </div>
+    
+    <br><br><br>
+    <table style="width: 100%; border: none; font-size: 11px;">
+        <tr>
+            <td style="width: 40%; border-bottom: 1px solid #4b5563;"></td>
+            <td style="width: 20%; border: none;"></td>
+            <td style="width: 40%; border-bottom: 1px solid #4b5563;"></td>
+        </tr>
+        <tr>
+            <td style="text-align: center; border: none; padding-top: 5px;">Renter Signature</td>
+            <td style="border: none;"></td>
+            <td style="text-align: center; border: none; padding-top: 5px;">Date</td>
+        </tr>
+    </table>
+</body>
+</html>

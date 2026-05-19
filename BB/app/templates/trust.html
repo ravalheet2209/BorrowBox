@@ -1,35 +1,144 @@
 {% extends "base.html" %}
-{% block title %}Trust & Safety{% endblock %}
+{% block title %}Trust & Safety — Borrow Box{% endblock %}
 
 {% block content %}
-<section class="max-w-6xl mx-auto px-6 py-16">
 
-  <h1 class="text-4xl font-bold text-center mb-12">Trust & Safety</h1>
-
-  <div class="grid md:grid-cols-3 gap-8">
-
-    <div class="bg-white dark:bg-surface-dark p-8 rounded-2xl shadow">
-      <h3 class="font-bold mb-2">Verified Users</h3>
-      <p class="text-slate-500 text-sm">
-        All users are verified before listing items.
-      </p>
-    </div>
-
-    <div class="bg-white dark:bg-surface-dark p-8 rounded-2xl shadow">
-      <h3 class="font-bold mb-2">Secure Payments</h3>
-      <p class="text-slate-500 text-sm">
-        Payments processed securely via trusted gateways.
-      </p>
-    </div>
-
-    <div class="bg-white dark:bg-surface-dark p-8 rounded-2xl shadow">
-      <h3 class="font-bold mb-2">Community Reviews</h3>
-      <p class="text-slate-500 text-sm">
-        Transparent ratings build renter-owner trust.
-      </p>
-    </div>
-
+<!-- Hero -->
+<section class="relative bg-gradient-to-br from-[#f9f5ff] via-white to-[#fff9f0] overflow-hidden py-28">
+  <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl -translate-y-36 translate-x-36 pointer-events-none"></div>
+  <div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-accent/5 rounded-full blur-3xl translate-y-20 -translate-x-20 pointer-events-none"></div>
+  <div class="relative max-w-3xl mx-auto px-6 text-center">
+    <span class="inline-flex items-center gap-2 px-4 py-1.5 bg-green-500/10 border border-green-500/20 rounded-full text-xs font-semibold text-green-700 uppercase tracking-widest mb-6">
+      <span class="material-symbols-outlined text-[1rem]">verified_user</span>
+      Safe & Secure
+    </span>
+    <h1 class="font-display font-extrabold text-[3rem] md:text-[4rem] text-[#0d0d12] leading-[1.08] tracking-[-0.03em] mb-6">
+      Your Safety is Our<br>
+      <span class="bg-gradient-to-r from-primary to-green-500 bg-clip-text text-transparent">#1 Priority</span>
+    </h1>
+    <p class="text-gray-500 text-lg leading-relaxed max-w-xl mx-auto">
+      Borrow Box protects every transaction with ID verification, secure payments, and community reviews — so you can rent with complete confidence.
+    </p>
   </div>
-
 </section>
+
+<!-- Core Pillars -->
+<section class="py-20 bg-white">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="text-center mb-14">
+      <h2 class="font-display font-extrabold text-[2.2rem] text-[#0d0d12] tracking-[-0.03em] mb-3">How We Keep You Safe</h2>
+      <p class="text-gray-400 text-sm max-w-md mx-auto">Multi-layered protection built into every step of the rental process.</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <div class="group p-8 rounded-3xl border border-slate-100 hover:border-primary/30 hover:shadow-[0_12px_40px_rgba(109,40,217,0.08)] transition-all">
+        <div class="w-14 h-14 rounded-2xl bg-blue-500/10 flex items-center justify-center mb-5">
+          <span class="material-symbols-outlined text-blue-600 text-[1.8rem]">badge</span>
+        </div>
+        <h3 class="font-display font-bold text-lg text-[#0d0d12] mb-2">ID Verification</h3>
+        <p class="text-gray-500 text-sm leading-relaxed">Every user must submit a government-issued ID before making their first booking. No anonymous rentals, ever.</p>
+      </div>
+
+      <div class="group p-8 rounded-3xl border border-slate-100 hover:border-primary/30 hover:shadow-[0_12px_40px_rgba(109,40,217,0.08)] transition-all">
+        <div class="w-14 h-14 rounded-2xl bg-green-500/10 flex items-center justify-center mb-5">
+          <span class="material-symbols-outlined text-green-600 text-[1.8rem]">lock</span>
+        </div>
+        <h3 class="font-display font-bold text-lg text-[#0d0d12] mb-2">Secure Payments</h3>
+        <p class="text-gray-500 text-sm leading-relaxed">All payments are processed through bank-grade encrypted gateways. Your financial information is never stored on our servers.</p>
+      </div>
+
+      <div class="group p-8 rounded-3xl border border-slate-100 hover:border-primary/30 hover:shadow-[0_12px_40px_rgba(109,40,217,0.08)] transition-all">
+        <div class="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-5">
+          <span class="material-symbols-outlined text-primary text-[1.8rem]">shield</span>
+        </div>
+        <h3 class="font-display font-bold text-lg text-[#0d0d12] mb-2">Security Deposit</h3>
+        <p class="text-gray-500 text-sm leading-relaxed">A refundable security deposit ensures both parties have skin in the game. Deposits are returned after successful completion.</p>
+      </div>
+
+      <div class="group p-8 rounded-3xl border border-slate-100 hover:border-primary/30 hover:shadow-[0_12px_40px_rgba(109,40,217,0.08)] transition-all">
+        <div class="w-14 h-14 rounded-2xl bg-yellow-500/10 flex items-center justify-center mb-5">
+          <span class="material-symbols-outlined text-yellow-600 text-[1.8rem]">star</span>
+        </div>
+        <h3 class="font-display font-bold text-lg text-[#0d0d12] mb-2">Community Reviews</h3>
+        <p class="text-gray-500 text-sm leading-relaxed">Transparent, verified ratings from real renters and owners. Only users who completed a booking can leave a review.</p>
+      </div>
+
+      <div class="group p-8 rounded-3xl border border-slate-100 hover:border-primary/30 hover:shadow-[0_12px_40px_rgba(109,40,217,0.08)] transition-all">
+        <div class="w-14 h-14 rounded-2xl bg-red-500/10 flex items-center justify-center mb-5">
+          <span class="material-symbols-outlined text-red-500 text-[1.8rem]">support_agent</span>
+        </div>
+        <h3 class="font-display font-bold text-lg text-[#0d0d12] mb-2">24/7 Dispute Support</h3>
+        <p class="text-gray-500 text-sm leading-relaxed">Our dedicated support team mediates any disputes between renters and owners fairly and quickly — typically within 48 hours.</p>
+      </div>
+
+      <div class="group p-8 rounded-3xl border border-slate-100 hover:border-primary/30 hover:shadow-[0_12px_40px_rgba(109,40,217,0.08)] transition-all">
+        <div class="w-14 h-14 rounded-2xl bg-indigo-500/10 flex items-center justify-center mb-5">
+          <span class="material-symbols-outlined text-indigo-600 text-[1.8rem]">policy</span>
+        </div>
+        <h3 class="font-display font-bold text-lg text-[#0d0d12] mb-2">Item Protection Policy</h3>
+        <p class="text-gray-500 text-sm leading-relaxed">Owners are covered by our item protection policy for accidental damages caused during a verified rental period.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Process Steps -->
+<section class="py-20 bg-[#f9f5ff]">
+  <div class="max-w-4xl mx-auto px-6">
+    <h2 class="font-display font-extrabold text-[2.2rem] text-[#0d0d12] tracking-[-0.03em] text-center mb-14">The Safe Rental Process</h2>
+    <div class="space-y-6">
+      {% for step in steps %}
+      {% empty %}
+
+      <div class="flex items-start gap-6 p-6 bg-white rounded-2xl border border-slate-100 shadow-sm">
+        <div class="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white font-display font-extrabold text-lg shrink-0">1</div>
+        <div>
+          <div class="font-display font-bold text-[#0d0d12] mb-1">Verify Your Identity</div>
+          <div class="text-gray-500 text-sm">Upload a government ID (Aadhar, Passport, or Driving License). We verify within 24 hours.</div>
+        </div>
+      </div>
+
+      <div class="flex items-start gap-6 p-6 bg-white rounded-2xl border border-slate-100 shadow-sm">
+        <div class="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white font-display font-extrabold text-lg shrink-0">2</div>
+        <div>
+          <div class="font-display font-bold text-[#0d0d12] mb-1">Add Security Deposit</div>
+          <div class="text-gray-500 text-sm">Add a refundable ₹2,000 security deposit per rental to unlock checkout. Fully refundable after each return.</div>
+        </div>
+      </div>
+
+      <div class="flex items-start gap-6 p-6 bg-white rounded-2xl border border-slate-100 shadow-sm">
+        <div class="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white font-display font-extrabold text-lg shrink-0">3</div>
+        <div>
+          <div class="font-display font-bold text-[#0d0d12] mb-1">Book with Confidence</div>
+          <div class="text-gray-500 text-sm">Select your dates, confirm the booking, and receive a PDF confirmation to both parties via email.</div>
+        </div>
+      </div>
+
+      <div class="flex items-start gap-6 p-6 bg-white rounded-2xl border border-slate-100 shadow-sm">
+        <div class="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white font-display font-extrabold text-lg shrink-0">4</div>
+        <div>
+          <div class="font-display font-bold text-[#0d0d12] mb-1">Return & Review</div>
+          <div class="text-gray-500 text-sm">Return the item on time, leave a review, and your deposit is released. Simple, transparent, and fair.</div>
+        </div>
+      </div>
+
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="py-20 bg-gradient-to-r from-green-600 to-primary">
+  <div class="max-w-3xl mx-auto px-6 text-center">
+    <span class="material-symbols-outlined text-white text-[3rem] block mb-4">verified_user</span>
+    <h2 class="font-display font-extrabold text-[2.2rem] text-white tracking-[-0.03em] mb-4">Ready to Rent Safely?</h2>
+    <p class="text-white/70 mb-8">Join thousands of verified users who trust Borrow Box every day.</p>
+    <a href="{% url 'register' %}" class="inline-block px-10 py-3.5 bg-white text-primary font-display font-bold rounded-full hover:shadow-xl hover:-translate-y-1 transition-all no-underline">
+      Create Free Account
+    </a>
+  </div>
+</section>
+
 {% endblock %}

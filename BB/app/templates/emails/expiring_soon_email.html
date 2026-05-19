@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #eee; border-radius: 10px; }
+        .header { background-color: #fca311; color: white; padding: 10px; text-align: center; border-radius: 10px 10px 0 0; }
+        .content { padding: 20px; }
+        .footer { text-align: center; font-size: 12px; color: #888; margin-top: 20px; }
+        .button { display: inline-block; padding: 10px 20px; background-color: #14213d; color: white; text-decoration: none; border-radius: 5px; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Booking Expiring Soon</h1>
+        </div>
+        <div class="content">
+            <p>Hello <strong>{{ name }}</strong>,</p>
+            <p>This is a friendly reminder that your booking for <strong>{{ item_title }}</strong> is expiring on <strong>{{ end_date }}</strong>.</p>
+            <p>Please ensure that you return the item to the owner by the end of the day to avoid any late fees.</p>
+            <p>If you have already returned the item, please ensure the owner confirms the return on their dashboard.</p>
+            <a href="{{ site_url }}/adpanel/dashboard/" class="button">View Dashboard</a>
+        </div>
+        <div class="footer">
+            <p>&copy; 2026 Borrow Box. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>

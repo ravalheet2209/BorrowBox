@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: Helvetica, Arial, sans-serif; background-color: #f5f3ff; margin: 0; padding: 20px; color: #1e1b4b; }
+        .container { max-width: 600px; margin: 0 auto; background: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+        .header { text-align: center; border-bottom: 2px solid #6d28d9; padding-bottom: 20px; margin-bottom: 20px; }
+        .header h1 { color: #4c1d95; margin: 0; }
+        .amount { text-align: center; font-size: 24px; color: #059669; font-weight: bold; background: #f5f3ff; margin: 20px 0; padding: 15px; border-radius: 6px; }
+        .amount.debited { color: #d97706; }
+        .content { font-size: 16px; line-height: 1.6; color: #4b5563; }
+        .footer { text-align: center; margin-top: 30px; font-size: 12px; color: #9ca3af; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Borrow Box</h1>
+        </div>
+        <div class="content">
+            <p>Hello <b>{{ name }}</b>,</p>
+            <p>Your security deposit has been successfully 
+                {% if is_add %}credited{% else %}debited{% endif %} by:
+            </p>
+            
+            <div class="amount {% if not is_add %}debited{% endif %}">
+                IRS {{ amount }}
+            </div>
+
+            <p><b>New balance:</b> IRS {{ new_balance }}</p>
+
+            <p>Please find the official receipt attached as a PDF.</p>
+
+            <p>Regards,<br>The Borrow Box Team</p>
+        </div>
+        <div class="footer">
+            &copy; 2025 Borrow Box &middot; Empowering Peer-to-Peer Rentals
+        </div>
+    </div>
+</body>
+</html>

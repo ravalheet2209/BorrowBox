@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f9fafb; margin: 0; padding: 40px 20px; color: #111827; }
+        .container { max-width: 600px; margin: 0 auto; background: #ffffff; padding: 40px; border-radius: 20px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); border: 1px solid #e5e7eb; }
+        .header { text-align: center; margin-bottom: 30px; }
+        .header h1 { color: #6d28d9; margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.025em; }
+        .badge { display: inline-block; padding: 4px 12px; background: #ecfdf5; color: #059669; border-radius: 9999px; font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 20px; }
+        .content { line-height: 1.6; }
+        .footer { text-align: center; margin-top: 40px; font-size: 13px; color: #9ca3af; border-top: 1px solid #f3f4f6; padding-top: 20px; }
+        .btn { display: inline-block; padding: 12px 24px; background: #6d28d9; color: #ffffff !important; text-decoration: none; border-radius: 10px; font-weight: 600; margin-top: 20px; }
+        .quote { background: #f9fafb; border-left: 4px solid #6d28d9; padding: 15px; margin: 20px 0; color: #4b5563; font-style: italic; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <span class="badge">Message Received</span>
+            <h1>Borrow Box</h1>
+        </div>
+        <div class="content">
+            <p>Hello <b>{{ first_name }}</b>,</p>
+            <p>Thanks for reaching out! We’ve received your inquiry and our team is already on it. We aim to respond to all messages within 24 hours.</p>
+
+            <div class="quote">
+                <strong>Your Message Detail:</strong><br>
+                <b>Subject:</b> {{ subject }}<br>
+                <b>Message:</b> {{ message }}
+            </div>
+
+            <p>While you wait, why not check out the latest listings on the marketplace?</p>
+            
+            <div style="text-align: center;">
+                <a href="{{ site_url }}" class="btn">Explore Marketplace</a>
+            </div>
+            
+            <p>Regards,<br><b>The Borrow Box Team</b></p>
+        </div>
+        <div class="footer">
+            &copy; 2025 Borrow Box &middot; All Rights Reserved
+        </div>
+    </div>
+</body>
+</html>

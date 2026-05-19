@@ -1,9 +1,10 @@
-from django.db import models
-from django.contrib.auth.models import User
-from django.utils import timezone
 from datetime import timedelta
+
+from django.contrib.auth.models import User
+from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.utils import timezone
 
 
 # =====================================================
@@ -28,6 +29,7 @@ class Contact(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
+    image = models.ImageField(upload_to='categories/', blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -55,6 +57,15 @@ class Item(models.Model):
     image3 = models.ImageField(upload_to='items/', blank=True, null=True)
     image4 = models.ImageField(upload_to='items/', blank=True, null=True)
     image5 = models.ImageField(upload_to='items/', blank=True, null=True)
+
+    @property
+    def all_images(self):
+        """Return a list of URLs for all non-null images on this item."""
+        urls = []
+        for field in [self.image, self.image2, self.image3, self.image4, self.image5]:
+            if field:
+                urls.append(field.url)
+        return urls
 
     @property
     def rating(self):
@@ -102,6 +113,13 @@ class Booking(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     expires_at = models.DateTimeField(null=True, blank=True)
+
+    # Fine & Automation tracking
+    is_expiring_soon_sent = models.BooleanField(default=False)
+    seller_confirmed = models.BooleanField(default=False)
+    last_reminder_sent_at = models.DateTimeField(null=True, blank=True)
+    last_fine_applied_at = models.DateTimeField(null=True, blank=True)
+    total_fines = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
 
     def save(self, *args, **kwargs):
         # Set expiry time only for pending bookings
@@ -161,6 +179,7 @@ class Profile(models.Model):
     id_number = models.CharField(max_length=50, blank=True, null=True)
     id_proof = models.FileField(upload_to='id_proofs/', blank=True, null=True)
     security_deposit = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    wallet_balance = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)  # seller earnings wallet
 
     def mask_id_number(self):
         if self.id_number and len(self.id_number) > 4:
@@ -169,6 +188,31 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+# =====================================================
+# WITHDRAWAL REQUEST
+# =====================================================
+
+class WithdrawalRequest(models.Model):
+
+    STATUS_CHOICES = (
+        ('pending', 'Pending'),
+        ('approved', 'Approved'),
+        ('rejected', 'Rejected'),
+    )
+
+    seller = models.ForeignKey(User, on_delete=models.CASCADE, related_name='withdrawal_requests')
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    upi_id = models.CharField(max_length=100, blank=True, null=True)
+    bank_account = models.CharField(max_length=100, blank=True, null=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    requested_at = models.DateTimeField(auto_now_add=True)
+    processed_at = models.DateTimeField(null=True, blank=True)
+    note = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return f"Withdrawal ₹{self.amount} by {self.seller.username} [{self.status}]"
 
 
 # =====================================================

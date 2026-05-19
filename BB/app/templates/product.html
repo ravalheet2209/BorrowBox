@@ -5,39 +5,294 @@
 {% block extra_css %}
 <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
 <style>
-/* FullCalendar reskin — third-party overrides only */
-#bb-calendar { font-family:'DM Sans',sans-serif !important; }
-.fc-theme-standard td,.fc-theme-standard th,.fc-scrollgrid { border:none !important; }
-.fc-toolbar { margin-bottom:14px !important; }
-.fc-toolbar-title { font-family:'Outfit',sans-serif !important; font-size:.95rem !important; font-weight:700 !important; color:#0d0d12 !important; }
-.fc-button { background:#f4f0ff !important; border:1px solid #ede9fe !important; color:#0d0d12 !important; border-radius:8px !important; padding:5px 10px !important; font-weight:600 !important; font-size:.78rem !important; box-shadow:none !important; outline:none !important; }
-.fc-button:hover { background:#e0d9ff !important; }
-.fc-button:focus { box-shadow:0 0 0 2px rgba(109,40,217,.2) !important; }
-.fc-col-header-cell-cushion { font-size:.72rem !important; font-weight:700 !important; color:#9ca3af !important; text-transform:uppercase; letter-spacing:.05em; text-decoration:none !important; }
-.fc-daygrid-day-number { font-size:.8rem !important; font-weight:500 !important; color:#4b5563 !important; text-decoration:none !important; padding:4px 6px !important; }
-.fc-daygrid-day { border-radius:8px !important; }
-.fc-day-today { background:rgba(109,40,217,.07) !important; border-radius:8px !important; }
-.fc-day-today .fc-daygrid-day-number { color:#6d28d9 !important; font-weight:700 !important; }
-.fc .fc-highlight { background:rgba(109,40,217,.12) !important; border-radius:6px; }
-.fc-bg-event { background:rgba(239,68,68,.18) !important; border-radius:6px; }
-.fc-daygrid-day:hover { background:#f4f0ff !important; }
-.fc-day-past .fc-daygrid-day-number { color:#d1d5db !important; }
+  /* ── FullCalendar reskin ── */
+  #bb-calendar {
+    font-family: 'DM Sans', sans-serif !important;
+  }
 
-/* Gallery image zoom */
-.gallery-main:hover .gallery-main-img { transform:scale(1.03); }
-.gallery-main-img { transition:transform .6s ease; }
-.gallery-thumb:hover img { transform:scale(1.06); }
-.gallery-thumb img { transition:transform .4s ease; }
+  .fc-theme-standard td,
+  .fc-theme-standard th,
+  .fc-scrollgrid {
+    border: none !important;
+  }
 
-/* Booking summary animate-in via JS */
-#booking-summary { display:none; }
+  .fc-toolbar {
+    margin-bottom: 8px !important;
+  }
 
-/* Interactive Star Rating */
-.star-rating { display: flex; flex-direction: row-reverse; justify-content: flex-end; gap: 4px; }
-.star-rating input { display: none; }
-.star-rating label { cursor: pointer; color: #d1d5db; transition: color 0.2s; }
-.star-rating label:hover, .star-rating label:hover ~ label, .star-rating input:checked ~ label { color: #f59e0b; }
-.star-rating label span { font-size: 1.5rem; font-variation-settings: 'FILL' 1; }
+  .fc-toolbar-title {
+    font-family: 'Outfit', sans-serif !important;
+    font-size: .78rem !important;
+    font-weight: 700 !important;
+    color: #0d0d12 !important;
+  }
+
+  .fc-button {
+    background: #f4f0ff !important;
+    border: 1px solid #ede9fe !important;
+    color: #0d0d12 !important;
+    border-radius: 6px !important;
+    padding: 2px 8px !important;
+    font-weight: 600 !important;
+    font-size: .7rem !important;
+    box-shadow: none !important;
+    outline: none !important;
+  }
+
+  .fc-button:hover {
+    background: #e0d9ff !important;
+  }
+
+  .fc-button:focus {
+    box-shadow: 0 0 0 2px rgba(109, 40, 217, .2) !important;
+  }
+
+  .fc-col-header-cell-cushion {
+    font-size: .6rem !important;
+    font-weight: 700 !important;
+    color: #9ca3af !important;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    text-decoration: none !important;
+    padding: 2px 0 !important;
+  }
+
+  .fc-daygrid-day-number {
+    font-size: .78rem !important;
+    font-weight: 500 !important;
+    color: #4b5563 !important;
+    text-decoration: none !important;
+    padding: 2px !important;
+    line-height: 1 !important;
+  }
+
+  .fc-daygrid-day {
+    border-radius: 4px !important;
+  }
+
+  .fc-daygrid-day.fc-daygrid-day {
+    min-height: 36px !important;
+  }
+
+  .fc-daygrid-day-frame {
+    min-height: 36px !important;
+    padding: 0 !important;
+  }
+
+  .fc-day-today {
+    background: rgba(109, 40, 217, .07) !important;
+    border-radius: 4px !important;
+  }
+
+  .fc-day-today .fc-daygrid-day-number {
+    color: #6d28d9 !important;
+    font-weight: 700 !important;
+  }
+
+  .fc .fc-highlight {
+    background: rgba(109, 40, 217, .12) !important;
+    border-radius: 3px;
+  }
+
+  .fc-bg-event {
+    background: rgba(239, 68, 68, .18) !important;
+    border-radius: 3px;
+  }
+
+  .fc-daygrid-day:hover {
+    background: #f4f0ff !important;
+  }
+
+  .fc-day-past .fc-daygrid-day-number {
+    color: #d1d5db !important;
+  }
+
+
+
+  /* ── Gallery ── */
+  #gallery-grid {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    gap: 8px;
+    aspect-ratio: 16/7;
+    max-height: 420px;
+  }
+
+  .gallery-main {
+    grid-column: 1;
+    grid-row: 1;
+    border-radius: 18px;
+    overflow: hidden;
+    background: #f0ebff;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .gallery-main-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform .6s ease;
+  }
+
+  .gallery-main:hover .gallery-main-img {
+    transform: scale(1.03);
+  }
+
+  #gallery-thumbs {
+    grid-column: 2;
+    grid-row: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .gallery-thumb {
+    border-radius: 10px;
+    overflow: hidden;
+    background: #f0ebff;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .gallery-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .4s ease;
+    display: block;
+  }
+
+  .gallery-thumb:hover img {
+    transform: scale(1.06);
+  }
+
+  .gallery-thumb-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(13, 13, 18, .55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    font-size: 1.3rem;
+    color: #fff;
+    pointer-events: none;
+  }
+
+  /* ── Booking summary ── */
+  #booking-summary {
+    display: none;
+  }
+
+  /* ── Star rating (review form) ── */
+  .star-rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    gap: 4px;
+  }
+
+  .star-rating input {
+    display: none;
+  }
+
+  .star-rating label {
+    cursor: pointer;
+    color: #d1d5db;
+    transition: color .2s;
+  }
+
+  .star-rating label:hover,
+  .star-rating label:hover~label,
+  .star-rating input:checked~label {
+    color: #f59e0b;
+  }
+
+  .star-rating label span {
+    font-size: 1.5rem;
+    font-variation-settings: 'FILL' 1;
+  }
+
+  /* ── Mobile / tablet product page ── */
+  @media (max-width: 1023px) {
+    #product-main-grid {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* order: gallery first, booking second, product-info last */
+    #gallery-grid {
+      order: 1;
+    }
+
+    #product-right-col {
+      order: 2;
+    }
+
+    #product-left-col {
+      order: 3;
+    }
+
+    #booking-card {
+      position: static !important;
+    }
+
+    .product-card-pad {
+      padding: 1rem !important;
+    }
+
+    .highlights-grid {
+      grid-template-columns: repeat(3, 1fr) !important;
+    }
+  }
+
+  @media (max-width: 767px) {
+    #gallery-grid {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto;
+      height: auto;
+      aspect-ratio: unset;
+      max-height: unset;
+    }
+
+    .gallery-main {
+      aspect-ratio: 4/3;
+      height: auto;
+    }
+
+    #gallery-thumbs {
+      grid-column: 1;
+      grid-row: 2;
+      display: flex;
+      overflow-x: auto;
+      gap: 8px;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+      height: 80px;
+    }
+
+    #gallery-thumbs::-webkit-scrollbar {
+      display: none;
+    }
+
+    #gallery-thumbs .gallery-thumb {
+      flex: 0 0 80px;
+      height: 80px;
+      border-radius: 8px;
+    }
+
+    .highlights-grid {
+      gap: 8px !important;
+    }
+
+    .highlights-grid>div {
+      padding: 8px !important;
+    }
+  }
 </style>
 {% endblock %}
 
@@ -45,335 +300,493 @@
 <div class="min-h-screen bg-[#fafafa]" data-scroll-section>
 
   <!-- ══ BREADCRUMB ══ -->
-  <div class="bg-white border-b border-slate-100 py-3.5">
-    <div class="max-w-[1280px] mx-auto px-8 flex items-center gap-1.5 flex-wrap">
-      <a href="{% url 'home' %}"      class="text-[0.82rem] font-medium text-gray-400 hover:text-primary no-underline transition-colors">Home</a>
-      <span class="text-gray-300 text-[0.8rem]">›</span>
-      <a href="{% url 'item_listing' %}" class="text-[0.82rem] font-medium text-gray-400 hover:text-primary no-underline transition-colors">Browse</a>
-      <span class="text-gray-300 text-[0.8rem]">›</span>
-      <a href="{% url 'item_listing' %}?category={{ item.category.id }}" class="text-[0.82rem] font-medium text-gray-400 hover:text-primary no-underline transition-colors">{{ item.category.name }}</a>
-      <span class="text-gray-300 text-[0.8rem]">›</span>
-      <span class="text-[0.82rem] font-semibold text-[#0d0d12] truncate max-w-[260px]">{{ item.title }}</span>
+  <div class="bg-white border-b border-slate-100 py-3">
+    <div class="max-w-[1280px] mx-auto px-4 sm:px-6 flex items-center gap-1.5 flex-wrap">
+      <a href="{% url 'home' %}"
+        class="text-[0.8rem] font-medium text-gray-400 hover:text-primary no-underline transition-colors">Home</a>
+      <span class="text-gray-300">›</span>
+      <a href="{% url 'item_listing' %}"
+        class="text-[0.8rem] font-medium text-gray-400 hover:text-primary no-underline transition-colors">Browse</a>
+      <span class="text-gray-300">›</span>
+      <a href="{% url 'item_listing' %}?category={{ item.category.id }}"
+        class="text-[0.8rem] font-medium text-gray-400 hover:text-primary no-underline transition-colors">{{ item.category.name }}</a>
+      <span class="text-gray-300">›</span>
+      <span class="text-[0.8rem] font-semibold text-[#0d0d12] truncate max-w-[160px] sm:max-w-[240px]">{{ item.title }}</span>
     </div>
   </div>
 
-  <div class="max-w-[1280px] mx-auto px-8 py-8 pb-20">
+  <div class="max-w-[1280px] mx-auto px-4 sm:px-6 py-5 sm:py-7 pb-16">
 
-    <!-- ══ GALLERY ══ -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-10" id="gallery-grid">
-      <div class="gallery-main rounded-[22px] overflow-hidden bg-[#f0ebff] aspect-[4/4] relative">
-        {% if item.image %}<img id="main-product-img" class="gallery-main-img w-full h-full object-cover" src="{{ item.image.url }}" alt="{{ item.title }}">
-        {% else %}<div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-[#f0ebff] to-[#ddd6fe]"><span class="material-symbols-outlined text-[4rem] text-[#c4b5fd]">image</span></div>{% endif %}
-      </div>
-      <div class="grid grid-cols-2 gap-3">
-        {% if item.image %}
-        <div class="gallery-thumb rounded-[16px] overflow-hidden bg-[#f0ebff] aspect-square cursor-pointer relative after:absolute after:inset-0 after:rounded-[16px] after:bg-primary/0 after:hover:bg-primary/[0.06] after:transition-colors" onclick="document.getElementById('main-product-img').src='{{ item.image.url }}'">
-          <img src="{{ item.image.url }}" alt="{{ item.title }}" class="w-full h-full object-cover">
-        </div>
-        {% endif %}
-        {% if item.image2 %}
-        <div class="gallery-thumb rounded-[16px] overflow-hidden bg-[#f0ebff] aspect-square cursor-pointer relative after:absolute after:inset-0 after:rounded-[16px] after:bg-primary/0 after:hover:bg-primary/[0.06] after:transition-colors" onclick="document.getElementById('main-product-img').src='{{ item.image2.url }}'">
-          <img src="{{ item.image2.url }}" alt="{{ item.title }}" class="w-full h-full object-cover">
-        </div>
-        {% endif %}
-        {% if item.image3 %}
-        <div class="gallery-thumb rounded-[16px] overflow-hidden bg-[#f0ebff] aspect-square cursor-pointer relative after:absolute after:inset-0 after:rounded-[16px] after:bg-primary/0 after:hover:bg-primary/[0.06] after:transition-colors" onclick="document.getElementById('main-product-img').src='{{ item.image3.url }}'">
-          <img src="{{ item.image3.url }}" alt="{{ item.title }}" class="w-full h-full object-cover">
-        </div>
-        {% endif %}
-        {% if item.image4 %}
-        <div class="gallery-thumb rounded-[16px] overflow-hidden bg-[#f0ebff] aspect-square cursor-pointer relative after:absolute after:inset-0 after:rounded-[16px] after:bg-primary/0 after:hover:bg-primary/[0.06] after:transition-colors" onclick="document.getElementById('main-product-img').src='{{ item.image4.url }}'">
-          <img src="{{ item.image4.url }}" alt="{{ item.title }}" class="w-full h-full object-cover">
-        </div>
-        {% endif %}
-        {% if item.image5 %}
-        <div class="gallery-thumb rounded-[16px] overflow-hidden bg-[#f0ebff] aspect-square cursor-pointer relative after:absolute after:inset-0 after:rounded-[16px] after:bg-primary/0 after:hover:bg-primary/[0.06] after:transition-colors" onclick="document.getElementById('main-product-img').src='{{ item.image5.url }}'">
-          <img src="{{ item.image5.url }}" alt="{{ item.title }}" class="w-full h-full object-cover">
-        </div>
-        {% endif %}
-      </div>
-    </div>
 
     <!-- ══ MAIN GRID ══ -->
-    <div class="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-8 items-start">
+    <div class="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-5 lg:gap-7 items-start" id="product-main-grid">
 
-      <!-- ── LEFT INFO ── -->
-      <div class="flex flex-col gap-6">
+      <!-- ── GALLERY ── -->
+      <div id="gallery-grid" class="lg:col-start-1 lg:col-end-2">
 
-        <!-- Product header card -->
-        <div id="prod-header" class="bg-white border border-slate-100 rounded-[22px] p-7 shadow-[0_2px_8px_rgba(0,0,0,.03)]">
-          <div class="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-[#f0ebff] border border-[#ddd6fe] rounded-full text-[0.7rem] font-bold text-primary uppercase tracking-[0.1em] mb-3">
-            <span class="material-symbols-outlined text-[0.75rem]">category</span>{{ item.category.name }}
-          </div>
-          <h1 class="font-display font-extrabold tracking-[-0.025em] text-[#0d0d12] leading-[1.2] mb-3.5" style="font-size:clamp(1.5rem,3vw,2rem);">{{ item.title }}</h1>
-          <div class="flex items-center gap-[18px] flex-wrap">
-            <div class="flex items-center gap-px text-amber-500">
-              {% for i in "12345"|make_list %}
-              <span class="material-symbols-outlined text-[0.95rem]" style="font-variation-settings:'FILL' {% if item.rating|default:5 >= forloop.counter %}1{% else %}0{% endif %};">star</span>
-              {% endfor %}
-              <span class="font-display font-bold text-[0.85rem] text-[#0d0d12] ml-1">{{ item.rating|default:"5.0" }}</span>
-              <span class="text-[0.78rem] font-normal text-gray-400">({{ item.reviews.count|default:"0" }} reviews)</span>
+        <!-- Main image (left) -->
+        <div class="gallery-main">
+            {% if item.image %}
+            <img id="main-product-img" class="gallery-main-img" src="{{ item.image.url }}" alt="{{ item.title }}">
+            {% else %}
+            <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-[#f0ebff] to-[#ddd6fe]">
+              <span class="material-symbols-outlined text-[4rem] text-[#c4b5fd]">image</span>
             </div>
-            <div class="flex items-center gap-1 text-[0.82rem] text-gray-500">
-              <span class="material-symbols-outlined text-[0.95rem] text-gray-400">location_on</span>{{ item.location }}
-            </div>
-            <div class="flex items-center gap-1 text-[0.82rem] text-gray-500">
-              <span class="material-symbols-outlined text-[0.95rem] text-gray-400">inventory_2</span>Available now
-            </div>
-          </div>
-        </div>
-
-        <!-- Highlights -->
-        <div id="prod-highlights" class="bg-white border border-slate-100 rounded-[20px] p-6 shadow-[0_2px_8px_rgba(0,0,0,.03)]">
-          <div class="flex items-center gap-1.5 font-display font-bold text-[0.95rem] text-[#0d0d12] mb-4">
-            <span class="material-symbols-outlined text-base text-primary">verified</span> Item Highlights
-          </div>
-          <div class="grid grid-cols-3 gap-3">
-            <div class="bg-surface2 border border-border-p rounded-[14px] p-3.5 flex flex-col gap-1.5">
-              <span class="material-symbols-outlined text-[1.2rem] text-primary">payments</span>
-              <span class="text-[0.72rem] text-gray-400 uppercase tracking-[0.1em] font-semibold">Daily Rate</span>
-              <span class="font-display font-bold text-[0.88rem] text-[#0d0d12]">₹{{ item.price_per_day }}</span>
-            </div>
-            <div class="bg-surface2 border border-border-p rounded-[14px] p-3.5 flex flex-col gap-1.5">
-              <span class="material-symbols-outlined text-[1.2rem] text-primary">category</span>
-              <span class="text-[0.72rem] text-gray-400 uppercase tracking-[0.1em] font-semibold">Category</span>
-              <span class="font-display font-bold text-[0.88rem] text-[#0d0d12]">{{ item.category.name }}</span>
-            </div>
-            <div class="bg-surface2 border border-border-p rounded-[14px] p-3.5 flex flex-col gap-1.5">
-              <span class="material-symbols-outlined text-[1.2rem] text-primary">gpp_good</span>
-              <span class="text-[0.72rem] text-gray-400 uppercase tracking-[0.1em] font-semibold">Condition</span>
-              <span class="font-display font-bold text-[0.88rem] text-[#0d0d12]">{{ item.condition|default:"Like New" }}</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Owner card -->
-        <div id="prod-owner" class="bg-white border border-slate-100 rounded-[20px] p-5 px-6 flex items-center gap-4 shadow-[0_2px_8px_rgba(0,0,0,.03)]">
-          <img src="https://ui-avatars.com/api/?name={{ item.owner.username }}&background=6d28d9&color=fff&size=80" class="w-[52px] h-[52px] rounded-full object-cover shrink-0 border-2 border-[#ede9fe]" alt="{{ item.owner.username }}">
-          <div>
-            <div class="font-display font-bold text-[0.95rem] text-[#0d0d12]">{{ item.owner.username }}</div>
-            <div class="flex items-center gap-1 text-[0.78rem] text-gray-400 mt-0.5">
-              <span class="material-symbols-outlined text-[0.85rem] text-green-500">verified</span> Verified member
-            </div>
-          </div>
-          <a href="#" class="ml-auto shrink-0 flex items-center gap-1.5 px-4 py-2 bg-surface2 text-primary border-[1.5px] border-border-p rounded-[10px] font-display font-semibold text-[0.82rem] no-underline hover:bg-[#e0d9ff] hover:border-primary transition-colors">
-            <span class="material-symbols-outlined text-[0.9rem]">chat</span> Message
-          </a>
-        </div>
-
-        <!-- Description -->
-        <div id="prod-desc" class="bg-white border border-slate-100 rounded-[20px] p-6 shadow-[0_2px_8px_rgba(0,0,0,.03)]">
-          <div class="flex items-center gap-1.5 font-display font-bold text-[0.95rem] text-[#0d0d12] mb-3.5">
-            <span class="material-symbols-outlined text-base text-primary">description</span> About This Item
-          </div>
-          <p class="text-[0.9rem] text-gray-600 leading-[1.85] whitespace-pre-wrap">{{ item.description }}</p>
-        </div>
-
-        <!-- Reviews -->
-        <div id="prod-reviews" class="bg-white border border-slate-100 rounded-[20px] p-6 shadow-[0_2px_8px_rgba(0,0,0,.03)]">
-          <div class="flex items-center justify-between mb-5">
-            <div class="flex items-center gap-1.5 font-display font-bold text-[0.95rem] text-[#0d0d12]">
-              <span class="material-symbols-outlined text-base text-amber-500">star</span> Reviews
-            </div>
-            <span class="px-2.5 py-1 bg-surface2 border border-border-p rounded-full text-[0.72rem] font-bold text-primary">{{ item.reviews.count|default:"0" }} reviews</span>
+            {% endif %}
           </div>
 
-          {% for review in item.reviews.all %}
-          <div class="review-anim py-[18px] border-b border-slate-100 last:border-b-0 last:pb-0">
-            <div class="flex items-start justify-between mb-2.5">
-              <div class="flex items-center gap-2.5">
-                <div class="w-9 h-9 rounded-full bg-gradient-to-br from-primary to-indigo-500 flex items-center justify-center font-display font-extrabold text-[0.82rem] text-white shrink-0">{{ review.user.username|first|upper }}</div>
-                <div>
-                  <div class="font-display font-bold text-[0.88rem] text-[#0d0d12]">{{ review.user.username }}</div>
-                  <div class="text-[0.74rem] text-gray-400 mt-0.5">{{ review.created_at|date:"M Y" }}</div>
-                </div>
-              </div>
-              <div class="flex gap-px">
-                {% for i in "12345" %}
-                <span class="material-symbols-outlined text-[0.85rem] text-amber-500" style="font-variation-settings:{% if forloop.counter <= review.rating %}'FILL' 1{% else %}'FILL' 0{% endif %};">star</span>
-                {% endfor %}
-              </div>
-            </div>
-            <p class="text-[0.875rem] text-gray-600 leading-[1.75]">{{ review.comment }}</p>
-          </div>
-          {% empty %}
-          <div class="text-center py-8">
-            <span class="material-symbols-outlined text-[2.5rem] text-[#e0d9ff] block mb-2.5">rate_review</span>
-            <p class="text-[0.875rem] text-gray-400">No reviews yet — be the first to rent and review!</p>
-          </div>
-          {% endfor %}
-          
-          {% if has_past_booking %}
-          <div class="mt-8 pt-6 border-t border-slate-100">
-            <h3 class="font-display font-bold text-[0.95rem] text-[#0d0d12] mb-4">Leave a Review</h3>
-            <form method="POST" action="{% url 'add_review' item.id %}" class="flex flex-col gap-4">
-              {% csrf_token %}
-              <div>
-                <label class="block text-[0.82rem] text-gray-400 mb-1.5">Rating</label>
-                <div class="star-rating">
-                  <input type="radio" id="star5" name="rating" value="5" checked><label for="star5"><span class="material-symbols-outlined">star</span></label>
-                  <input type="radio" id="star4" name="rating" value="4"><label for="star4"><span class="material-symbols-outlined">star</span></label>
-                  <input type="radio" id="star3" name="rating" value="3"><label for="star3"><span class="material-symbols-outlined">star</span></label>
-                  <input type="radio" id="star2" name="rating" value="2"><label for="star2"><span class="material-symbols-outlined">star</span></label>
-                  <input type="radio" id="star1" name="rating" value="1"><label for="star1"><span class="material-symbols-outlined">star</span></label>
-                </div>
-              </div>
-              <div>
-                <label class="block text-[0.82rem] text-gray-400 mb-1.5">Your Review</label>
-                <textarea name="comment" rows="3" required class="w-full px-3 py-2 border border-slate-200 rounded-[10px] text-[0.85rem] focus:outline-none focus:border-primary placeholder-gray-300" placeholder="Share your experience..."></textarea>
-              </div>
-              <button type="submit" class="self-start px-5 py-2.5 bg-primary text-white font-display font-semibold text-[0.85rem] rounded-[10px] hover:bg-primary-d transition-colors">Submit Review</button>
-            </form>
+          <!-- 2×2 thumb grid (right) -->
+          <div id="gallery-thumbs">
+            {% with all_imgs=item.all_images %}
+            {% for img_url in all_imgs %}
+            {% if forloop.counter <= 4 %} <div class="gallery-thumb"
+              onclick="document.getElementById('main-product-img').src='{{ img_url }}'">
+              <img src="{{ img_url }}" alt="{{ item.title }}">
+              {% if forloop.counter == 4 and all_imgs|length > 4 %}
+              <div class="gallery-thumb-overlay">+{{ all_imgs|length|add:"-4" }}</div>
+              {% endif %}
           </div>
           {% endif %}
+          {% empty %}
+          {% if item.image %}
+          <div class="gallery-thumb" onclick="document.getElementById('main-product-img').src='{{ item.image.url }}'">
+            <img src="{{ item.image.url }}" alt="{{ item.title }}">
+          </div>
+          {% endif %}
+          {% if item.image2 %}
+          <div class="gallery-thumb" onclick="document.getElementById('main-product-img').src='{{ item.image2.url }}'">
+            <img src="{{ item.image2.url }}" alt="{{ item.title }}">
+          </div>
+          {% endif %}
+          {% if item.image3 %}
+          <div class="gallery-thumb" onclick="document.getElementById('main-product-img').src='{{ item.image3.url }}'">
+            <img src="{{ item.image3.url }}" alt="{{ item.title }}">
+          </div>
+          {% endif %}
+          {% if item.image4 %}
+          <div class="gallery-thumb" onclick="document.getElementById('main-product-img').src='{{ item.image4.url }}'">
+            <img src="{{ item.image4.url }}" alt="{{ item.title }}">
+          </div>
+          {% endif %}
+          {% endfor %}
+          {% endwith %}
         </div>
 
-      </div>
+      </div><!-- /gallery-grid -->
 
       <!-- ── RIGHT: BOOKING CARD ── -->
-      <div>
-        <div id="booking-card" class="sticky top-[88px] bg-white border border-slate-100 rounded-[24px] overflow-hidden shadow-[0_4px_24px_rgba(109,40,217,.08),0_2px_8px_rgba(0,0,0,.04)]">
-
+      <div id="product-right-col" class="lg:col-start-2 lg:col-end-3 lg:row-span-2">
+        <div id="booking-card"
+          class="lg:sticky lg:top-[88px] bg-white border border-slate-100 rounded-[18px] sm:rounded-[22px] overflow-hidden shadow-[0_4px_24px_rgba(109,40,217,.07),0_2px_8px_rgba(0,0,0,.04)]">
+  
           <!-- Price head -->
           <div class="px-6 py-5 pb-4 border-b border-slate-100 bg-gradient-to-br from-[#f8f5ff] to-[#f0ebff]">
-            <div class="flex items-baseline gap-1.5">
-              <div class="font-display font-black text-[2rem] tracking-[-0.03em] text-[#0d0d12]">
-                <sup class="text-base font-bold text-primary align-super">₹</sup>{{ item.price_per_day }}
-              </div>
-              <span class="text-[0.85rem] text-gray-400 font-normal">/ day</span>
+            <div class="flex items-end gap-1.5">
+              <span class="text-[1.1rem] font-bold text-primary leading-none mb-0.5">₹</span>
+              <span class="font-display font-black text-[2rem] tracking-[-0.03em] text-[#0d0d12] leading-none">{{ item.price_per_day }}</span>
+              <span class="text-[0.85rem] text-gray-400 font-normal mb-0.5">/ day</span>
             </div>
-            <div class="flex items-center gap-1.5 mt-1.5">
+            <div class="flex items-center gap-1.5 mt-2">
               <div class="flex items-center gap-px">
                 {% for i in "12345"|make_list %}
-                <span class="material-symbols-outlined text-[0.85rem] text-amber-500" style="font-variation-settings:'FILL' {% if item.rating|default:5 >= forloop.counter %}1{% else %}0{% endif %};">star</span>
+                <span class="material-symbols-outlined text-[0.82rem] text-amber-500"
+                  style="font-variation-settings:'FILL' {% if item.rating|default:5 >= forloop.counter %}1{% else %}0{% endif %};">star</span>
                 {% endfor %}
               </div>
-              <span class="text-[0.8rem] text-gray-400">{{ item.rating|default:"5.0" }} · {{ item.reviews.count|default:"0" }} reviews</span>
+              <span class="text-[0.78rem] text-gray-400">{{ item.rating|default:"5.0" }} · {{ item.reviews.count|default:"0" }} reviews</span>
             </div>
           </div>
-
+  
           <div class="px-6 py-5">
-            <!-- Calendar section title -->
-            <div class="flex items-center gap-1.5 font-display font-bold text-[0.82rem] uppercase tracking-[0.1em] text-gray-400 mb-3">
-              <span class="material-symbols-outlined text-[0.95rem] text-primary">calendar_month</span> Select Dates
+            <!-- Calendar label -->
+            <div
+              class="flex items-center gap-1.5 font-display font-bold text-[0.78rem] uppercase tracking-[0.1em] text-gray-400 mb-3">
+              <span class="material-symbols-outlined text-[0.9rem] text-primary">calendar_month</span> Select Dates
             </div>
             <div id="bb-calendar"></div>
-
+  
             <form method="POST" action="{% url 'add_to_cart' item.id %}">
               {% csrf_token %}
               <input type="hidden" id="start_date" name="start_date">
               <input type="hidden" id="end_date" name="end_date">
-
-              <!-- Summary (hidden until dates selected) -->
-              <div id="booking-summary" class="bg-surface2 border border-border-p rounded-[14px] px-4 py-3.5 mt-4 flex flex-col gap-2.5">
+  
+              <!-- Booking summary (shown on date select) -->
+              <div id="booking-summary"
+                class="bg-[#fafafa] border border-slate-100 rounded-[12px] px-4 py-3 mt-4 flex flex-col gap-2">
                 <div class="flex items-center justify-between">
-                  <span class="text-[0.82rem] text-gray-400">Start date</span>
-                  <span id="display-start" class="font-display font-bold text-[0.88rem] text-[#0d0d12]">—</span>
+                  <span class="text-[0.8rem] text-gray-400">Start date</span>
+                  <span id="display-start" class="font-display font-bold text-[0.85rem] text-[#0d0d12]">—</span>
                 </div>
                 <div class="flex items-center justify-between">
-                  <span class="text-[0.82rem] text-gray-400">End date</span>
-                  <span id="display-end" class="font-display font-bold text-[0.88rem] text-[#0d0d12]">—</span>
+                  <span class="text-[0.8rem] text-gray-400">End date</span>
+                  <span id="display-end" class="font-display font-bold text-[0.85rem] text-[#0d0d12]">—</span>
                 </div>
                 <div class="flex items-center justify-between">
-                  <span class="text-[0.82rem] text-gray-400">Duration</span>
-                  <span class="font-display font-bold text-[0.88rem] text-[#0d0d12]"><span id="total_days">0</span> days</span>
+                  <span class="text-[0.8rem] text-gray-400">Duration</span>
+                  <span class="font-display font-bold text-[0.85rem] text-[#0d0d12]"><span id="total_days">0</span>
+                    days</span>
                 </div>
-                <div class="flex items-center justify-between pt-2.5 border-t border-border-p">
-                  <span class="font-display font-bold text-[0.88rem] text-[#0d0d12]">Total</span>
-                  <span class="font-display font-black text-[1.15rem] text-primary">₹<span id="total_price">0.00</span></span>
+                <div class="flex items-center justify-between pt-2 border-t border-slate-100">
+                  <span class="font-display font-bold text-[0.85rem] text-[#0d0d12]">Total</span>
+                  <span class="font-display font-black text-[1.1rem] text-primary">₹<span
+                      id="total_price">0.00</span></span>
                 </div>
               </div>
-
-              <button type="submit" class="w-full flex items-center justify-center gap-1.5 mt-3.5 py-3.5 bg-primary hover:bg-primary-d text-white rounded-[14px] font-display font-extrabold text-base shadow-[0_4px_16px_rgba(109,40,217,.28)] hover:shadow-[0_8px_24px_rgba(109,40,217,.38)] hover:-translate-y-0.5 transition-all">
+  
+              <button type="submit"
+                class="w-full flex items-center justify-center gap-1.5 mt-4 py-3.5 bg-primary hover:bg-primary-d text-white rounded-[13px] font-display font-extrabold text-[0.95rem] shadow-[0_4px_16px_rgba(109,40,217,.25)] hover:shadow-[0_8px_24px_rgba(109,40,217,.35)] hover:-translate-y-0.5 transition-all">
                 <span class="material-symbols-outlined text-[1rem]">shopping_cart</span> Add to Cart
               </button>
             </form>
-
-            <a href="{% url 'cart' %}" class="mt-2.5 w-full flex items-center justify-center gap-1.5 py-3 bg-white border-[1.5px] border-slate-200 hover:bg-surface2 hover:border-border-p text-[#0d0d12] rounded-[14px] font-display font-bold text-[0.95rem] no-underline transition-colors">
-              <span class="material-symbols-outlined text-[0.95rem]">shopping_bag</span> View Cart
+  
+            <a href="{% url 'cart' %}"
+              class="mt-2.5 w-full flex items-center justify-center gap-1.5 py-3 bg-white border border-slate-200 hover:bg-[#fafafa] hover:border-slate-300 text-[#0d0d12] rounded-[13px] font-display font-bold text-[0.88rem] no-underline transition-colors">
+              <span class="material-symbols-outlined text-[0.9rem]">shopping_bag</span> View Cart
             </a>
           </div>
-
+  
           <!-- Trust signals -->
           <div class="px-6 py-4 border-t border-slate-100 bg-[#fafafa] flex flex-col gap-2">
-            {% for trust in "verified_user|Identity-verified owner,gpp_good|₹1,00,000 guarantee coverage,lock|Secure, protected payment"|split:"," %}
-            {% with t=trust|split:"|" %}
-            <div class="flex items-center gap-2 text-[0.78rem] text-gray-400">
-              <span class="material-symbols-outlined text-[0.95rem] text-green-500">{{ t.0 }}</span>{{ t.1 }}
+            <div class="flex items-center gap-2 text-[0.76rem] text-gray-400">
+              <span class="material-symbols-outlined text-[0.9rem] text-green-500">verified_user</span>Identity-verified
+              owner
             </div>
-            {% endwith %}
-            {% empty %}
-            <div class="flex items-center gap-2 text-[0.78rem] text-gray-400"><span class="material-symbols-outlined text-[0.95rem] text-green-500">verified_user</span>Identity-verified owner</div>
-            <div class="flex items-center gap-2 text-[0.78rem] text-gray-400"><span class="material-symbols-outlined text-[0.95rem] text-green-500">gpp_good</span>₹1,00,000 guarantee coverage</div>
-            <div class="flex items-center gap-2 text-[0.78rem] text-gray-400"><span class="material-symbols-outlined text-[0.95rem] text-green-500">lock</span>Secure, protected payment</div>
-            {% endfor %}
+            <div class="flex items-center gap-2 text-[0.76rem] text-gray-400">
+              <span class="material-symbols-outlined text-[0.9rem] text-green-500">gpp_good</span>&#8377;1,00,000
+              guarantee coverage
+            </div>
+            <div class="flex items-center gap-2 text-[0.76rem] text-gray-400">
+              <span class="material-symbols-outlined text-[0.9rem] text-green-500">lock</span>Secure, protected payment
+            </div>
           </div>
-
+  
         </div>
+      </div><!-- /RIGHT -->
+
+    <!-- ── LEFT INFO (details + reviews) ── -->
+    <div class="flex flex-col gap-5 lg:col-start-1 lg:col-end-2" id="product-left-col">
+      <div class="bg-white border border-slate-100 rounded-[20px] p-6 shadow-[0_2px_8px_rgba(0,0,0,.03)]">
+
+        <!-- Category badge -->
+        <div
+          class="inline-flex items-center gap-1.5 px-3 py-1 bg-[#f0ebff] border border-[#ddd6fe] rounded-full text-[0.68rem] font-bold text-primary uppercase tracking-[0.1em] mb-3">
+          <span class="material-symbols-outlined text-[0.72rem]">category</span>{{ item.category.name }}
+        </div>
+
+        <h1 class="font-display font-extrabold tracking-[-0.025em] text-[#0d0d12] leading-[1.2] mb-3"
+          style="font-size:clamp(1.4rem,2.8vw,1.9rem);">{{ item.title }}</h1>
+
+        <!-- Meta row -->
+        <div class="flex items-center gap-4 flex-wrap text-[0.82rem] text-gray-500">
+          <div class="flex items-center gap-1">
+            {% for i in "12345"|make_list %}
+            <span class="material-symbols-outlined text-[0.9rem] text-amber-500"
+              style="font-variation-settings:'FILL' {% if item.rating|default:5 >= forloop.counter %}1{% else %}0{% endif %};">star</span>
+            {% endfor %}
+            <span class="font-display font-bold text-[0.83rem] text-[#0d0d12] ml-0.5">{{ item.rating|default:"5.0" }}</span>
+            <span class="text-gray-400 ml-0.5">({{ item.reviews.count|default:"0" }})</span>
+          </div>
+          <div class="flex items-center gap-1">
+            <span class="material-symbols-outlined text-[0.9rem] text-gray-400">location_on</span>{{ item.location }}
+          </div>
+          <div class="flex items-center gap-1">
+            <span class="material-symbols-outlined text-[0.9rem] text-green-500">inventory_2</span>Available now
+          </div>
+        </div>
+
+        <!-- Highlights row -->
+        <div
+          class="grid grid-cols-3 gap-2 sm:gap-3 mt-4 pt-4 sm:mt-5 sm:pt-5 border-t border-slate-100 highlights-grid">
+          <div class="bg-[#fafafa] border border-slate-100 rounded-[12px] p-2 sm:p-3 flex flex-col gap-1">
+            <span class="material-symbols-outlined text-[1.1rem] text-primary">payments</span>
+            <span class="text-[0.62rem] sm:text-[0.68rem] text-gray-400 uppercase tracking-[0.1em] font-semibold">Daily
+              Rate</span>
+            <span class="font-display font-bold text-[0.8rem] sm:text-[0.85rem] text-[#0d0d12]">&#8377;{{ item.price_per_day }}</span>
+          </div>
+          <div class="bg-[#fafafa] border border-slate-100 rounded-[12px] p-2 sm:p-3 flex flex-col gap-1">
+            <span class="material-symbols-outlined text-[1.1rem] text-primary">category</span>
+            <span
+              class="text-[0.62rem] sm:text-[0.68rem] text-gray-400 uppercase tracking-[0.1em] font-semibold">Category</span>
+            <span class="font-display font-bold text-[0.8rem] sm:text-[0.85rem] text-[#0d0d12] truncate">{{ item.category.name }}</span>
+          </div>
+          <div class="bg-[#fafafa] border border-slate-100 rounded-[12px] p-2 sm:p-3 flex flex-col gap-1">
+            <span class="material-symbols-outlined text-[1.1rem] text-primary">gpp_good</span>
+            <span
+              class="text-[0.62rem] sm:text-[0.68rem] text-gray-400 uppercase tracking-[0.1em] font-semibold">Condition</span>
+            <span class="font-display font-bold text-[0.8rem] sm:text-[0.85rem] text-[#0d0d12]">{{ item.condition|default:"Like New" }}</span>
+          </div>
+        </div>
+
       </div>
 
-    </div>
-  </div>
+      <!-- ② Description -->
+      <div class="bg-white border border-slate-100 rounded-[20px] p-6 shadow-[0_2px_8px_rgba(0,0,0,.03)]">
+        <div class="flex items-center gap-1.5 font-display font-bold text-[0.9rem] text-[#0d0d12] mb-3">
+          <span class="material-symbols-outlined text-[1rem] text-primary">description</span> About This Item
+        </div>
+        <p class="text-[0.88rem] text-gray-600 leading-[1.85] whitespace-pre-wrap">{{ item.description }}</p>
+      </div>
+
+      <!-- ③ Owner -->
+      <div
+        class="bg-white border border-slate-100 rounded-[20px] p-5 shadow-[0_2px_8px_rgba(0,0,0,.03)] flex items-center gap-4">
+        <img src="https://ui-avatars.com/api/?name={{ item.owner.username }}&background=6d28d9&color=fff&size=80"
+          class="w-[46px] h-[46px] rounded-full object-cover shrink-0 border-2 border-[#ede9fe]"
+          alt="{{ item.owner.username }}">
+        <div class="flex-1 min-w-0">
+          <div class="font-display font-bold text-[0.9rem] text-[#0d0d12] truncate">{{ item.owner.username }}</div>
+          <div class="flex items-center gap-1 text-[0.75rem] text-gray-400 mt-0.5">
+            <span class="material-symbols-outlined text-[0.8rem] text-green-500">verified</span>Verified member
+          </div>
+        </div>
+        
+      </div>
+
+      <!-- ④ Reviews -->
+      <div class="bg-white border border-slate-100 rounded-[20px] p-6 shadow-[0_2px_8px_rgba(0,0,0,.03)]">
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center gap-1.5 font-display font-bold text-[0.9rem] text-[#0d0d12]">
+            <span class="material-symbols-outlined text-[1rem] text-amber-500">star</span> Reviews
+          </div>
+          <span
+            class="px-2.5 py-1 bg-[#f0ebff] border border-[#ddd6fe] rounded-full text-[0.7rem] font-bold text-primary">{{ item.reviews.count|default:"0" }} reviews</span>
+        </div>
+
+        {% for review in item.reviews.all %}
+        <div class="py-4 border-b border-slate-100 last:border-b-0 last:pb-0">
+          <div class="flex items-start justify-between mb-2">
+            <div class="flex items-center gap-2.5">
+              <div
+                class="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-indigo-500 flex items-center justify-center font-display font-extrabold text-[0.78rem] text-white shrink-0">
+                {{ review.user.username|first|upper }}</div>
+              <div>
+                <div class="font-display font-bold text-[0.85rem] text-[#0d0d12]">{{ review.user.username }}</div>
+                <div class="text-[0.72rem] text-gray-400">{{ review.created_at|date:"M Y" }}</div>
+              </div>
+            </div>
+            <div class="flex gap-px">
+              {% for i in "12345" %}
+              <span class="material-symbols-outlined text-[0.82rem] text-amber-500"
+                style="font-variation-settings:{% if forloop.counter <= review.rating %}'FILL' 1{% else %}'FILL' 0{% endif %};">star</span>
+              {% endfor %}
+            </div>
+          </div>
+          <p class="text-[0.85rem] text-gray-600 leading-[1.7]">{{ review.comment }}</p>
+        </div>
+        {% empty %}
+        <div class="text-center py-8">
+          <span class="material-symbols-outlined text-[2.5rem] text-[#e0d9ff] block mb-2">rate_review</span>
+          <p class="text-[0.85rem] text-gray-400">No reviews yet — be the first to rent and review!</p>
+        </div>
+        {% endfor %}
+
+        {% if has_past_booking %}
+        <div class="mt-6 pt-5 border-t border-slate-100">
+          <h3 class="font-display font-bold text-[0.9rem] text-[#0d0d12] mb-4">Leave a Review</h3>
+          <form method="POST" action="{% url 'add_review' item.id %}" class="flex flex-col gap-4">
+            {% csrf_token %}
+            <div>
+              <label class="block text-[0.8rem] text-gray-400 mb-1.5">Rating</label>
+              <div class="star-rating">
+                <input type="radio" id="star5" name="rating" value="5" checked><label for="star5"><span
+                    class="material-symbols-outlined">star</span></label>
+                <input type="radio" id="star4" name="rating" value="4"><label for="star4"><span
+                    class="material-symbols-outlined">star</span></label>
+                <input type="radio" id="star3" name="rating" value="3"><label for="star3"><span
+                    class="material-symbols-outlined">star</span></label>
+                <input type="radio" id="star2" name="rating" value="2"><label for="star2"><span
+                    class="material-symbols-outlined">star</span></label>
+                <input type="radio" id="star1" name="rating" value="1"><label for="star1"><span
+                    class="material-symbols-outlined">star</span></label>
+              </div>
+            </div>
+            <div>
+              <label class="block text-[0.8rem] text-gray-400 mb-1.5">Your Review</label>
+              <textarea name="comment" rows="3" required
+                class="w-full px-3 py-2 border border-slate-200 rounded-[10px] text-[0.85rem] focus:outline-none focus:border-primary placeholder-gray-300"
+                placeholder="Share your experience..."></textarea>
+            </div>
+            <button type="submit"
+              class="self-start px-5 py-2.5 bg-primary text-white font-display font-semibold text-[0.85rem] rounded-[10px] hover:bg-primary-d transition-colors">Submit
+              Review</button>
+          </form>
+        </div>
+        {% endif %}
+    </div><!-- /LEFT -->
+
+  </div><!-- /product-main-grid -->
 </div>
 {% endblock %}
 
 {% block extra_js %}
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
 <script>
-/* Calendar */
-document.addEventListener('DOMContentLoaded',function(){
-  const pricePerDay=parseFloat("{{ item.price_per_day }}");
-  const calendarEl=document.getElementById('bb-calendar');
+  document.addEventListener('DOMContentLoaded', function () {
+    const pricePerDay = parseFloat("{{ item.price_per_day }}");
+    const calendarEl = document.getElementById('bb-calendar');
 
-  const fmt=s=>{const d=new Date(s);return d.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});};
+    /* Format dates reliably in local time into YYYY-MM-DD */
+    function toLocalISO(d) {
+      const pad = n => n < 10 ? '0' + n : n;
+      return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+    }
 
-  fetch("{% url 'get_booked_dates' item.id %}")
-    .then(r=>r.json())
-    .then(bookings=>{
-      const cal=new FullCalendar.Calendar(calendarEl,{
-        initialView:'dayGridMonth',selectable:true,selectMirror:true,
-        headerToolbar:{left:'prev',center:'title',right:'next'},
-        validRange:{start:new Date().toISOString().split('T')[0]},
-        height:'auto',
-        events:bookings.map(r=>({start:r.start,end:r.end,display:'background',color:'#ef4444'})),
-        selectAllow:function(info){
-          const s=new Date(info.startStr),e=new Date(info.endStr);
-          for(let r of bookings){let bs=new Date(r.start),be=new Date(r.end);be.setDate(be.getDate()-1);if(s<=be&&e>bs)return false;}
+    /* Format a date string (YYYY-MM-DD) for display */
+    const fmt = s => {
+      const d = new Date(s + 'T00:00:00');
+      return d.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+    };
+
+    /* Update booking summary UI */
+    function showSummary(startStr, endStr) {
+      /* endStr from FullCalendar is exclusive (next day) */
+      const endDisplay = new Date(endStr + 'T00:00:00');
+      endDisplay.setDate(endDisplay.getDate() - 1);
+      const endDisplayStr = toLocalISO(endDisplay);
+
+      /* Calculate days duration inclusively */
+      const days = Math.round((new Date(endDisplayStr + 'T00:00:00') - new Date(startStr + 'T00:00:00')) / 86400000) + 1;
+
+      document.getElementById('start_date').value = startStr;
+      document.getElementById('end_date').value = endDisplayStr; 
+      document.getElementById('total_days').textContent = days;
+      document.getElementById('total_price').textContent = (days * pricePerDay).toFixed(2);
+      document.getElementById('display-start').textContent = fmt(startStr);
+      document.getElementById('display-end').textContent = fmt(endDisplayStr);
+
+      const summary = document.getElementById('booking-summary');
+      summary.style.display = 'flex';
+      summary.style.flexDirection = 'column';
+    }
+
+    let calInstance = null;
+    let tapStart = null;
+
+    function buildCalendar(bookings) {
+      const todayDate = new Date();
+      const today = toLocalISO(todayDate);
+
+      calInstance = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        initialDate: today,
+        selectable: false,
+        unselectAuto: false,
+        headerToolbar: { left: 'prev', center: 'title', right: 'next' },
+        validRange: { start: today },
+        height: 'auto',
+        fixedWeekCount: false,
+        showNonCurrentDates: false,
+        selectLongPressDelay: 10,
+
+        events: bookings.map(r => ({
+          start: r.start, end: r.end, display: 'background', color: r.status === 'pending' ? '#fde047' : '#ef4444'
+        })),
+
+        dateClick: function(info) {
+          let isBooked = false;
+          let clickDate = new Date(info.dateStr + 'T00:00:00');
+          for (let r of bookings) {
+             let bs = new Date(r.start + 'T00:00:00');
+             let be = new Date(r.end + 'T00:00:00');
+             if (clickDate >= bs && clickDate < be) {
+                isBooked = true; break;
+             }
+          }
+          if (isBooked) return;
+
+          if (!tapStart) {
+             // First tap: single date
+             tapStart = info.dateStr;
+             let nextDayStr = new Date(info.dateStr + 'T00:00:00');
+             nextDayStr.setDate(nextDayStr.getDate() + 1);
+             let exclusiveEnd = toLocalISO(nextDayStr);
+             calInstance.select(info.dateStr, exclusiveEnd);
+             showSummary(info.dateStr, exclusiveEnd);
+          } else {
+             if (tapStart === info.dateStr) {
+                calInstance.unselect();
+                tapStart = null;
+                document.getElementById('booking-summary').style.display = 'none';
+             } else {
+                // Second tap: range
+                let d1 = new Date(tapStart + 'T00:00:00');
+                let d2 = new Date(info.dateStr + 'T00:00:00');
+                let startStr = d1 <= d2 ? tapStart : info.dateStr;
+                let endStr = d1 <= d2 ? info.dateStr : tapStart;
+                
+                // Validate range
+                let rangeHasBooked = false;
+                let checkStart = new Date(startStr + 'T00:00:00');
+                let checkEnd = new Date(endStr + 'T00:00:00');
+                for (let r of bookings) {
+                   let bs = new Date(r.start + 'T00:00:00');
+                   let be = new Date(r.end + 'T00:00:00'); 
+                   if (checkStart < be && checkEnd >= bs) {
+                      rangeHasBooked = true; break;
+                   }
+                }
+                
+                if (rangeHasBooked) {
+                   // If obstructed, just select the new single date
+                   tapStart = info.dateStr;
+                   let nextDayStr = new Date(info.dateStr + 'T00:00:00');
+                   nextDayStr.setDate(nextDayStr.getDate() + 1);
+                   let exclusiveEnd = toLocalISO(nextDayStr);
+                   calInstance.select(info.dateStr, exclusiveEnd);
+                   showSummary(info.dateStr, exclusiveEnd);
+                   return;
+                }
+                
+                let nextDayStr = new Date(endStr + 'T00:00:00');
+                nextDayStr.setDate(nextDayStr.getDate() + 1);
+                let exclusiveEnd = toLocalISO(nextDayStr);
+                calInstance.select(startStr, exclusiveEnd);
+                showSummary(startStr, exclusiveEnd);
+                tapStart = null; // Next tap restarts
+             }
+          }
+        },
+
+        /* Allow selection only if it doesn't overlap booked ranges. */
+        selectAllow: function (info) {
+          const selStart = new Date(info.startStr + 'T00:00:00');
+          const selEnd = new Date(info.endStr + 'T00:00:00');
+          selEnd.setDate(selEnd.getDate() - 1); 
+          
+          for (let r of bookings) {
+            const bs = new Date(r.start + 'T00:00:00');
+            const be = new Date(r.end + 'T00:00:00');
+            be.setDate(be.getDate() - 1); 
+            
+            if (selStart <= be && selEnd >= bs) return false;
+          }
           return true;
         },
-        select:function(info){
-          const days=Math.ceil((new Date(info.endStr)-new Date(info.startStr))/86400000);
-          if(!days){cal.unselect();return;}
-          document.getElementById('start_date').value=info.startStr;
-          document.getElementById('end_date').value=info.endStr;
-          document.getElementById('total_days').textContent=days;
-          document.getElementById('total_price').textContent=(days*pricePerDay).toFixed(2);
-          document.getElementById('display-start').textContent=fmt(info.startStr);
-          document.getElementById('display-end').textContent=fmt(info.endStr);
-          const s=document.getElementById('booking-summary');
-          s.style.display='flex';s.style.flexDirection='column';
-        }
-      });
-      cal.render();
-    })
-    .catch(()=>{
-      const cal=new FullCalendar.Calendar(calendarEl,{
-        initialView:'dayGridMonth',selectable:true,height:'auto',
-        headerToolbar:{left:'prev',center:'title',right:'next'},
-        validRange:{start:new Date().toISOString().split('T')[0]},
-        select:function(info){
-          const days=Math.ceil((new Date(info.endStr)-new Date(info.startStr))/86400000);
-          if(!days)return;
-          document.getElementById('start_date').value=info.startStr;
-          document.getElementById('end_date').value=info.endStr;
-          document.getElementById('total_days').textContent=days;
-          document.getElementById('total_price').textContent=(days*{{ item.price_per_day }}).toFixed(2);
-          const s=document.getElementById('booking-summary');s.style.display='flex';s.style.flexDirection='column';
-        }
-      });
-      cal.render();
-    });
-});
 
+        select: function (info) {
+          showSummary(info.startStr, info.endStr);
+        }
+      });
+
+      calInstance.render();
+
+      /* Fix width=0 issue from CSS flex reorder on mobile */
+      setTimeout(() => calInstance.updateSize(), 60);
+      setTimeout(() => calInstance.updateSize(), 400);
+
+      /* Stay correctly sized when layout shifts */
+      if (window.ResizeObserver) {
+        const ro = new ResizeObserver(() => calInstance.updateSize());
+        ro.observe(calendarEl.parentElement);
+      }
+
+      return calInstance;
+    }
+
+    fetch("{% url 'get_booked_dates' item.id %}")
+      .then(r => r.json())
+      .then(bookings => buildCalendar(bookings))
+      .catch(() => buildCalendar([]));
+  });
 </script>
 {% endblock %}

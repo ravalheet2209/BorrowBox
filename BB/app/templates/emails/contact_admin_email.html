@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f9fafb; margin: 0; padding: 40px 20px; color: #111827; }
+        .container { max-width: 600px; margin: 0 auto; background: #ffffff; padding: 40px; border-radius: 20px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); border: 1px solid #e5e7eb; }
+        .header { text-align: center; margin-bottom: 30px; }
+        .header h1 { color: #6d28d9; margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.025em; }
+        .badge { display: inline-block; padding: 4px 12px; background: #fdf2f7; color: #db2777; border-radius: 9999px; font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 20px; }
+        .content { line-height: 1.6; }
+        .user-info { background: #f4f0ff; padding: 25px; border-radius: 12px; margin: 25px 0; border: 1px solid #ddd6fe; }
+        .user-info h3 { margin-top: 0; color: #4c1d95; font-size: 16px; margin-bottom: 15px; border-bottom: 1px solid #ddd6fe; padding-bottom: 10px; }
+        .info-row { display: flex; margin-bottom: 10px; font-size: 14px; }
+        .info-label { width: 100px; color: #6d28d9; font-weight: 600; flex-shrink: 0; }
+        .info-value { color: #4b5563; }
+        .message-box { background: #fff; padding: 20px; border-radius: 10px; border: 1px dashed #c4b5fd; margin-top: 20px; font-style: italic; color: #374151; position: relative; }
+        .message-box::before { content: '"'; font-size: 40px; color: #ddd6fe; position: absolute; top: -10px; left: 10px; opacity: 0.5; }
+        .footer { text-align: center; margin-top: 40px; font-size: 13px; color: #9ca3af; border-top: 1px solid #f3f4f6; padding-top: 20px; }
+        .btn { display: inline-block; padding: 12px 24px; background: #6d28d9; color: #ffffff !important; text-decoration: none; border-radius: 10px; font-weight: 600; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <span class="badge">New Inquiry</span>
+            <h1>Borrow Box Support</h1>
+        </div>
+        <div class="content">
+            <p>Admin,</p>
+            <p>A new message has been submitted via the contact form on <b>Borrow Box</b>. Here are the details:</p>
+
+            <div class="user-info">
+                <h3>Sender Details</h3>
+                <div class="info-row">
+                    <span class="info-label">Name:</span>
+                    <span class="info-value">{{ first_name }} {{ last_name }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Email:</span>
+                    <span class="info-value">{{ email }}</span>
+                </div>
+                {% if phone %}
+                <div class="info-row">
+                    <span class="info-label">Phone:</span>
+                    <span class="info-value">{{ phone }}</span>
+                </div>
+                {% endif %}
+                <div class="info-row">
+                    <span class="info-label">Subject:</span>
+                    <span class="info-value"><b>{{ subject }}</b></span>
+                </div>
+                {% if is_verified %}
+                <div class="info-row">
+                    <span class="info-label">Status:</span>
+                    <span class="info-value" style="color: #059669; font-weight: bold;">✓ Verified User</span>
+                </div>
+                {% endif %}
+
+                <div class="message-box">
+                    {{ message }}
+                </div>
+            </div>
+
+            <p>You can manage this message and see more details in the Admin Dashboard.</p>
+            
+            <div style="text-align: center;">
+                <a href="{{ admin_url }}" class="btn">View in Dashboard</a>
+            </div>
+        </div>
+        <div class="footer">
+            &copy; 2025 Borrow Box &middot; Notification System
+        </div>
+    </div>
+</body>
+</html>
