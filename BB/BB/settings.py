@@ -27,10 +27,13 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+<<<<<<< HEAD
 # Required for ngrok to process HTTPS and OAuth correctly
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 CSRF_TRUSTED_ORIGINS = ['https://*.ngrok-free.app', 'https://*.ngrok.app']
 
+=======
+>>>>>>> 8c1d6ca0f454a5d5de0fcab3349b39eb5c153d5d
 
 # Application definition
 
@@ -41,15 +44,19 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+<<<<<<< HEAD
     'django.contrib.sites',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+=======
+>>>>>>> 8c1d6ca0f454a5d5de0fcab3349b39eb5c153d5d
     'app',
     'adpanel',
 ]
 
+<<<<<<< HEAD
 SITE_ID = 1
 
 AUTHENTICATION_BACKENDS = [
@@ -82,6 +89,8 @@ SOCIALACCOUNT_FORMS = {
     'signup': 'app.forms.MyCustomSocialSignupForm',
 }
 
+=======
+>>>>>>> 8c1d6ca0f454a5d5de0fcab3349b39eb5c153d5d
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -90,7 +99,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+<<<<<<< HEAD
     'allauth.account.middleware.AccountMiddleware',
+=======
+>>>>>>> 8c1d6ca0f454a5d5de0fcab3349b39eb5c153d5d
 ]
 
 ROOT_URLCONF = 'BB.urls'
@@ -129,10 +141,23 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
+<<<<<<< HEAD
         'NAME': 'app.validators.CustomPasswordValidator',
         'OPTIONS': {
             'min_length': 6,
         }
+=======
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+>>>>>>> 8c1d6ca0f454a5d5de0fcab3349b39eb5c153d5d
     },
 ]
 
@@ -154,6 +179,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 MEDIA_URL = '/media/'
+<<<<<<< HEAD
 MEDIA_ROOT = BASE_DIR / 'media'
 
 # Email Configuration for Real Sending (Update with your credentials)
@@ -172,3 +198,6 @@ handler500 = 'app.views.custom_500'
 # Razorpay Keys
 RAZORPAY_KEY_ID = 'rzp_test_ytoQRUzHn3jtXL'
 RAZORPAY_KEY_SECRET = 'Sc3eDMyJEuNfGzcf5r5eWiLz'
+=======
+MEDIA_ROOT = BASE_DIR / 'media'
+>>>>>>> 8c1d6ca0f454a5d5de0fcab3349b39eb5c153d5d

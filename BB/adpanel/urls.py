@@ -11,8 +11,11 @@ urlpatterns = [
     path("withdraw-deposit/", views.withdraw_deposit, name="withdraw_deposit"),
 
     path("owner-dashboard/", views.owner_dashboard, name="owner_dashboard"),
+<<<<<<< HEAD
     path("confirm-return/<int:booking_id>/", views.confirm_return, name="confirm_return"),
     path("withdraw-earnings/", views.withdraw_earnings, name="withdraw_earnings"),
+=======
+>>>>>>> 8c1d6ca0f454a5d5de0fcab3349b39eb5c153d5d
 
     path("my-items/", views.my_items, name="my_items"),
     path("add-item/", views.add_item, name="add_item"),

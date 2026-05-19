@@ -12,6 +12,7 @@
 .cat-check-label:has(input:checked) { background:#f0ebff; }
 .filter-link:hover { color:#6d28d9; padding-left:4px; }
 .filter-link { transition:color 0.2s, padding-left 0.2s; }
+<<<<<<< HEAD
 
 /* ── Mobile filter overlay ── */
 @media (max-width: 1023px) {
@@ -64,6 +65,8 @@
   .sort-select-wrap select { font-size: 0.78rem; }
   #browse-search-row button { padding: 10px 14px; font-size: 0.82rem; }
 }
+=======
+>>>>>>> 8c1d6ca0f454a5d5de0fcab3349b39eb5c153d5d
 </style>
 {% endblock %}
 
@@ -71,12 +74,17 @@
 <div class="min-h-screen bg-[#fafafa]" data-scroll-section>
 
   <!-- ══ BANNER ══ -->
+<<<<<<< HEAD
   <div class="relative bg-white border-b border-slate-100 py-7 pb-6 overflow-hidden">
+=======
+  <div class="relative bg-white border-b border-slate-100 py-9 pb-7 overflow-hidden">
+>>>>>>> 8c1d6ca0f454a5d5de0fcab3349b39eb5c153d5d
     <!-- Dot grid bg -->
     <div class="absolute inset-0 opacity-40" style="background-image:radial-gradient(circle,#ddd6fe 1px,transparent 1px);background-size:24px 24px;"></div>
     <!-- Blob accent -->
     <div class="absolute -top-16 -right-16 w-[280px] h-[280px] rounded-full opacity-90" style="background:radial-gradient(circle,rgba(109,40,217,.09) 0%,transparent 70%);"></div>
 
+<<<<<<< HEAD
     <div class="relative z-10 max-w-[1280px] mx-auto px-4 sm:px-8">
       <div class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#f0ebff] border border-[#ddd6fe] rounded-full text-[0.7rem] font-bold text-primary uppercase tracking-[0.12em] mb-2" id="browse-eyebrow">
         <span class="material-symbols-outlined text-[0.8rem]">inventory_2</span> Marketplace
@@ -91,25 +99,53 @@
                  class="flex-1 border-none outline-none bg-transparent font-body text-[0.88rem] text-[#0d0d12] placeholder-[#c4b5fd] py-2.5 min-w-0">
         </div>
         <button class="shrink-0 px-4 py-2.5 bg-primary hover:bg-primary-d text-white rounded-[11px] font-display font-bold text-[0.85rem] shadow-[0_4px_14px_rgba(109,40,217,.28)] hover:shadow-[0_6px_20px_rgba(109,40,217,.38)] hover:-translate-y-px transition-all" type="submit">Search</button>
+=======
+    <div class="relative z-10 max-w-[1280px] mx-auto px-8">
+      <div class="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-[#f0ebff] border border-[#ddd6fe] rounded-full text-[0.7rem] font-bold text-primary uppercase tracking-[0.12em] mb-3" id="browse-eyebrow">
+        <span class="material-symbols-outlined text-[0.8rem]">inventory_2</span> Marketplace
+      </div>
+      <h1 id="browse-title" class="font-display font-extrabold tracking-[-0.03em] text-[#0d0d12] leading-[1.15]" style="font-size:clamp(1.6rem,3vw,2.2rem);">Browse Rentals</h1>
+      <p id="browse-sub" class="text-[0.9rem] text-gray-400 mt-1.5">Discover thousands of items available to rent near you.</p>
+
+      <form method="GET" id="browse-search-row" class="flex gap-2.5 mt-5 max-w-[580px]">
+        <div class="flex-1 flex items-center gap-2 bg-white border-[1.5px] border-slate-200 rounded-[13px] px-3.5 shadow-[0_2px_10px_rgba(0,0,0,.04)] focus-within:border-primary focus-within:shadow-[0_0_0_3px_rgba(109,40,217,.08)] transition-all">
+          <span class="material-symbols-outlined text-[#c4b5fd] text-[1.1rem]">search</span>
+          <input name="q" value="{{ request.GET.q }}" placeholder="Search items, brands, categories..." autocomplete="off"
+                 class="flex-1 border-none outline-none bg-transparent font-body text-[0.9rem] text-[#0d0d12] placeholder-[#c4b5fd] py-3">
+        </div>
+        <button class="px-5 py-3 bg-primary hover:bg-primary-d text-white rounded-[11px] font-display font-bold text-[0.88rem] shadow-[0_4px_14px_rgba(109,40,217,.28)] hover:shadow-[0_6px_20px_rgba(109,40,217,.38)] hover:-translate-y-px transition-all" type="submit">Search</button>
+>>>>>>> 8c1d6ca0f454a5d5de0fcab3349b39eb5c153d5d
       </form>
     </div>
   </div>
 
   <!-- ══ LAYOUT ══ -->
+<<<<<<< HEAD
   <div class="max-w-[1280px] mx-auto px-4 sm:px-8 py-5 sm:py-8 pb-16 grid grid-cols-1 lg:grid-cols-[264px_1fr] gap-5 lg:gap-7 items-start">
 
     <!-- Mobile filter overlay backdrop -->
     <div id="filter-overlay"></div>
+=======
+  <div class="max-w-[1280px] mx-auto px-8 py-8 pb-16 grid grid-cols-1 lg:grid-cols-[264px_1fr] gap-7 items-start">
+>>>>>>> 8c1d6ca0f454a5d5de0fcab3349b39eb5c153d5d
 
     <!-- ── SIDEBAR ── -->
     <aside>
       <!-- Mobile toggle -->
+<<<<<<< HEAD
       <button id="mobile-filter-btn" class="lg:hidden flex items-center gap-2 px-4 py-2.5 bg-white text-primary border-[1.5px] border-[#ede9fe] rounded-[11px] font-display font-semibold text-[0.875rem] mb-3 hover:bg-surface2 transition-colors shadow-[0_1px_4px_rgba(0,0,0,.04)]">
         <span class="material-symbols-outlined text-base">tune</span> Filters
       </button>
 
       <div id="filter-panel" class="bg-white border border-slate-100 rounded-[20px] overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,.04)] lg:sticky lg:top-[88px]">
         <div id="filter-drag-handle"></div>
+=======
+      <button id="mobile-filter-btn" class="lg:hidden flex items-center gap-2 px-[18px] py-2.5 bg-white text-primary border-[1.5px] border-[#ede9fe] rounded-[11px] font-display font-semibold text-[0.875rem] mb-3 hover:bg-surface2 transition-colors">
+        <span class="material-symbols-outlined text-base">tune</span> Filters
+      </button>
+
+      <div id="filter-panel" class="hidden ml-[-25%]  lg:block bg-white border border-slate-100 rounded-[20px] overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,.04)] sticky top-[88px]">
+>>>>>>> 8c1d6ca0f454a5d5de0fcab3349b39eb5c153d5d
         <!-- Header -->
         <div class="flex items-center justify-between px-5 py-[18px] border-b border-slate-100">
           <div class="flex items-center gap-1.5 font-display font-bold text-[0.95rem] text-[#0d0d12]">
@@ -119,8 +155,11 @@
         </div>
 
         <form method="GET" id="filter-form" class="px-5 pb-5">
+<<<<<<< HEAD
           {% if request.GET.sort %}<input type="hidden" name="sort" value="{{ request.GET.sort }}">{% endif %}
           {% if request.GET.q %}<input type="hidden" name="q" value="{{ request.GET.q }}">{% endif %}
+=======
+>>>>>>> 8c1d6ca0f454a5d5de0fcab3349b39eb5c153d5d
           <!-- Categories -->
           <div class="py-[18px] border-b border-slate-100">
             <div class="font-display font-bold text-[0.82rem] uppercase tracking-[0.1em] text-gray-400 mb-3.5">Category</div>
@@ -165,6 +204,7 @@
     <div>
 
       <!-- Topbar -->
+<<<<<<< HEAD
       <div id="listing-topbar" class="flex items-center justify-between flex-wrap gap-2 bg-white border border-slate-100 rounded-2xl px-4 py-3 mb-4 shadow-[0_1px_4px_rgba(0,0,0,.03)]">
         <div class="min-w-0">
           <div class="font-display font-bold text-[0.9rem] text-[#0d0d12]">
@@ -185,18 +225,45 @@
                 <option value="low"  {% if request.GET.sort == 'low' %}selected{% endif %}>Low → High</option>
                 <option value="high" {% if request.GET.sort == 'high' %}selected{% endif %}>High → Low</option>
                 <option value="new"  {% if request.GET.sort == 'new' %}selected{% endif %}>Newest</option>
+=======
+      <div id="listing-topbar" class="flex items-center justify-between flex-wrap gap-3 bg-white border border-slate-100 rounded-2xl px-[18px] py-3.5 mb-5 shadow-[0_1px_4px_rgba(0,0,0,.03)]">
+        <div>
+          <div class="font-display font-bold text-[0.95rem] text-[#0d0d12]">
+            <span class="text-primary">{{ items.paginator.count }}</span> items found
+          </div>
+          {% if request.GET.q %}<div class="text-[0.8rem] text-gray-400 mt-0.5">Results for "<strong class="text-[#0d0d12]">{{ request.GET.q }}</strong>"</div>{% endif %}
+        </div>
+        <div class="flex items-center gap-2.5">
+          <form method="GET" id="sort-form" class="flex items-center gap-2">
+            <input type="hidden" name="q" value="{{ request.GET.q }}">
+            <input type="hidden" name="location" value="{{ request.GET.location }}">
+            <div class="sort-select-wrap">
+              <select name="sort" class="appearance-none pr-9 pl-3.5 py-2 bg-[#fafafa] border-[1.5px] border-slate-200 rounded-[10px] font-body text-[0.85rem] font-medium text-[#0d0d12] cursor-pointer outline-none focus:border-primary transition-colors" onchange="document.getElementById('sort-form').submit()">
+                <option value="">Sort by</option>
+                <option value="low"  {% if request.GET.sort == 'low' %}selected{% endif %}>Price: Low → High</option>
+                <option value="high" {% if request.GET.sort == 'high' %}selected{% endif %}>Price: High → Low</option>
+                <option value="new"  {% if request.GET.sort == 'new' %}selected{% endif %}>Newest First</option>
+>>>>>>> 8c1d6ca0f454a5d5de0fcab3349b39eb5c153d5d
               </select>
             </div>
           </form>
           <!-- View toggle -->
+<<<<<<< HEAD
           <!-- <div class="flex gap-1 bg-[#fafafa] border border-slate-200 rounded-[10px] p-1">
+=======
+          <div class="flex gap-1 bg-[#fafafa] border border-slate-200 rounded-[10px] p-1">
+>>>>>>> 8c1d6ca0f454a5d5de0fcab3349b39eb5c153d5d
             <button id="grid-view-btn" class="w-8 h-8 rounded-[7px] flex items-center justify-center bg-primary text-white transition-colors" title="Grid view">
               <span class="material-symbols-outlined text-[1.05rem]">grid_view</span>
             </button>
             <button id="list-view-btn" class="w-8 h-8 rounded-[7px] flex items-center justify-center text-gray-400 hover:bg-surface2 transition-colors" title="List view">
               <span class="material-symbols-outlined text-[1.05rem]">view_list</span>
             </button>
+<<<<<<< HEAD
           </div> -->
+=======
+          </div>
+>>>>>>> 8c1d6ca0f454a5d5de0fcab3349b39eb5c153d5d
         </div>
       </div>
 
@@ -307,6 +374,7 @@ listBtn?.addEventListener('click',()=>{
   gridBtn.classList.remove('bg-primary','text-white');gridBtn.classList.add('text-gray-400');
 });
 
+<<<<<<< HEAD
 /* Mobile filter slide-up */
 const filterPanel = document.getElementById('filter-panel');
 const filterOverlay = document.getElementById('filter-overlay');
@@ -331,5 +399,11 @@ const applyBtn = document.querySelector('#filter-form button[type=submit]');
 if(applyBtn && window.innerWidth < 1024) {
   applyBtn.addEventListener('click', () => { closeFilter(); });
 }
+=======
+/* Mobile filter toggle */
+document.getElementById('mobile-filter-btn')?.addEventListener('click',()=>{
+  document.getElementById('filter-panel').classList.toggle('hidden');
+});
+>>>>>>> 8c1d6ca0f454a5d5de0fcab3349b39eb5c153d5d
 </script>
 {% endblock %}

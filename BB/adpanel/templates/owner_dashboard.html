@@ -1,6 +1,7 @@
 {% extends "base_dashboard.html" %}
 {% block page_title %}Seller Dashboard{% endblock %}
 
+<<<<<<< HEAD
 {% block extra_css %}
 <style>
 @media (max-width: 639px) {
@@ -44,6 +45,8 @@
 </style>
 {% endblock %}
 
+=======
+>>>>>>> 8c1d6ca0f454a5d5de0fcab3349b39eb5c153d5d
 {% block content %}
 
 <!-- ── Stat Cards ── -->
@@ -101,6 +104,7 @@
 
 </div>
 
+<<<<<<< HEAD
 <!-- ── Wallet Balance Card ── -->
 <div class="bg-gradient-to-br from-emerald-500 to-teal-600 rounded-[22px] p-6 mb-8 shadow-[0_6px_28px_rgba(16,185,129,0.3)] relative overflow-hidden" id="seller-wallet">
 
@@ -139,6 +143,8 @@
   </div>
 </div>
 
+=======
+>>>>>>> 8c1d6ca0f454a5d5de0fcab3349b39eb5c153d5d
 <!-- ── Quick actions ── -->
 <div class="flex flex-wrap gap-3 mb-8">
   <a href="{% url 'adpanel:add_item' %}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-white rounded-xl font-display font-bold text-[0.85rem] no-underline hover:bg-primary-d transition-all shadow-[0_4px_14px_rgba(109,40,217,0.25)] hover:shadow-[0_6px_20px_rgba(109,40,217,0.35)] hover:-translate-y-px">
@@ -150,7 +156,11 @@
 </div>
 
 <!-- ── Recent Bookings ── -->
+<<<<<<< HEAD
 <div class="bg-white border border-[#ede9fe] rounded-[22px] shadow-[0_2px_12px_rgba(109,40,217,0.05)] overflow-hidden mb-8">
+=======
+<div class="bg-white border border-[#ede9fe] rounded-[22px] shadow-[0_2px_12px_rgba(109,40,217,0.05)] overflow-hidden">
+>>>>>>> 8c1d6ca0f454a5d5de0fcab3349b39eb5c153d5d
 
   <div class="flex items-center justify-between px-6 py-5 border-b border-[#f1f5f9]">
     <div>
@@ -165,7 +175,11 @@
   {% if bookings %}
   <div class="divide-y divide-[#f8f5ff]">
     {% for booking in bookings %}
+<<<<<<< HEAD
     <div class="flex items-center gap-3 sm:gap-4 px-4 sm:px-6 py-4 hover:bg-[#faf8ff] transition-colors booking-row">
+=======
+    <div class="flex items-center gap-4 px-6 py-4 hover:bg-[#faf8ff] transition-colors booking-row">
+>>>>>>> 8c1d6ca0f454a5d5de0fcab3349b39eb5c153d5d
 
       <!-- Avatar -->
       <div class="w-9 h-9 rounded-full bg-gradient-to-br from-primary to-indigo-500 flex items-center justify-center text-[0.68rem] font-extrabold text-white font-display shrink-0">
@@ -191,12 +205,20 @@
             <span class="material-symbols-outlined text-[0.78rem]">call</span>{{ booking.user.profile.phone }}
           </span>
           {% endif %}
+<<<<<<< HEAD
+=======
+          
+>>>>>>> 8c1d6ca0f454a5d5de0fcab3349b39eb5c153d5d
           {% if booking.user.profile.id_number %}
           <span class="text-gray-300">·</span>
           <span class="flex items-center gap-1 text-[0.72rem] text-gray-500">
             <span class="material-symbols-outlined text-[0.78rem]">badge</span>{{ booking.user.profile.mask_id_number }}
           </span>
           {% endif %}
+<<<<<<< HEAD
+=======
+          
+>>>>>>> 8c1d6ca0f454a5d5de0fcab3349b39eb5c153d5d
           {% if booking.user.profile.id_proof %}
           <span class="text-gray-300">·</span>
           <a href="{{ booking.user.profile.id_proof.url }}" target="_blank" class="flex items-center gap-1 text-[0.72rem] text-primary hover:underline">
@@ -207,6 +229,7 @@
       </div>
 
       <!-- Price + Status -->
+<<<<<<< HEAD
       <div class="text-right shrink-0 price-right">
         <div class="font-display font-bold text-[0.9rem] sm:text-[0.95rem] text-[#0d0d12]">&#8377;{{ booking.total_price }}</div>
         <div class="mt-1">
@@ -220,6 +243,12 @@
             </a>
           </div>
           {% elif booking.status == 'active' or booking.status == 'approved' %}
+=======
+      <div class="text-right shrink-0">
+        <div class="font-display font-bold text-[0.95rem] text-[#0d0d12]">₹{{ booking.total_price }}</div>
+        <div class="mt-1">
+          {% if booking.status == 'active' or booking.status == 'approved' %}
+>>>>>>> 8c1d6ca0f454a5d5de0fcab3349b39eb5c153d5d
           <span class="inline-flex items-center gap-1 text-[0.65rem] font-bold text-green-600 bg-green-50 px-2 py-0.5 rounded-full">
             <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>{{ booking.status|title }}
           </span>
@@ -252,6 +281,7 @@
 
 </div>
 
+<<<<<<< HEAD
 <!-- ── Withdrawal History ── -->
 <div class="bg-white border border-[#ede9fe] rounded-[22px] shadow-[0_2px_12px_rgba(109,40,217,0.05)] overflow-hidden" id="withdrawal-history">
 
@@ -422,4 +452,6 @@ document.getElementById('withdrawModal').addEventListener('click', function(e) {
   if (e.target === this) this.classList.remove('open');
 });
 </script>
+=======
+>>>>>>> 8c1d6ca0f454a5d5de0fcab3349b39eb5c153d5d
 {% endblock %}

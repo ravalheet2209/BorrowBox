@@ -1,5 +1,8 @@
 {% extends "base.html" %}
+<<<<<<< HEAD
 {% load socialaccount %}
+=======
+>>>>>>> 8c1d6ca0f454a5d5de0fcab3349b39eb5c153d5d
 {% block title %}Create Account — Borrow Box{% endblock %}
 
 {% block extra_css %}
@@ -128,6 +131,7 @@
         </div>
 
         <!-- Error messages -->
+<<<<<<< HEAD
         {% if form.errors or error %}
         <div class="flex items-start gap-2 bg-red-50 border border-red-200 rounded-xl px-3.5 py-2.5">
           <span class="material-symbols-outlined text-[1rem] text-red-500 shrink-0 mt-0.5">error</span>
@@ -142,6 +146,17 @@
                 {% endfor %}
               {% endfor %}
             {% endif %}
+=======
+        {% if form.errors %}
+        <div class="flex items-start gap-2 bg-red-50 border border-red-200 rounded-xl px-3.5 py-2.5">
+          <span class="material-symbols-outlined text-[1rem] text-red-500 shrink-0 mt-0.5">error</span>
+          <div>
+            {% for field, errors in form.errors.items %}
+              {% for error in errors %}
+              <p class="text-[0.82rem] font-medium text-red-600">{{ error }}</p>
+              {% endfor %}
+            {% endfor %}
+>>>>>>> 8c1d6ca0f454a5d5de0fcab3349b39eb5c153d5d
           </div>
         </div>
         {% endif %}
@@ -172,7 +187,11 @@
       </div>
 
       <!-- Google Sign In Button -->
+<<<<<<< HEAD
       <a href="{% provider_login_url 'google' %}" class="w-full mb-6 flex items-center justify-center gap-2.5 py-3.5 bg-white border border-slate-200 hover:border-slate-300 hover:bg-[#fafafa] text-[#0d0d12] rounded-[13px] font-display font-bold text-[0.95rem] transition-all no-underline shadow-sm hover:shadow">
+=======
+      <a href="#" class="w-full mb-6 flex items-center justify-center gap-2.5 py-3.5 bg-white border border-slate-200 hover:border-slate-300 hover:bg-[#fafafa] text-[#0d0d12] rounded-[13px] font-display font-bold text-[0.95rem] transition-all no-underline shadow-sm hover:shadow">
+>>>>>>> 8c1d6ca0f454a5d5de0fcab3349b39eb5c153d5d
         <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" class="w-5 h-5">
         Continue with Google
       </a>
@@ -228,6 +247,7 @@ if (pwField && strengthBar && strengthLabel) {
   pwField.addEventListener('input', () => {
     const val = pwField.value;
     let score = 0;
+<<<<<<< HEAD
     if (val.length >= 6)                      score++;
     if (/[A-Z]/.test(val))                    score++;
     if (/[a-z]/.test(val))                    score++;
@@ -240,6 +260,18 @@ if (pwField && strengthBar && strengthLabel) {
       { w:'40%',  color:'#fb923c', label:'Weak' },
       { w:'60%',  color:'#facc15', label:'Fair' },
       { w:'80%',  color:'#a3e635', label:'Good' },
+=======
+    if (val.length >= 8)                      score++;
+    if (/[A-Z]/.test(val))                    score++;
+    if (/[0-9]/.test(val))                    score++;
+    if (/[^A-Za-z0-9]/.test(val))            score++;
+
+    const levels = [
+      { w:'0%',   color:'#f87171', label:'' },
+      { w:'25%',  color:'#f87171', label:'Weak' },
+      { w:'50%',  color:'#fb923c', label:'Fair' },
+      { w:'75%',  color:'#facc15', label:'Good' },
+>>>>>>> 8c1d6ca0f454a5d5de0fcab3349b39eb5c153d5d
       { w:'100%', color:'#4ade80', label:'Strong' },
     ];
     const l = levels[score];

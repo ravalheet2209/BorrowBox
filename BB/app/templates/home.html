@@ -12,9 +12,12 @@
 @keyframes cardFloat{0%,100%{transform:translateY(-50%) translateY(0)}50%{transform:translateY(-50%) translateY(-12px)}}
 @keyframes scrollLine{0%{opacity:.5;transform:scaleY(0);transform-origin:top}50%{opacity:1;transform:scaleY(1);transform-origin:top}100%{opacity:0;transform:scaleY(1);transform-origin:bottom}}
 
+<<<<<<< HEAD
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
+=======
+>>>>>>> 8c1d6ca0f454a5d5de0fcab3349b39eb5c153d5d
 .blob-1{animation:blobDrift1 14s ease-in-out infinite;}
 .blob-2{animation:blobDrift2 20s ease-in-out infinite;}
 .blob-3{animation:blobDrift3 13s ease-in-out infinite;}
@@ -154,10 +157,17 @@
 
 <!-- ═══════════ TRUST BAR ═══════════ -->
 <div id="trust-bar" class="bg-[#f8f5ff] border-y border-[#ede9fe] py-4" data-scroll-section>
+<<<<<<< HEAD
   <div class="max-w-[1280px] mx-auto px-4 sm:px-8 flex overflow-x-auto no-scrollbar sm:flex-wrap items-center gap-2.5 sm:justify-center">
     {% for chip in "Identity Verified|₹1,00,000|100% Guarantee|Secure Payments|24/7 Support|4.9 Avg Rating"|split:"|" %}
     <div class="trust-chip flex items-center gap-2 px-[18px] py-2 bg-white border border-[#ede9fe] rounded-full text-[0.82rem] font-medium text-gray-600 shadow-[0_1px_4px_rgba(109,40,217,.04)] hover:-translate-y-0.5 whitespace-nowrap shrink-0 hover:shadow-[0_4px_14px_rgba(109,40,217,.1)] transition-all">
       <span class="material-symbols-outlined text-primary text-[1.05rem]">{% if forloop.counter == 1 %}verified_user{% elif forloop.counter == 2 %}account_balance_wallet{% elif forloop.counter == 3 %}gpp_good{% elif forloop.counter == 4 %}lock{% elif forloop.counter == 5 %}support_agent{% else %}star{% endif %}</span>
+=======
+  <div class="max-w-[1280px] mx-auto px-8 flex flex-wrap justify-center gap-2.5">
+    {% for chip in "Identity Verified,₹1,00,000 Guarantee,Secure Payments,24/7 Support,4.9 Avg Rating"|split:"," %}
+    <div class="trust-chip flex items-center gap-2 px-[18px] py-2 bg-white border border-[#ede9fe] rounded-full text-[0.82rem] font-medium text-gray-600 shadow-[0_1px_4px_rgba(109,40,217,.04)] hover:-translate-y-0.5 hover:shadow-[0_4px_14px_rgba(109,40,217,.1)] transition-all">
+      <span class="material-symbols-outlined text-primary text-[1.05rem]">{% if forloop.counter == 1 %}verified_user{% elif forloop.counter == 2 %}gpp_good{% elif forloop.counter == 3 %}lock{% elif forloop.counter == 4 %}support_agent{% else %}star{% endif %}</span>
+>>>>>>> 8c1d6ca0f454a5d5de0fcab3349b39eb5c153d5d
       {{ chip }}
     </div>
     {% endfor %}
@@ -180,12 +190,21 @@
       </a>
     </div>
 
+<<<<<<< HEAD
     <div class="flex overflow-x-auto no-scrollbar gap-3 sm:gap-5 pb-4" id="cat-grid">
       {% if categories %}
         {% for cat in categories %}
         <a class="cat-card group relative rounded-[16px] overflow-hidden aspect-[4/5] w-[130px] sm:w-[160px] shrink-0 block no-underline bg-[#f0ebff] cursor-pointer transition-all duration-[380ms] hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_24px_50px_rgba(109,40,217,.15)]" href="/item_listing/?category={{ cat.id }}">
           {% if cat.image %}<img class="cat-img absolute inset-0 w-full h-full object-cover" src="{{ cat.image.url }}" alt="{{ cat.name }}">
           {% else %}<div class="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#f0ebff] to-[#ddd6fe]"><span class="material-symbols-outlined text-4xl sm:text-5xl text-[#c4b5fd]">category</span></div>{% endif %}
+=======
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4" id="cat-grid">
+      {% if categories %}
+        {% for cat in categories %}
+        <a class="cat-card group relative rounded-[20px] overflow-hidden aspect-[3/4] block no-underline bg-[#f0ebff] cursor-pointer transition-all duration-[380ms] hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_24px_50px_rgba(109,40,217,.15)]" href="/item_listing/?category={{ cat.id }}">
+          {% if cat.image %}<img class="cat-img absolute inset-0 w-full h-full object-cover" src="{{ cat.image.url }}" alt="{{ cat.name }}">
+          {% else %}<div class="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#f0ebff] to-[#ddd6fe]"><span class="material-symbols-outlined text-5xl text-[#c4b5fd]">category</span></div>{% endif %}
+>>>>>>> 8c1d6ca0f454a5d5de0fcab3349b39eb5c153d5d
           <div class="cat-overlay absolute inset-0"></div>
           <div class="absolute bottom-0 left-0 right-0 p-4">
             <div class="font-display font-bold text-base text-white tracking-[-0.01em]">{{ cat.name }}</div>
@@ -198,6 +217,7 @@
         {% endfor %}
       {% else %}
         {% for name in "Camera,Drone,Watches,Sneakers,Jewellery"|split:"," %}
+<<<<<<< HEAD
         <a class="cat-card group relative rounded-[16px] overflow-hidden aspect-[4/5] w-[130px] sm:w-[160px] shrink-0 block no-underline cursor-pointer transition-all duration-[380ms] hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_24px_50px_rgba(109,40,217,.15)]" href="#">
           <div class="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#f0ebff] to-[#c4b5fd]">
             <span class="material-symbols-outlined text-[2.5rem] sm:text-[3.5rem] text-[rgba(109,40,217,0.4)]">category</span>
@@ -212,6 +232,19 @@
           </div>
           <div class="cat-arrow absolute top-3 right-3 w-7 h-7 rounded-full bg-white/15 backdrop-blur border border-white/25 flex items-center justify-center">
             <span class="material-symbols-outlined text-[0.8rem] text-white">north_east</span>
+=======
+        <a class="cat-card group relative rounded-[20px] overflow-hidden aspect-[3/4] block no-underline cursor-pointer transition-all duration-[380ms] hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_24px_50px_rgba(109,40,217,.15)]" href="#">
+          <div class="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#f0ebff] to-[#c4b5fd]">
+            <span class="material-symbols-outlined text-[3.5rem] text-[rgba(109,40,217,0.4)]">category</span>
+          </div>
+          <div class="cat-overlay absolute inset-0"></div>
+          <div class="absolute bottom-0 left-0 right-0 p-4">
+            <div class="font-display font-bold text-base text-white">{{ name }}</div>
+            <div class="text-[0.75rem] text-white/60 mt-0.5">100+ items</div>
+          </div>
+          <div class="cat-arrow absolute top-3.5 right-3.5 w-8 h-8 rounded-full bg-white/15 backdrop-blur border border-white/25 flex items-center justify-center">
+            <span class="material-symbols-outlined text-[0.9rem] text-white">north_east</span>
+>>>>>>> 8c1d6ca0f454a5d5de0fcab3349b39eb5c153d5d
           </div>
         </a>
         {% endfor %}
@@ -221,6 +254,7 @@
 </section>
 
 <!-- ═══════════ HOW IT WORKS ═══════════ -->
+<<<<<<< HEAD
 <section class="relative py-8 sm:py-12 overflow-hidden bg-[#f8f5ff]" id="sec-how" data-scroll-section>
   <div class="absolute inset-0" style="background-image:linear-gradient(rgba(109,40,217,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(109,40,217,.03) 1px,transparent 1px);background-size:48px 48px;"></div>
   <div class="relative z-10 max-w-[1280px] mx-auto px-4 sm:px-8">
@@ -240,6 +274,27 @@
         </div>
         <div class="font-display font-bold text-[0.95rem] sm:text-[1.1rem] text-[#0d0d12] mb-1.5 sm:mb-2.5">{% if forloop.counter == 1 %}Search & Request{% elif forloop.counter == 2 %}Meet & Pick Up{% else %}Return & Review{% endif %}</div>
         <p class="text-[0.8rem] sm:text-[0.875rem] text-gray-500 leading-[1.6] sm:leading-[1.75]">{% if forloop.counter == 1 %}Browse thousands of listings near you. Send a rental request with your preferred dates and duration.{% elif forloop.counter == 2 %}Coordinate with the owner, verify the item's condition, and pick it up when you're ready.{% else %}Return on time, leave a review, and build your trusted reputation in the community.{% endif %}</p>
+=======
+<section class="relative py-24 overflow-hidden bg-[#f8f5ff]" id="sec-how" data-scroll-section>
+  <div class="absolute inset-0" style="background-image:linear-gradient(rgba(109,40,217,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(109,40,217,.03) 1px,transparent 1px);background-size:48px 48px;"></div>
+  <div class="relative z-10 max-w-[1280px] mx-auto px-8">
+    <div class="text-center max-w-[560px] mx-auto mb-16" id="how-header">
+      <div class="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-[#f0ebff] border border-[#ddd6fe] rounded-full text-[0.7rem] font-bold text-primary uppercase tracking-[0.12em] mb-3.5">
+        <span class="material-symbols-outlined text-[0.8rem]">info</span> How It Works
+      </div>
+      <h2 class="font-display font-extrabold tracking-[-0.028em] text-[#0d0d12]" style="font-size:clamp(1.7rem,3vw,2.6rem);">Simple, Safe, Secure</h2>
+      <p class="text-[0.975rem] text-gray-500 leading-[1.75] mt-2.5">Three easy steps to start renting or earning today.</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5" id="how-grid">
+      {% for step in "01,02,03"|split:"," %}
+      <div class="how-card relative bg-white border border-[#ede9fe] rounded-3xl p-9 overflow-hidden transition-all duration-[350ms] hover:-translate-y-1.5 hover:shadow-[0_20px_50px_rgba(109,40,217,.13)] hover:border-[#c4b5fd] how-item">
+        <div class="absolute top-[18px] right-[22px] font-display font-black text-[4rem] leading-none text-[rgba(109,40,217,.06)] select-none">{{ step }}</div>
+        <div class="w-[54px] h-[54px] rounded-[18px] bg-gradient-to-br from-[#f0ebff] to-[#e0d9ff] border border-[#e0d9ff] flex items-center justify-center mb-5 transition-all group-hover:from-[#e0d9ff] group-hover:to-[#c4b5fd]">
+          <span class="material-symbols-outlined text-[1.6rem] text-primary">{% if forloop.counter == 1 %}travel_explore{% elif forloop.counter == 2 %}handshake{% else %}reviews{% endif %}</span>
+        </div>
+        <div class="font-display font-bold text-[1.1rem] text-[#0d0d12] mb-2.5">{% if forloop.counter == 1 %}Search & Request{% elif forloop.counter == 2 %}Meet & Pick Up{% else %}Return & Review{% endif %}</div>
+        <p class="text-[0.875rem] text-gray-500 leading-[1.75]">{% if forloop.counter == 1 %}Browse thousands of listings near you. Send a rental request with your preferred dates and duration.{% elif forloop.counter == 2 %}Coordinate with the owner, verify the item's condition, and pick it up when you're ready.{% else %}Return on time, leave a review, and build your trusted reputation in the community.{% endif %}</p>
+>>>>>>> 8c1d6ca0f454a5d5de0fcab3349b39eb5c153d5d
       </div>
       {% endfor %}
     </div>
@@ -262,12 +317,17 @@
       </a>
     </div>
 
+<<<<<<< HEAD
     <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5" id="items-grid">
+=======
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5" id="items-grid">
+>>>>>>> 8c1d6ca0f454a5d5de0fcab3349b39eb5c153d5d
       {% for item in featured_items %}
       <div class="item-card group bg-white border border-slate-100 rounded-[20px] overflow-hidden shadow-[0_2px_8px_rgba(0,0,0,.04)] transition-all duration-[350ms] hover:-translate-y-1.5 hover:shadow-[0_20px_44px_rgba(0,0,0,.10)] cursor-pointer item-anim flex flex-col">
         <div class="relative overflow-hidden bg-[#f0ebff]" style="aspect-ratio:4/3;">
           {% if item.image %}<img class="item-img w-full h-full object-cover" src="{{ item.image.url }}" alt="{{ item.title }}">
           {% else %}<div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-[#f0ebff] to-[#ddd6fe]"><span class="material-symbols-outlined text-5xl text-[#c4b5fd]">image</span></div>{% endif %}
+<<<<<<< HEAD
           <div class="absolute bottom-1.5 sm:bottom-2.5 left-1.5 sm:left-2.5 bg-white px-2 py-1 sm:px-2.5 sm:py-1.5 rounded-full font-display font-extrabold text-[0.7rem] sm:text-[0.82rem] text-[#0d0d12] shadow-[0_2px_10px_rgba(0,0,0,.1)]">
             <sup class="text-[0.5rem] sm:text-[0.58rem] font-semibold text-primary align-super">₹</sup>{{ item.price_per_day }}<sub class="text-[0.55rem] sm:text-[0.6rem] font-normal text-gray-400">/day</sub>
           </div>
@@ -295,6 +355,35 @@
               <span class="text-[0.65rem] sm:text-[0.77rem] text-gray-400 truncate max-w-[60px] sm:max-w-none">{{ item.owner }}</span>
             </div>
             <a href="{% url 'product' item.id %}" class="shrink-0 px-2.5 py-1.5 sm:px-4 sm:py-2 bg-primary hover:bg-primary-d text-white rounded-[8px] sm:rounded-[10px] font-display font-bold text-[0.65rem] sm:text-[0.79rem] no-underline transition-all hover:-translate-y-px hover:shadow-[0_4px_12px_rgba(109,40,217,.3)]">Rent</a>
+=======
+          <div class="absolute bottom-2.5 left-2.5 bg-white px-2.5 py-1.5 rounded-full font-display font-extrabold text-[0.82rem] text-[#0d0d12] shadow-[0_2px_10px_rgba(0,0,0,.1)]">
+            <sup class="text-[0.58rem] font-semibold text-primary align-super">₹</sup>{{ item.price_per_day }}<sub class="text-[0.6rem] font-normal text-gray-400">/day</sub>
+          </div>
+          <button class="wish-btn absolute top-2.5 right-2.5 w-8 h-8 bg-white/88 backdrop-blur rounded-full flex items-center justify-center shadow-[0_2px_8px_rgba(0,0,0,.08)] border-none cursor-pointer hover:bg-white hover:scale-110 transition-all">
+            <span class="wish-icon material-symbols-outlined text-base text-gray-300">favorite</span>
+          </button>
+        </div>
+        <div class="p-4 flex flex-col flex-1">
+          <div class="flex items-center justify-between mb-1.5">
+            <span class="text-[0.67rem] font-bold uppercase tracking-[0.1em] text-primary">{{ item.category.name }}</span>
+            <div class="flex items-center gap-px">
+              {% for i in "12345"|make_list %}
+              <span class="material-symbols-outlined text-[0.7rem] text-amber-500" style="font-variation-settings:'FILL' {% if item.rating|default:5 >= forloop.counter %}1{% else %}0{% endif %};">star</span>
+              {% endfor %}
+              <span class="text-[0.65rem] font-bold text-gray-400 ml-1">({{ item.reviews.count|default:0 }})</span>
+            </div>
+          </div>
+          <div class="font-display font-bold text-[0.95rem] text-[#0d0d12] truncate mb-1">{{ item.title }}</div>
+          <div class="flex items-center gap-0.5 text-[0.77rem] text-gray-400">
+            <span class="material-symbols-outlined text-[0.85rem]">location_on</span>{{ item.location }}
+          </div>
+          <div class="flex items-center justify-between mt-auto pt-3 border-t border-slate-50">
+            <div class="flex items-center gap-1.5 min-w-0">
+              <div class="w-6 h-6 rounded-full shrink-0 bg-gradient-to-br from-primary to-indigo-500 flex items-center justify-center text-[0.6rem] font-extrabold text-white">{{ item.owner.username|first|upper }}</div>
+              <span class="text-[0.77rem] text-gray-400 truncate">{{ item.owner }}</span>
+            </div>
+            <a href="{% url 'product' item.id %}" class="shrink-0 px-4 py-2 bg-primary hover:bg-primary-d text-white rounded-[10px] font-display font-bold text-[0.79rem] no-underline transition-all hover:-translate-y-px hover:shadow-[0_4px_12px_rgba(109,40,217,.3)]">Rent Now</a>
+>>>>>>> 8c1d6ca0f454a5d5de0fcab3349b39eb5c153d5d
           </div>
         </div>
       </div>
@@ -330,7 +419,11 @@
 </section>
 
 <!-- ═══════════ TESTIMONIALS ═══════════ -->
+<<<<<<< HEAD
 <!-- <section class="py-20 bg-[#fafafa]" id="sec-testimonials" data-scroll-section>
+=======
+<section class="py-20 bg-[#fafafa]" id="sec-testimonials" data-scroll-section>
+>>>>>>> 8c1d6ca0f454a5d5de0fcab3349b39eb5c153d5d
   <div class="max-w-[1280px] mx-auto px-8">
     <div class="text-center max-w-[520px] mx-auto mb-14" id="test-header">
       <div class="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-[#f0ebff] border border-[#ddd6fe] rounded-full text-[0.7rem] font-bold text-primary uppercase tracking-[0.12em] mb-3.5">
@@ -365,6 +458,7 @@
       {% endfor %}
     </div>
   </div>
+<<<<<<< HEAD
 </section> -->
 
 <!-- ═══════════ CTA ═══════════ -->
@@ -378,6 +472,21 @@
     <div id="cta-btns" class="flex flex-wrap justify-center gap-2 sm:gap-3 mb-6 sm:mb-8">
       <a href="{% url 'register' %}" class="px-6 py-3 sm:px-8 sm:py-3.5 bg-primary hover:bg-primary-d text-white rounded-[13px] font-display font-extrabold text-[0.9rem] sm:text-base shadow-[0_6px_20px_rgba(109,40,217,.3)] hover:shadow-[0_10px_28px_rgba(109,40,217,.4)] hover:-translate-y-0.5 transition-all no-underline">Become a Lender</a>
       <a href="/item_listing/" class="px-6 py-3 sm:px-8 sm:py-3.5 bg-white text-primary border-[1.5px] border-[#ddd6fe] hover:border-[#a78bfa] hover:shadow-[0_4px_14px_rgba(109,40,217,.1)] rounded-[13px] font-display font-bold text-[0.9rem] sm:text-base transition-all no-underline">Browse Items</a>
+=======
+</section>
+
+<!-- ═══════════ CTA ═══════════ -->
+<section class="cta-sec relative py-24 bg-gradient-to-br from-[#f5f3ff] via-[#ede9fe] to-[#e0d9ff] border-t border-[#ddd6fe] overflow-hidden text-center" id="sec-cta" data-scroll-section>
+  <div class="relative z-10 max-w-[640px] mx-auto px-8">
+    <div class="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-[#f0ebff] border border-[#ddd6fe] rounded-full text-[0.7rem] font-bold text-primary uppercase tracking-[0.12em] mb-5">
+      <span class="material-symbols-outlined text-[0.8rem]">monetization_on</span> Start Earning
+    </div>
+    <h2 id="cta-title" class="font-display font-black tracking-[-0.03em] text-[#0d0d12] leading-[1.1] mb-4" style="font-size:clamp(2rem,4.5vw,3.2rem);">Have items gathering dust?<br>Turn them into income.</h2>
+    <p id="cta-sub" class="font-body text-[1rem] text-gray-500 leading-[1.75] max-w-[500px] mx-auto mb-9">Less than 2 minutes to list. Join 8,000+ people already earning from their unused gear.</p>
+    <div id="cta-btns" class="flex flex-wrap justify-center gap-3 mb-8">
+      <a href="{% url 'register' %}" class="px-8 py-3.5 bg-primary hover:bg-primary-d text-white rounded-[13px] font-display font-extrabold text-base shadow-[0_6px_20px_rgba(109,40,217,.3)] hover:shadow-[0_10px_28px_rgba(109,40,217,.4)] hover:-translate-y-0.5 transition-all no-underline">Become a Lender</a>
+      <a href="/item_listing/" class="px-8 py-3.5 bg-white text-primary border-[1.5px] border-[#ddd6fe] hover:border-[#a78bfa] hover:shadow-[0_4px_14px_rgba(109,40,217,.1)] rounded-[13px] font-display font-bold text-base transition-all no-underline">Browse Items</a>
+>>>>>>> 8c1d6ca0f454a5d5de0fcab3349b39eb5c153d5d
     </div>
     <div id="cta-perks" class="flex flex-wrap justify-center gap-6">
       {% for perk in "Free to list,No monthly fees,Insurance included"|split:"," %}
@@ -433,6 +542,7 @@ if (slides.length > 0) {
         }, 5000);
     }
 }
+<<<<<<< HEAD
 /* Mobile Auto Horizontal Scroll (Robust version) */
 function setupAutoScroll(selector) {
     const container = document.querySelector(selector);
@@ -474,5 +584,7 @@ function setupAutoScroll(selector) {
 setupAutoScroll('#trust-bar > div');
 setupAutoScroll('#cat-grid');
 setupAutoScroll('#how-grid');
+=======
+>>>>>>> 8c1d6ca0f454a5d5de0fcab3349b39eb5c153d5d
 </script>
 {% endblock %}

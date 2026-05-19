@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from datetime import timedelta
 
 from django.contrib.auth.models import User
@@ -5,6 +6,14 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
+=======
+from django.db import models
+from django.contrib.auth.models import User
+from django.utils import timezone
+from datetime import timedelta
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+>>>>>>> 8c1d6ca0f454a5d5de0fcab3349b39eb5c153d5d
 
 
 # =====================================================
@@ -29,7 +38,10 @@ class Contact(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
+<<<<<<< HEAD
     image = models.ImageField(upload_to='categories/', blank=True, null=True)
+=======
+>>>>>>> 8c1d6ca0f454a5d5de0fcab3349b39eb5c153d5d
 
     def __str__(self):
         return self.name
@@ -59,6 +71,7 @@ class Item(models.Model):
     image5 = models.ImageField(upload_to='items/', blank=True, null=True)
 
     @property
+<<<<<<< HEAD
     def all_images(self):
         """Return a list of URLs for all non-null images on this item."""
         urls = []
@@ -68,6 +81,8 @@ class Item(models.Model):
         return urls
 
     @property
+=======
+>>>>>>> 8c1d6ca0f454a5d5de0fcab3349b39eb5c153d5d
     def rating(self):
         reviews = self.reviews.all()
         if reviews:
@@ -114,6 +129,7 @@ class Booking(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     expires_at = models.DateTimeField(null=True, blank=True)
 
+<<<<<<< HEAD
     # Fine & Automation tracking
     is_expiring_soon_sent = models.BooleanField(default=False)
     seller_confirmed = models.BooleanField(default=False)
@@ -121,6 +137,8 @@ class Booking(models.Model):
     last_fine_applied_at = models.DateTimeField(null=True, blank=True)
     total_fines = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
 
+=======
+>>>>>>> 8c1d6ca0f454a5d5de0fcab3349b39eb5c153d5d
     def save(self, *args, **kwargs):
         # Set expiry time only for pending bookings
         if self.status == "pending" and not self.expires_at:
@@ -179,7 +197,10 @@ class Profile(models.Model):
     id_number = models.CharField(max_length=50, blank=True, null=True)
     id_proof = models.FileField(upload_to='id_proofs/', blank=True, null=True)
     security_deposit = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+<<<<<<< HEAD
     wallet_balance = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)  # seller earnings wallet
+=======
+>>>>>>> 8c1d6ca0f454a5d5de0fcab3349b39eb5c153d5d
 
     def mask_id_number(self):
         if self.id_number and len(self.id_number) > 4:
@@ -191,6 +212,7 @@ class Profile(models.Model):
 
 
 # =====================================================
+<<<<<<< HEAD
 # WITHDRAWAL REQUEST
 # =====================================================
 
@@ -216,6 +238,8 @@ class WithdrawalRequest(models.Model):
 
 
 # =====================================================
+=======
+>>>>>>> 8c1d6ca0f454a5d5de0fcab3349b39eb5c153d5d
 # AUTO CREATE PROFILE
 # =====================================================
 
